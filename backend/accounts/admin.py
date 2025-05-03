@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import CustomUser, UserProfile
 from django.contrib.auth.admin import UserAdmin
-
+from .models import CustomUser, UserProfile
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
@@ -9,19 +8,24 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('is_staff', 'is_active')
     search_fields = ('email', 'username')
     ordering = ('email',)
+
+    readonly_fields = ('created_at', 'updated_at')
+
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('created_at', 'updated_at')}),
-    )
-    add_fieldsets = UserAdmin.add_fieldsets + (
-        (None, {'fields': ('created_at', 'updated_at')}),
+        ('Timestamps', {'fields': ('created_at', 'updated_at')}),
     )
 
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2', 'is_staff', 'is_active'),
+        }),
+    )
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'age', 'country', 'gender',
-                    'created_at', 'updated_at')
+    list_display = ('user', 'age', 'country', 'gender', 'created_at', 'updated_at')
     search_fields = ('user__email', 'user__username')
-
+    readonly_fields = ('created_at', 'updated_at')
 
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)

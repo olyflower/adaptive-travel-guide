@@ -1,41 +1,34 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { useAuth } from "../context/AuthContext";
+import { requestPasswordResetRequest } from "../services/AuthService";
 import * as Yup from "yup";
 import bgImage from "../assets/baloon.jpg";
 
-const Login: React.FC = () => {
-	const { login } = useAuth();
-	const navigate = useNavigate();
+const PasswordResetRequest: React.FC = () => {
 	const [message, setMessage] = useState<string | null>(null);
+
+	const navigate = useNavigate();
 
 	const formik = useFormik({
 		initialValues: {
 			email: "",
-			password: "",
 		},
 		validationSchema: Yup.object({
 			email: Yup.string()
 				.email("Невірний формат електронної пошти")
 				.required("Це поле є обов’язковим"),
-			password: Yup.string().required("Це поле є обов’язковим"),
 		}),
 		onSubmit: async (values) => {
 			setMessage(null);
-
 			try {
-				await login(values.email, values.password);
-				navigate("/");
+				await requestPasswordResetRequest(values.email);
+				setMessage(
+					"Лист з інструкціями надіслано на вашу електрону пошту"
+				);
+				setTimeout(() => navigate("/"), 2000);
 			} catch (error: any) {
-				if (error.response && error.response.data) {
-					setMessage(
-						"Невірний email або пароль. Перевірте введені дані."
-					);
-				} else {
-					setMessage("Сталася помилка. Спробуйте ще раз.");
-				}
+				setMessage("Сталася помилка. Спробуйте ще раз.");
 			}
 		},
 	});
@@ -50,7 +43,9 @@ const Login: React.FC = () => {
 			}}
 		>
 			<div className="max-w-md w-full p-6 bg-white rounded shadow-lg">
-				<h2 className="text-2xl font-bold mb-4 text-center">Вхід</h2>
+				<h2 className="text-2xl font-bold mb-4 text-center">
+					Відновлення пароля
+				</h2>
 				<form onSubmit={formik.handleSubmit} className="space-y-4">
 					<div>
 						<label
@@ -63,7 +58,6 @@ const Login: React.FC = () => {
 							id="email"
 							name="email"
 							type="email"
-							autoComplete="email"
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.email}
@@ -77,47 +71,16 @@ const Login: React.FC = () => {
 						)}
 					</div>
 
-					<div>
-						<label
-							className="block text-sm font-medium"
-							htmlFor="password"
-						>
-							Пароль
-						</label>
-						<input
-							id="password"
-							name="password"
-							type="password"
-							autoComplete="new-password"
-							onChange={formik.handleChange}
-							onBlur={formik.handleBlur}
-							value={formik.values.password}
-							placeholder="Введіть пароль"
-							className="w-full px-3 py-2 border rounded"
-						/>
-						{formik.touched.password && formik.errors.password && (
-							<p className="text-red-500 text-sm mt-1">
-								{formik.errors.password}
-							</p>
-						)}
-					</div>
-
 					<button
 						type="submit"
 						className="w-full py-2 px-4 bg-[#0099A9] text-white rounded hover:bg-[#007f8a]"
 					>
-						Увійти
+						Надіслати листа для зміни пароля
 					</button>
 				</form>
 
-				<div className="mt-4 flex flex-col items-center space-y-2">
-					<Link to="/forgot-password" className="hover:underline">
-						Забули пароль?
-					</Link>
-				</div>
-
 				{message && (
-					<p className="mt-4 text-center text-sm text-red-600">
+					<p className="mt-4 text-center text-sm text-blue-600">
 						{message}
 					</p>
 				)}
@@ -126,4 +89,4 @@ const Login: React.FC = () => {
 	);
 };
 
-export default Login;
+export default PasswordResetRequest;
