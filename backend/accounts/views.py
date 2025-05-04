@@ -13,6 +13,8 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
 
 
 class CookieTokenObtainPairView(TokenObtainPairView):
@@ -127,3 +129,35 @@ class LogoutView(APIView):
         response.delete_cookie('access_token')
         response.delete_cookie('refresh_token')
         return response
+
+
+class GoogleLoginView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        token = request.data.get('id_token')
+        if not token:
+            return Response({'error': 'Токен не надано'}, status=400)
+
+        try:
+            idinfo = id_token.verify_oauth2_token(
+                token, google_requests.Request())
+            email = idinfo['email']
+
+            user, created = get_user_model().objects.get_or_create(
+                email=email,
+                defaults={'username': email}
+            )
+
+            refresh = RefreshToken.for_user(user)
+            access = refresh.access_token
+
+            response = Response({'message': 'Успішний вхід'}, status=200)
+            response.set_cookie('access_token', str(
+                access), httponly=True, secure=True, samesite='None', max_age=3 * 24 * 3600)
+            response.set_cookie('refresh_token', str(
+                refresh), httponly=True, secure=True, samesite='None', max_age=14 * 24 * 3600)
+            return response
+
+        except ValueError:
+            return Response({'error': 'Недійсний токен'}, status=400)

@@ -82,6 +82,9 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
+SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = 'require-corp'
+
 
 ROOT_URLCONF = 'config.urls'
 
