@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo_nav.png";
 import { useAuth } from "../context/AuthContext";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaTimes, FaBars } from "react-icons/fa";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const Navbar: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ const Navbar: React.FC = () => {
 					onClick={toggleMenu}
 					aria-label="Меню"
 				>
-					{isOpen ? "✖" : "☰"}
+					{isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
 				</button>
 
 				<div
@@ -33,7 +34,7 @@ const Navbar: React.FC = () => {
 						isOpen ? "flex" : "hidden"
 					} absolute top-20 left-0 w-full bg-white px-6 py-4 flex-col md:flex md:flex-row md:static md:w-auto md:items-center md:justify-center md:flex-1 md:bg-transparent md:py-0 md:px-0`}
 				>
-					<ul className="flex flex-col md:flex-row md:space-x-6 font-medium text-center md:text-center w-full justify-center">
+					<ul className="flex flex-col  text-lg md:flex-row md:space-x-6 font-medium text-center md:text-center w-full justify-center">
 						<li>
 							<Link
 								to="/"
@@ -62,8 +63,58 @@ const Navbar: React.FC = () => {
 							</Link>
 						</li>
 					</ul>
+
+					{/* mobile */}
+					<div className="mt-4 border-t pt-4 md:hidden">
+						{isAuthenticated ? (
+							<>
+								<Link
+									to="/profile"
+									className="block px-4 py-2 text-sm hover:bg-gray-100"
+									onClick={() => setIsOpen(false)}
+								>
+									Профайл
+								</Link>
+								<Link
+									to="/edit-profile"
+									className="block px-4 py-2 text-sm hover:bg-gray-100"
+									onClick={() => setIsOpen(false)}
+								>
+									Редагувати Профайл
+								</Link>
+								<button
+									onClick={() => {
+										logout();
+										setIsOpen(false);
+									}}
+									className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+								>
+									Вихід
+								</button>
+							</>
+						) : (
+							<>
+								<Link
+									to="/register"
+									className="block px-4 py-2 text-sm hover:bg-gray-100"
+									onClick={() => setIsOpen(false)}
+								>
+									Реєстрація
+								</Link>
+								<Link
+									to="/login"
+									className="block px-4 py-2 text-sm hover:bg-gray-100"
+									onClick={() => setIsOpen(false)}
+								>
+									Логін
+								</Link>
+								<GoogleLoginButton />
+							</>
+						)}
+					</div>
 				</div>
 
+				{/* desktop */}
 				<div className="hidden md:flex items-center space-x-4 relative">
 					{isAuthenticated ? (
 						<div className="relative">
@@ -115,6 +166,7 @@ const Navbar: React.FC = () => {
 							>
 								Логін
 							</Link>
+							<GoogleLoginButton />
 						</>
 					)}
 				</div>

@@ -9,11 +9,12 @@ import {
 	loginRequest,
 	logoutRequest,
 	checkAuthStatusRequest,
+	googleLoginRequest,
 } from "../services/AuthService";
 
 interface AuthContextType {
 	isAuthenticated: boolean;
-	login: (email: string, password: string) => Promise<void>;
+	login: (email: string, password?: string) => Promise<void>;
 	logout: () => Promise<void>;
 	checkAuthStatus: () => Promise<void>;
 }
@@ -32,10 +33,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		checkStatus();
 	}, []);
 
-	const handleLogin = async (email: string, password: string) => {
-		await loginRequest(email, password);
-		const status = await checkAuthStatusRequest();
-		setIsAuthenticated(status);
+	const handleLogin = async (emailOrToken: string, password?: string) => {
+		try {
+			if (password) {
+				await loginRequest(emailOrToken, password);
+			} else {
+				await googleLoginRequest(emailOrToken);
+			}
+			const status = await checkAuthStatusRequest();
+			setIsAuthenticated(status);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const handleLogout = async () => {

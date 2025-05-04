@@ -5,7 +5,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { registerUserRequest } from "../services/AuthService";
 import bgImage from "../assets/baloon.jpg";
-import { FcGoogle } from "react-icons/fc";
 
 const Register: React.FC = () => {
 	const { login } = useAuth();
@@ -175,16 +174,6 @@ const Register: React.FC = () => {
 						Зареєструватися
 					</button>
 				</form>
-				<div className="mt-4 flex flex-col items-center space-y-2">
-					<button
-						type="button"
-						className="w-full py-2 px-4 border border-gray-300 rounded flex items-center justify-center gap-2 hover:bg-gray-100"
-						onClick={() => {}}
-					>
-						<FcGoogle size={20} />
-						<span>Реєстрація через Google</span>
-					</button>
-				</div>
 
 				{message && (
 					<p className="mt-4 text-center text-sm text-red-600">

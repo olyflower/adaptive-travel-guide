@@ -57,3 +57,12 @@ export const confirmPasswordResetRequest = async (
 	);
 	return response.data;
 };
+
+export const googleLoginRequest = async (idToken: string) => {
+	const response = await axios.post(
+		`${import.meta.env.VITE_API_URL}/api/auth/auth/google/`,
+		{ id_token: idToken },
+		{ withCredentials: true }
+	);
+	return response.data;
+};
