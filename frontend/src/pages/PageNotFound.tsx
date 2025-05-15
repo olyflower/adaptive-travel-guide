@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import bgImage from "../assets/baloon.jpg";
+import bgImage from "../assets/hero_main.png";
 
 const PageNotFound: React.FC = () => {
 	return (
@@ -12,14 +12,14 @@ const PageNotFound: React.FC = () => {
 				backgroundPosition: "center",
 			}}
 		>
-			<div className="max-w-md w-full p-6  bg-white rounded shadow-lg text-center">
-				<h1 className="text-4xl font-extrabold mb-4 text-[#0099A9]">
+			<div className="w-[340px] sm:w-[450px] bg-[#F6F0FA] rounded shadow-lg p-6 flex flex-col items-center justify-center text-center">
+				<h1 className="text-[72px] font-extrabold mb-4 text-[#4A1158]">
 					404
 				</h1>
 				<p className="text-lg mb-6">Сторінку не знайдено</p>
 				<Link
 					to="/"
-					className="inline-block py-2 px-6 bg-[#0099A9] text-white rounded hover:bg-[#007f8a] transition"
+					className="py-3 px-10 bg-[#4A1158] text-white rounded-full hover:bg-[#381047]"
 				>
 					Повернутися на головну
 				</Link>

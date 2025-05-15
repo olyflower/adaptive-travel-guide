@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { useAuth } from "../context/AuthContext";
 import * as Yup from "yup";
-import bgImage from "../assets/baloon.jpg";
+import bgImage from "../assets/hero_main.png";
 
 const Login: React.FC = () => {
 	const { login } = useAuth();
@@ -49,14 +49,13 @@ const Login: React.FC = () => {
 				backgroundPosition: "center",
 			}}
 		>
-			<div className="max-w-md w-full p-6 bg-white rounded shadow-lg">
-				<h2 className="text-2xl font-bold mb-4 text-center">Вхід</h2>
+			<div className="w-[340px] sm:w-[455px] bg-[#F6F0FA] rounded shadow-lg p-6">
+				<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
+					Вхід
+				</h2>
 				<form onSubmit={formik.handleSubmit} className="space-y-4">
 					<div>
-						<label
-							className="block text-sm font-medium"
-							htmlFor="email"
-						>
+						<label className="block font-medium" htmlFor="email">
 							Електронна пошта
 						</label>
 						<input
@@ -67,8 +66,8 @@ const Login: React.FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.email}
-							placeholder="Введіть вашу електронну пошту"
-							className="w-full px-3 py-2 border rounded"
+							placeholder="you@example.com"
+							className="w-full px-3 py-2 border rounded text-sm"
 						/>
 						{formik.touched.email && formik.errors.email && (
 							<p className="text-red-500 text-sm mt-1">
@@ -78,10 +77,7 @@ const Login: React.FC = () => {
 					</div>
 
 					<div>
-						<label
-							className="block text-sm font-medium"
-							htmlFor="password"
-						>
+						<label className="block font-medium" htmlFor="password">
 							Пароль
 						</label>
 						<input
@@ -92,8 +88,8 @@ const Login: React.FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.password}
-							placeholder="Введіть пароль"
-							className="w-full px-3 py-2 border rounded"
+							placeholder="введіть пароль"
+							className="w-full px-3 py-2 border rounded text-sm"
 						/>
 						{formik.touched.password && formik.errors.password && (
 							<p className="text-red-500 text-sm mt-1">
@@ -104,22 +100,23 @@ const Login: React.FC = () => {
 
 					<button
 						type="submit"
-						className="w-full py-2 px-4 bg-[#0099A9] text-white rounded hover:bg-[#007f8a]"
+						className="py-2 px-4 bg-[#4A1158] text-white rounded-full mt-12 text-base sm:text-lg block mx-auto w-[125px] sm:w-[190px]"
 					>
 						Увійти
 					</button>
 				</form>
 
 				<div className="mt-4 flex flex-col items-center space-y-2">
-					<Link to="/forgot-password" className="hover:underline">
+					<Link
+						to="/forgot-password"
+						className="hover:underline hover:decoration-[#4A1158]"
+					>
 						Забули пароль?
 					</Link>
 				</div>
 
 				{message && (
-					<p className="mt-4 text-center text-sm text-red-600">
-						{message}
-					</p>
+					<p className="mt-2 text-center text-sm">{message}</p>
 				)}
 			</div>
 		</div>

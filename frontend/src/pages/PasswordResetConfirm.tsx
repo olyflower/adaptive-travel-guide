@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { confirmPasswordResetRequest } from "../services/AuthService";
 import * as Yup from "yup";
-import bgImage from "../assets/baloon.jpg";
+import bgImage from "../assets/hero_main.png";
 
 const PasswordResetConfirm: React.FC = () => {
 	const [searchParams] = useSearchParams();
@@ -35,7 +35,11 @@ const PasswordResetConfirm: React.FC = () => {
 			}
 
 			try {
-				await confirmPasswordResetRequest(uid, token, values.new_password);
+				await confirmPasswordResetRequest(
+					uid,
+					token,
+					values.new_password
+				);
 				setMessage("Пароль успішно змінено. Ви можете увійти.");
 				setTimeout(() => navigate("/login"), 2000);
 			} catch (error: any) {
@@ -61,14 +65,14 @@ const PasswordResetConfirm: React.FC = () => {
 				backgroundPosition: "center",
 			}}
 		>
-			<div className="max-w-md w-full p-6 bg-white rounded shadow-lg">
-				<h2 className="text-2xl font-bold mb-4 text-center">
+			<div className="w-[340px] sm:w-[450px] bg-[#F6F0FA] rounded shadow-lg p-6">
+				<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
 					Встановити новий пароль
 				</h2>
 				<form onSubmit={formik.handleSubmit} className="space-y-4">
 					<div>
 						<label
-							className="block text-sm font-medium"
+							className="block font-medium"
 							htmlFor="new_password"
 						>
 							Новий пароль
@@ -80,8 +84,8 @@ const PasswordResetConfirm: React.FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.new_password}
-							className="w-full px-3 py-2 border rounded"
 							placeholder="Введіть новий пароль"
+							className="w-full px-3 py-2 border rounded text-sm"
 						/>
 						{formik.touched.new_password &&
 							formik.errors.new_password && (
@@ -93,7 +97,7 @@ const PasswordResetConfirm: React.FC = () => {
 
 					<div>
 						<label
-							className="block text-sm font-medium"
+							className="block font-medium"
 							htmlFor="confirm_password"
 						>
 							Підтвердіть пароль
@@ -105,8 +109,8 @@ const PasswordResetConfirm: React.FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.confirm_password}
-							className="w-full px-3 py-2 border rounded"
 							placeholder="Підтвердіть новий пароль"
+							className="w-full px-3 py-2 border rounded text-sm"
 						/>
 						{formik.touched.confirm_password &&
 							formik.errors.confirm_password && (
@@ -118,16 +122,14 @@ const PasswordResetConfirm: React.FC = () => {
 
 					<button
 						type="submit"
-						className="w-full py-2 px-4 bg-[#0099A9] text-white rounded hover:bg-[#007f8a]"
+						className="block mx-auto mt-10 bg-[#4A1158] text-white rounded-full text-base sm:text-lg w-[157px] sm:w-[176px] h-[42px]"
 					>
 						Змінити пароль
 					</button>
 				</form>
 
 				{message && (
-					<p className="mt-4 text-center text-sm text-blue-600">
-						{message}
-					</p>
+					<p className="mt-2 text-center text-sm">{message}</p>
 				)}
 			</div>
 		</div>

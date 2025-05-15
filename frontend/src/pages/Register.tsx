@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { registerUserRequest } from "../services/AuthService";
-import bgImage from "../assets/baloon.jpg";
+import bgImage from "../assets/hero_main.png";
 
 const Register: React.FC = () => {
 	const { login } = useAuth();
@@ -62,16 +62,14 @@ const Register: React.FC = () => {
 				backgroundPosition: "center",
 			}}
 		>
-			<div className="max-w-md w-full p-6 bg-white rounded shadow-lg">
-				<h2 className="text-2xl font-bold mb-4 text-center">
+			<div className="w-[340px] sm:w-[455px] bg-[#F6F0FA] rounded shadow-lg p-6">
+				<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
 					Реєстрація
 				</h2>
-				<form onSubmit={formik.handleSubmit} className="space-y-4">
+
+				<form onSubmit={formik.handleSubmit} className="space-y-4 ">
 					<div>
-						<label
-							className="block text-sm font-medium"
-							htmlFor="email"
-						>
+						<label className="block font-medium" htmlFor="email">
 							Електронна пошта
 						</label>
 						<input
@@ -82,8 +80,8 @@ const Register: React.FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.email}
-							placeholder="Введіть email"
-							className="w-full px-3 py-2 border rounded"
+							placeholder="you@example.com"
+							className="w-full px-3 py-2 border rounded text-sm"
 						/>
 						{formik.touched.email && formik.errors.email && (
 							<p className="text-red-500 text-sm mt-1">
@@ -93,11 +91,8 @@ const Register: React.FC = () => {
 					</div>
 
 					<div>
-						<label
-							className="block text-sm font-medium"
-							htmlFor="username"
-						>
-							Ім’я користувача
+						<label className="block font-medium" htmlFor="username">
+							Ім’я
 						</label>
 						<input
 							id="username"
@@ -107,8 +102,8 @@ const Register: React.FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.username}
-							placeholder="Введіть ім’я користувача"
-							className="w-full px-3 py-2 border rounded"
+							placeholder="mandrivnyk123"
+							className="w-full px-3 py-2 border rounded text-sm"
 						/>
 						{formik.touched.username && formik.errors.username && (
 							<p className="text-red-500 text-sm mt-1">
@@ -118,10 +113,7 @@ const Register: React.FC = () => {
 					</div>
 
 					<div>
-						<label
-							className="block text-sm font-medium"
-							htmlFor="password"
-						>
+						<label className="block font-medium" htmlFor="password">
 							Пароль
 						</label>
 						<input
@@ -132,8 +124,8 @@ const Register: React.FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.password}
-							placeholder="Введіть пароль"
-							className="w-full px-3 py-2 border rounded"
+							placeholder="пароль не менше ніж 6 символів"
+							className="w-full px-3 py-2 border rounded text-sm"
 						/>
 						{formik.touched.password && formik.errors.password && (
 							<p className="text-red-500 text-sm mt-1">
@@ -143,7 +135,7 @@ const Register: React.FC = () => {
 					</div>
 					<div>
 						<label
-							className="block text-sm font-medium"
+							className="block font-medium"
 							htmlFor="confirmPassword"
 						>
 							Підтвердження пароля
@@ -156,8 +148,8 @@ const Register: React.FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.confirmPassword}
-							placeholder="Повторіть пароль"
-							className="w-full px-3 py-2 border rounded"
+							placeholder="введіть пароль ще раз"
+							className="w-full px-3 py-2 border rounded text-sm"
 						/>
 						{formik.touched.confirmPassword &&
 							formik.errors.confirmPassword && (
@@ -169,16 +161,14 @@ const Register: React.FC = () => {
 
 					<button
 						type="submit"
-						className="w-full py-2 px-4 bg-[#0099A9] text-white rounded hover:bg-[#007f8a]"
+						className="py-2 px-4 bg-[#4A1158] text-white rounded-full mt-8 text-base sm:text-lg block mx-auto"
 					>
 						Зареєструватися
 					</button>
 				</form>
 
 				{message && (
-					<p className="mt-4 text-center text-sm text-red-600">
-						{message}
-					</p>
+					<p className="mt-2 text-center text-sm">{message}</p>
 				)}
 			</div>
 		</div>

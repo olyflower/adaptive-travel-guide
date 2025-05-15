@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { requestPasswordResetRequest } from "../services/AuthService";
 import * as Yup from "yup";
-import bgImage from "../assets/baloon.jpg";
+import bgImage from "../assets/hero_main.png";
 
 const PasswordResetRequest: React.FC = () => {
 	const [message, setMessage] = useState<string | null>(null);
-
 	const navigate = useNavigate();
 
 	const formik = useFormik({
@@ -24,11 +23,13 @@ const PasswordResetRequest: React.FC = () => {
 			try {
 				await requestPasswordResetRequest(values.email);
 				setMessage(
-					"Лист з інструкціями надіслано на вашу електрону пошту"
+					"Лист з інструкціями надіслано на вашу електронну пошту"
 				);
 				setTimeout(() => navigate("/"), 2000);
 			} catch (error: any) {
-				setMessage("Сталася помилка. Спробуйте ще раз.");
+				setMessage(
+					"Користувача з такою поштою не існує. Введіть дійсну електронну пошту."
+				);
 			}
 		},
 	});
@@ -42,16 +43,13 @@ const PasswordResetRequest: React.FC = () => {
 				backgroundPosition: "center",
 			}}
 		>
-			<div className="max-w-md w-full p-6 bg-white rounded shadow-lg">
-				<h2 className="text-2xl font-bold mb-4 text-center">
-					Відновлення пароля
+			<div className="w-[340px] sm:w-[450px] bg-[#F6F0FA] rounded shadow-lg p-6">
+				<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
+					Запит на зміну пароля
 				</h2>
 				<form onSubmit={formik.handleSubmit} className="space-y-4">
 					<div>
-						<label
-							className="block text-sm font-medium"
-							htmlFor="email"
-						>
+						<label className="block font-medium" htmlFor="email">
 							Електронна пошта
 						</label>
 						<input
@@ -61,8 +59,8 @@ const PasswordResetRequest: React.FC = () => {
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							value={formik.values.email}
-							placeholder="Введіть вашу електронну пошту"
-							className="w-full px-3 py-2 border rounded"
+							placeholder="you@example.com"
+							className="w-full px-3 py-2 border rounded text-sm"
 						/>
 						{formik.touched.email && formik.errors.email && (
 							<p className="text-red-500 text-sm mt-1">
@@ -73,14 +71,14 @@ const PasswordResetRequest: React.FC = () => {
 
 					<button
 						type="submit"
-						className="w-full py-2 px-4 bg-[#0099A9] text-white rounded hover:bg-[#007f8a]"
+						className="py-2 px-4 bg-[#4A1158] text-white rounded-full mt-6 text-base sm:text-lg block mx-auto"
 					>
 						Надіслати листа для зміни пароля
 					</button>
 				</form>
 
 				{message && (
-					<p className="mt-4 text-center text-sm text-blue-600">
+					<p className="mt-2 text-center text-sm">
 						{message}
 					</p>
 				)}

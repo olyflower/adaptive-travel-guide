@@ -149,6 +149,9 @@ class GoogleLoginView(APIView):
                 defaults={'username': email}
             )
 
+            if created:
+                send_registration_email(request, user)
+
             refresh = RefreshToken.for_user(user)
             access = refresh.access_token
 
