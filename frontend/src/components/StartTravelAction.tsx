@@ -5,7 +5,7 @@ const StartTravelAction: React.FC = () => {
 	return (
 		<section className="relative w-full h-auto py-12 mb-10">
 			<h2 className="relative md:text-xl font-bold text-center mb-6 z-10">
-				Готові розпочати свою мандрівку?
+				Готовий розпочати свою мандрівку?
 			</h2>
 
 			<div className="relative w-full h-[calc(50vh-3rem)] overflow-hidden flex flex-col">

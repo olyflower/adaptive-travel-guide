@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { FaFacebook, FaInstagram, FaTelegram } from "react-icons/fa";
 
 const Footer: React.FC = () => {
@@ -70,6 +71,7 @@ const Footer: React.FC = () => {
 							<FaTelegram size={24} color="#4A1158" />
 						</a>
 					</div>
+					<LanguageSwitcher />
 				</div>
 			</div>
 

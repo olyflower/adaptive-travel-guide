@@ -51,7 +51,7 @@ const LiveData: React.FC = () => {
 					<p className="text-base font-medium mb-1 pb-2">
 						Фестиваль вуличної їжи
 					</p>
-					<p className="text-sm">Париж</p>
+					<p className="text-sm">12 червня, Париж</p>
 				</div>
 			</div>
 		</section>
