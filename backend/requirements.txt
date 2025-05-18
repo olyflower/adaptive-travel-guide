@@ -1,4 +1,5 @@
 asgiref==3.8.1
+attrs==25.3.0
 cachetools==5.5.2
 certifi==2025.4.26
 cffi==1.17.1
@@ -9,8 +10,12 @@ Django==5.2
 django-cors-headers==4.7.0
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.0
+drf-spectacular==0.28.0
 google-auth==2.39.0
 idna==3.10
+inflection==0.5.1
+jsonschema==4.23.0
+jsonschema-specifications==2025.4.1
 oauthlib==3.2.2
 psycopg2-binary==2.9.10
 pyasn1==0.6.1
@@ -19,9 +24,13 @@ pycparser==2.22
 PyJWT==2.9.0
 python-dotenv==1.1.0
 python3-openid==3.2.0
+PyYAML==6.0.2
+referencing==0.36.2
 requests==2.32.3
 requests-oauthlib==2.0.0
+rpds-py==0.25.0
 rsa==4.9.1
 sqlparse==0.5.3
 typing_extensions==4.13.2
+uritemplate==4.1.1
 urllib3==2.4.0
