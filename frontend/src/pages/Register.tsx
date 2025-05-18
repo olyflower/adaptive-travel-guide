@@ -26,7 +26,7 @@ const Register: React.FC = () => {
 				.min(3, "Мінімум 3 символи")
 				.required("Це поле є обов’язковим"),
 			password: Yup.string()
-				.min(6, "Пароль має містити щонайменше 6 символів")
+				.min(8, "Пароль має містити щонайменше 8 символів")
 				.required("Це поле є обов’язковим"),
 			confirmPassword: Yup.string()
 				.oneOf([Yup.ref("password")], "Паролі не збігаються")

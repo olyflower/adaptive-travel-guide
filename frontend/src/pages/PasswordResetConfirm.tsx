@@ -15,15 +15,15 @@ const PasswordResetConfirm: React.FC = () => {
 
 	const formik = useFormik({
 		initialValues: {
-			new_password: "",
-			confirm_password: "",
+			newPassword: "",
+			confirmPassword: "",
 		},
 		validationSchema: Yup.object({
-			new_password: Yup.string()
+			newPassword: Yup.string()
 				.min(8, "Пароль має містити щонайменше 8 символів")
 				.required("Це поле є обов’язковим"),
-			confirm_password: Yup.string()
-				.oneOf([Yup.ref("new_password")], "Паролі не співпадають")
+			confirmPassword: Yup.string()
+				.oneOf([Yup.ref("newPassword")], "Паролі не співпадають")
 				.required("Це поле є обов’язковим"),
 		}),
 		onSubmit: async (values) => {
@@ -38,7 +38,7 @@ const PasswordResetConfirm: React.FC = () => {
 				await confirmPasswordResetRequest(
 					uid,
 					token,
-					values.new_password
+					values.newPassword
 				);
 				setMessage("Пароль успішно змінено. Ви можете увійти.");
 				setTimeout(() => navigate("/login"), 2000);
@@ -73,24 +73,24 @@ const PasswordResetConfirm: React.FC = () => {
 					<div>
 						<label
 							className="block font-medium"
-							htmlFor="new_password"
+							htmlFor="newPassword"
 						>
 							Новий пароль
 						</label>
 						<input
-							id="new_password"
-							name="new_password"
+							id="newPassword"
+							name="newPassword"
 							type="password"
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
-							value={formik.values.new_password}
+							value={formik.values.newPassword}
 							placeholder="Введіть новий пароль"
 							className="w-full px-3 py-2 border rounded text-sm"
 						/>
-						{formik.touched.new_password &&
-							formik.errors.new_password && (
+						{formik.touched.newPassword &&
+							formik.errors.newPassword && (
 								<p className="text-red-500 text-sm mt-1">
-									{formik.errors.new_password}
+									{formik.errors.newPassword}
 								</p>
 							)}
 					</div>
@@ -98,24 +98,24 @@ const PasswordResetConfirm: React.FC = () => {
 					<div>
 						<label
 							className="block font-medium"
-							htmlFor="confirm_password"
+							htmlFor="confirmPassword"
 						>
 							Підтвердіть пароль
 						</label>
 						<input
-							id="confirm_password"
-							name="confirm_password"
+							id="confirmPassword"
+							name="confirmPassword"
 							type="password"
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
-							value={formik.values.confirm_password}
+							value={formik.values.confirmPassword}
 							placeholder="Підтвердіть новий пароль"
 							className="w-full px-3 py-2 border rounded text-sm"
 						/>
-						{formik.touched.confirm_password &&
-							formik.errors.confirm_password && (
+						{formik.touched.confirmPassword &&
+							formik.errors.confirmPassword && (
 								<p className="text-red-500 text-sm mt-1">
-									{formik.errors.confirm_password}
+									{formik.errors.confirmPassword}
 								</p>
 							)}
 					</div>
