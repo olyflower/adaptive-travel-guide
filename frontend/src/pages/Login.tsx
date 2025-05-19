@@ -116,7 +116,9 @@ const Login: React.FC = () => {
 				</div>
 
 				{message && (
-					<p className="mt-2 text-center text-sm">{message}</p>
+					<p className="mt-2 text-center text-sm text-red-500">
+						{message}
+					</p>
 				)}
 			</div>
 		</div>

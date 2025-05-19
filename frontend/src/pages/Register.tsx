@@ -20,7 +20,7 @@ const Register: React.FC = () => {
 		},
 		validationSchema: Yup.object({
 			email: Yup.string()
-				.email("Введіть коректну електронну пошту")
+				.email("Невірний формат електронної пошти")
 				.required("Це поле є обов’язковим"),
 			username: Yup.string()
 				.min(3, "Мінімум 3 символи")
@@ -45,7 +45,13 @@ const Register: React.FC = () => {
 				navigate("/");
 			} catch (error: any) {
 				if (error.response && error.response.data) {
-					setMessage(JSON.stringify(error.response.data));
+					const errors = error.response.data;
+
+					if (errors.email) {
+						setMessage(
+							"Користувач з такою електронною поштою вже існує."
+						);
+					}
 				} else {
 					setMessage("Сталася помилка. Спробуйте ще раз.");
 				}
@@ -168,7 +174,9 @@ const Register: React.FC = () => {
 				</form>
 
 				{message && (
-					<p className="mt-2 text-center text-sm">{message}</p>
+					<p className="mt-2 text-center text-sm text-red-500">
+						{message}
+					</p>
 				)}
 			</div>
 		</div>

@@ -7,6 +7,7 @@ import bgImage from "../assets/hero_main.png";
 
 const PasswordResetRequest: React.FC = () => {
 	const [message, setMessage] = useState<string | null>(null);
+	const [isError, setIsError] = useState<boolean>(false);
 	const navigate = useNavigate();
 
 	const formik = useFormik({
@@ -23,13 +24,15 @@ const PasswordResetRequest: React.FC = () => {
 			try {
 				await requestPasswordResetRequest(values.email);
 				setMessage(
-					"Лист з інструкціями надіслано на вашу електронну пошту"
+					"Лист з інструкціями надіслано на вашу електронну пошту."
 				);
+				setIsError(false);
 				setTimeout(() => navigate("/"), 2000);
 			} catch (error: any) {
 				setMessage(
 					"Користувача з такою поштою не існує. Введіть дійсну електронну пошту."
 				);
+				setIsError(true);
 			}
 		},
 	});
@@ -78,7 +81,11 @@ const PasswordResetRequest: React.FC = () => {
 				</form>
 
 				{message && (
-					<p className="mt-2 text-center text-sm">
+					<p
+						className={`mt-2 text-center text-sm ${
+							isError ? "text-red-500" : "text-blue-700"
+						}`}
+					>
 						{message}
 					</p>
 				)}

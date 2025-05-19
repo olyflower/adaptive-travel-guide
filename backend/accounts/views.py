@@ -1,7 +1,9 @@
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.exceptions import ValidationError
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 from accounts.serializers import UserRegistrationSerializer
@@ -20,7 +22,12 @@ from google.auth.transport import requests as google_requests
 class CookieTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except AuthenticationFailed:
+            return Response(status=401)
+
         user = serializer.user
         refresh = RefreshToken.for_user(user)
         access = refresh.access_token
@@ -51,18 +58,25 @@ class RegisterView(CreateAPIView):
     permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        user = self.get_queryset().get(email=response.data['email'])
+        try:
+            response = super().create(request, *args, **kwargs)
+            user = self.get_queryset().get(email=response.data['email'])
 
-        send_registration_email(request, user)
+            send_registration_email(request, user)
 
-        refresh = RefreshToken.for_user(user)
-        access = refresh.access_token
+            refresh = RefreshToken.for_user(user)
+            access = refresh.access_token
 
-        response.data['access_token'] = str(access)
-        response.data['refresh_token'] = str(refresh)
+            response.data['access_token'] = str(access)
+            response.data['refresh_token'] = str(refresh)
 
-        return response
+            return response
+        except ValidationError as e:
+            return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response(
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class AuthStatusView(APIView):
@@ -82,7 +96,7 @@ class PasswordResetRequestView(APIView):
         try:
             user = user_model.objects.get(email=email)
         except user_model.DoesNotExist:
-            return Response({"error": "Користувача з такою поштою не існує"}, status=404)
+            return Response(status=404)
 
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
@@ -90,7 +104,7 @@ class PasswordResetRequestView(APIView):
 
         send_password_reset_email(request, user, reset_url)
 
-        return Response({"message": "Інструкція надіслана на email"}, status=200)
+        return Response(status=200)
 
 
 class PasswordResetConfirmView(APIView):
@@ -102,23 +116,23 @@ class PasswordResetConfirmView(APIView):
         new_password = request.data.get("new_password")
 
         if not uidb64 or not token or not new_password:
-            return Response({"error": "Невірний запит"}, status=400)
+            return Response(status=400)
 
         try:
             uid = urlsafe_base64_decode(uidb64).decode()
             user = get_user_model().objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
-            return Response({"error": "Невірний користувач"}, status=400)
+            return Response(status=400)
 
         if not default_token_generator.check_token(user, token):
-            return Response({"error": "Недійсний або застарілий токен"}, status=400)
+            return Response(status=400)
 
         user.set_password(new_password)
         user.save()
 
         send_confirm_change_password_email(request, user)
 
-        return Response({"message": "Пароль успішно змінено"}, status=200)
+        return Response(status=200)
 
 
 class LogoutView(APIView):

@@ -6,12 +6,20 @@ import * as Yup from "yup";
 import bgImage from "../assets/hero_main.png";
 
 const PasswordResetConfirm: React.FC = () => {
+	const [message, setMessage] = useState<string | null>(null);
+	const [isError, setIsError] = useState<boolean>(false);
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
-	const [message, setMessage] = useState<string | null>(null);
 
 	const uid = searchParams.get("uid");
 	const token = searchParams.get("token");
+
+	useEffect(() => {
+		if (!uid || !token) {
+			setMessage("Недійсне посилання.");
+			setIsError(true);
+		}
+	}, [uid, token]);
 
 	const formik = useFormik({
 		initialValues: {
@@ -41,20 +49,14 @@ const PasswordResetConfirm: React.FC = () => {
 					values.newPassword
 				);
 				setMessage("Пароль успішно змінено. Ви можете увійти.");
+				setIsError(false);
 				setTimeout(() => navigate("/login"), 2000);
 			} catch (error: any) {
-				setMessage(
-					"Сталась помилка. Посилання недійсне або застаріле."
-				);
+				setMessage("Сталась помилка. Недійсне посилання.");
+				setIsError(true);
 			}
 		},
 	});
-
-	useEffect(() => {
-		if (!uid || !token) {
-			setMessage("Недійсне посилання.");
-		}
-	}, [uid, token]);
 
 	return (
 		<div
@@ -100,7 +102,7 @@ const PasswordResetConfirm: React.FC = () => {
 							className="block font-medium"
 							htmlFor="confirmPassword"
 						>
-							Підтвердіть пароль
+							Введить пароль ще раз
 						</label>
 						<input
 							id="confirmPassword"
@@ -129,7 +131,13 @@ const PasswordResetConfirm: React.FC = () => {
 				</form>
 
 				{message && (
-					<p className="mt-2 text-center text-sm">{message}</p>
+					<p
+						className={`mt-2 text-center text-sm ${
+							isError ? "text-red-500" : "text-blue-700"
+						}`}
+					>
+						{message}
+					</p>
 				)}
 			</div>
 		</div>

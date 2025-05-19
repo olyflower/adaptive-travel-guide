@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			const status = await checkAuthStatusRequest();
 			setIsAuthenticated(status);
 		} catch (error) {
-			console.error(error);
+			throw error;
 		}
 	};
 
