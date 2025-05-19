@@ -139,7 +139,7 @@ class LogoutView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        response = Response({"message": "Вихід успішний"}, status=200)
+        response = Response(status=200)
         response.delete_cookie('access_token')
         response.delete_cookie('refresh_token')
         return response
@@ -151,7 +151,7 @@ class GoogleLoginView(APIView):
     def post(self, request):
         token = request.data.get('id_token')
         if not token:
-            return Response({'error': 'Токен не надано'}, status=400)
+            return Response(status=400)
 
         try:
             idinfo = id_token.verify_oauth2_token(
@@ -169,7 +169,7 @@ class GoogleLoginView(APIView):
             refresh = RefreshToken.for_user(user)
             access = refresh.access_token
 
-            response = Response({'message': 'Успішний вхід'}, status=200)
+            response = Response(status=200)
             response.set_cookie('access_token', str(
                 access), httponly=True, secure=True, samesite='None', max_age=3 * 24 * 3600)
             response.set_cookie('refresh_token', str(
@@ -177,4 +177,4 @@ class GoogleLoginView(APIView):
             return response
 
         except ValueError:
-            return Response({'error': 'Недійсний токен'}, status=400)
+            return Response(status=400)
