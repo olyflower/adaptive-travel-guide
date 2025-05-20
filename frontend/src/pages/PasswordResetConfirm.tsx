@@ -52,7 +52,11 @@ const PasswordResetConfirm: React.FC = () => {
 				setIsError(false);
 				setTimeout(() => navigate("/login"), 2000);
 			} catch (error: any) {
-				setMessage("Сталась помилка. Недійсне посилання.");
+				if (error.response?.status === 400) {
+					setMessage("Недійсне посилання.");
+				} else {
+					setMessage("Сталася помилка. Спробуйте ще раз.");
+				}
 				setIsError(true);
 			}
 		},

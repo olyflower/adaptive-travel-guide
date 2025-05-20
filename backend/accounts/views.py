@@ -1,6 +1,7 @@
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -26,13 +27,13 @@ class CookieTokenObtainPairView(TokenObtainPairView):
         try:
             serializer.is_valid(raise_exception=True)
         except AuthenticationFailed:
-            return Response(status=401)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         user = serializer.user
         refresh = RefreshToken.for_user(user)
         access = refresh.access_token
 
-        response = Response({'message': 'Login successful'})
+        response = Response(status=status.HTTP_200_OK)
         response.set_cookie(
             key='access_token',
             value=str(access),
@@ -72,7 +73,7 @@ class RegisterView(CreateAPIView):
 
             return response
         except ValidationError as e:
-            return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response(
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -90,56 +91,64 @@ class PasswordResetRequestView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        email = request.data.get("email")
-        user_model = get_user_model()
-
         try:
-            user = user_model.objects.get(email=email)
-        except user_model.DoesNotExist:
-            return Response(status=404)
+            email = request.data.get("email")
+            user_model = get_user_model()
 
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
-        token = default_token_generator.make_token(user)
-        reset_url = f"{settings.FRONTEND_URL}/password-reset-confirm?uid={uid}&token={token}"
+            try:
+                user = user_model.objects.get(email=email)
+            except user_model.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
 
-        send_password_reset_email(request, user, reset_url)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+            reset_url = f"{settings.FRONTEND_URL}/password-reset-confirm?uid={uid}&token={token}"
 
-        return Response(status=200)
+            send_password_reset_email(request, user, reset_url)
+
+            return Response(status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class PasswordResetConfirmView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        uidb64 = request.data.get("uid")
-        token = request.data.get("token")
-        new_password = request.data.get("new_password")
-
-        if not uidb64 or not token or not new_password:
-            return Response(status=400)
-
         try:
-            uid = urlsafe_base64_decode(uidb64).decode()
-            user = get_user_model().objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
-            return Response(status=400)
+            uidb64 = request.data.get("uid")
+            token = request.data.get("token")
+            new_password = request.data.get("new_password")
 
-        if not default_token_generator.check_token(user, token):
-            return Response(status=400)
+            if not uidb64 or not token or not new_password:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        user.set_password(new_password)
-        user.save()
+            try:
+                uid = urlsafe_base64_decode(uidb64).decode()
+                user = get_user_model().objects.get(pk=uid)
+            except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        send_confirm_change_password_email(request, user)
+            if not default_token_generator.check_token(user, token):
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(status=200)
+            user.set_password(new_password)
+            user.save()
+
+            send_confirm_change_password_email(request, user)
+
+            return Response(status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class LogoutView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        response = Response(status=200)
+        response = Response(status=status.HTTP_200_OK)
         response.delete_cookie('access_token')
         response.delete_cookie('refresh_token')
         return response
@@ -151,7 +160,7 @@ class GoogleLoginView(APIView):
     def post(self, request):
         token = request.data.get('id_token')
         if not token:
-            return Response(status=400)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         try:
             idinfo = id_token.verify_oauth2_token(
@@ -169,7 +178,7 @@ class GoogleLoginView(APIView):
             refresh = RefreshToken.for_user(user)
             access = refresh.access_token
 
-            response = Response(status=200)
+            response = Response(status=status.HTTP_200_OK)
             response.set_cookie('access_token', str(
                 access), httponly=True, secure=True, samesite='None', max_age=3 * 24 * 3600)
             response.set_cookie('refresh_token', str(
@@ -177,4 +186,6 @@ class GoogleLoginView(APIView):
             return response
 
         except ValueError:
-            return Response(status=400)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)

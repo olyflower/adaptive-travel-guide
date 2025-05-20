@@ -29,9 +29,15 @@ const PasswordResetRequest: React.FC = () => {
 				setIsError(false);
 				setTimeout(() => navigate("/"), 2000);
 			} catch (error: any) {
-				setMessage(
-					"Користувача з такою поштою не існує. Введіть дійсну електронну пошту."
-				);
+				if (error.response && error.response.status === 404) {
+					setMessage(
+						"Користувача з такою поштою не існує. Введіть дійсну електронну пошту."
+					);
+				} else {
+					setMessage(
+						"Сталася помилка. Спробуйте ще раз."
+					);
+				}
 				setIsError(true);
 			}
 		},
