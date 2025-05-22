@@ -31,7 +31,7 @@ const PasswordResetConfirm: React.FC = () => {
 				.min(8, "Пароль має містити щонайменше 8 символів")
 				.required("Це поле є обов’язковим"),
 			confirmPassword: Yup.string()
-				.oneOf([Yup.ref("newPassword")], "Паролі не співпадають")
+				.oneOf([Yup.ref("newPassword")], "Паролі не збігаються")
 				.required("Це поле є обов’язковим"),
 		}),
 		onSubmit: async (values) => {
