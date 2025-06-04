@@ -1,7 +1,10 @@
 import React from "react";
+import { useAuth } from "../context/AuthContext";
 import HeroImageDesktop from "../assets/hero_main.png";
 
 const Hero: React.FC = () => {
+	const { isAuthenticated } = useAuth();
+
 	return (
 		<div className="relative w-full h-auto min-h-[60vh] md:min-h-[100vh] flex items-center justify-center mb-10 px-4">
 			<img
@@ -24,12 +27,25 @@ const Hero: React.FC = () => {
 					Зануртесь у світ культури, природи та незабутніх вражень{" "}
 					<br />з персоналізованими підказками
 				</p>
-				<a
-					href="/login"
-					className="inline-block bg-[#4A1158] px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-lg rounded-full font-semibold"
-				>
-					Почати свою подорож
-				</a>
+				{isAuthenticated ? (
+					<>
+						<a
+							href="/profile"
+							className="inline-block bg-[#4A1158] px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-lg rounded-full font-semibold"
+						>
+							Почати свою подорож
+						</a>
+					</>
+				) : (
+					<>
+						<a
+							href="/login"
+							className="inline-block bg-[#4A1158] px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-lg rounded-full font-semibold"
+						>
+							Почати свою подорож
+						</a>
+					</>
+				)}
 			</div>
 		</div>
 	);
