@@ -27,13 +27,24 @@ class CookieTokenObtainPairView(TokenObtainPairView):
         try:
             serializer.is_valid(raise_exception=True)
         except AuthenticationFailed:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"message": "Invalid credentials. Login failed."},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
 
         user = serializer.user
         refresh = RefreshToken.for_user(user)
         access = refresh.access_token
 
-        response = Response(status=status.HTTP_200_OK)
+        response_data = {
+            "message": "Success login",
+            "username": user.username,
+            "email": user.email,
+            "access_token": str(access),
+            "refresh_token": str(refresh),
+        }
+
+        response = Response(response_data, status=status.HTTP_200_OK)
         response.set_cookie(
             key='access_token',
             value=str(access),
@@ -73,9 +84,13 @@ class RegisterView(CreateAPIView):
 
             return response
         except ValidationError as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"message": "Validation error", "details": e.detail},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         except Exception as e:
             return Response(
+                {"message": "Internal server error", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
@@ -98,7 +113,10 @@ class PasswordResetRequestView(APIView):
             try:
                 user = user_model.objects.get(email=email)
             except user_model.DoesNotExist:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+                return Response(
+                    {"message": "User with this email does not exist."},
+                    status=status.HTTP_404_NOT_FOUND
+                )
 
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
@@ -106,10 +124,16 @@ class PasswordResetRequestView(APIView):
 
             send_password_reset_email(request, user, reset_url)
 
-            return Response(status=status.HTTP_200_OK)
+            return Response(
+                {"message": "Password reset email sent successfully."},
+                status=status.HTTP_200_OK
+            )
 
         except Exception as e:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                {"message": "Internal server error", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class PasswordResetConfirmView(APIView):
@@ -122,33 +146,50 @@ class PasswordResetConfirmView(APIView):
             new_password = request.data.get("new_password")
 
             if not uidb64 or not token or not new_password:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"message": "Missing uid, token or new_password in request."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
             try:
                 uid = urlsafe_base64_decode(uidb64).decode()
                 user = get_user_model().objects.get(pk=uid)
             except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"message": "Invalid uid."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
             if not default_token_generator.check_token(user, token):
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-
+                return Response(
+                    {"message": "Invalid or expired token."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
             user.set_password(new_password)
             user.save()
 
             send_confirm_change_password_email(request, user)
 
-            return Response(status=status.HTTP_200_OK)
+            return Response(
+                {"message": "Password has been reset successfully."},
+                status=status.HTTP_200_OK
+            )
 
         except Exception as e:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                {"message": "Internal server error", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class LogoutView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        response = Response(status=status.HTTP_200_OK)
+        response = Response(
+            {"message": "Success logout"},
+            status=status.HTTP_200_OK
+        )
         response.delete_cookie('access_token')
         response.delete_cookie('refresh_token')
         return response
