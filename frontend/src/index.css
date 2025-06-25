@@ -2,5 +2,7 @@
 @import "tailwindcss";
 
 :root {
+	--color-primary: #4A1158;
+	--color-text-muted: #4C4C4C;
 	font-family: "Raleway", system-ui, Avenir, Helvetica, Arial, sans-serif;
 }

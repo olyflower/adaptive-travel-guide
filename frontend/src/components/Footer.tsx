@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 import { FaFacebook, FaInstagram, FaTelegram } from "react-icons/fa";
 
 const Footer: React.FC = () => {
+	const { t } = useTranslation();
 	return (
 		<footer className="bg-[#F0EDF2] py-8 mt-auto shadow-inner">
 			<div className="max-w-screen-xl mx-auto px-4 grid grid-cols-2 md:grid-cols-3 gap-8">
@@ -12,25 +14,23 @@ const Footer: React.FC = () => {
 						Adaptive Travel Guide
 					</h2>
 					<p className="text-sm text-center">
-						Адаптивний гід для мандрівників — знаходьте нові місця,
-						плануйте поїздки, отримуйте рекомендації на основі ваших
-						уподобань.
+						{t("footer.text")}
 					</p>
 				</div>
 
 				<div className="md:col-span-1 col-span-1">
 					<h3 className="text-sm md:text-lg font-semibold text-center mb-3">
-						Навігація
+						{t("footer.navigation")}
 					</h3>
 					<ul className="space-y-2 text-sm text-center">
 						<li>
 							<Link to="/" className="hover:text-[#4A1158]">
-								Головна
+								{t("nav.home")}
 							</Link>
 						</li>
 						<li>
 							<Link to="/about" className="hover:text-[#4A1158]">
-								Про нас
+								{t("nav.about")}
 							</Link>
 						</li>
 						<li>
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
 								to="/contacts"
 								className="hover:text-[#4A1158]"
 							>
-								Контакти
+								{t("nav.contacts")}
 							</Link>
 						</li>
 					</ul>
@@ -46,7 +46,7 @@ const Footer: React.FC = () => {
 
 				<div className="md:col-span-1 col-span-1">
 					<h3 className="text-sm md:text-lg font-semibold mb-3 text-center">
-						Слідкуйте за нами
+						{t("footer.follow")}
 					</h3>
 					<div className="flex space-x-4 items-center justify-center">
 						<a
@@ -76,8 +76,7 @@ const Footer: React.FC = () => {
 			</div>
 
 			<div className="text-center text-[8px] md:text-[10px] mt-8">
-				&copy; {new Date().getFullYear()} Adaptive Travel Guide. Всі
-				права захищено.
+				&copy; {new Date().getFullYear()} Adaptive Travel Guide. {t("footer.rights")}
 			</div>
 		</footer>
 	);

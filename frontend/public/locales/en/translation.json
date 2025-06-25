@@ -1,0 +1,65 @@
+{
+	"nav": {
+		"home": "Home",
+		"about": "About Us",
+		"contacts": "Contacts",
+		"profile": "Profile",
+		"edit_profile": "Edit Profile",
+		"menu": "Menu"
+	},
+	"hero": {
+		"title": "Feel the atmosphere of travel",
+		"text": "Immerse yourself in a world of culture, nature and unforgettable experiences with personalized tips",
+		"button": "Start your journey",
+		"img_alt": "Travel"
+	},
+	"sta": {
+		"title": "Ready to start your journey?",
+		"button": "Create your profile",
+		"img_alt": "Beginning of the journey"
+	},
+	"footer": {
+		"text": "Adaptive travel guide - find new places, plan trips, get recommendations based on your preferences.",
+		"navigation": "Navigation",
+		"follow": "Follow us",
+		"rights": "All rights reserved.",
+		"eng": "EN",
+		"ukr": "UA"
+	},
+	"auth": {
+		"register": "Sign Up",
+		"login": "Sign In",
+		"logout": "Exit",
+		"email": "Email",
+		"username": "Username",
+		"password": "Password",
+		"password_confirm": "Password confirm",
+		"forgot_password": "Forgot password?",
+		"new_password": "New password",
+		"submit_button": "Submit",
+		"button_register": "Confirm",
+		"placeholder": "Enter password",
+		"placeholder_confirm": "Enter password again",
+		"placeholder_new_confirm": "Enter new password again",
+		"reset_request": "Password change request",
+		"reset_request_button": "Send email to change password",
+		"reset_confirm": "Set a new password",
+		"reset_confirm_button": "Change password"
+	},
+	"errors": {
+		"required": "This field is required.",
+		"email_format": "Invalid email format",
+		"wrong_email_password": "Incorrect email or password. Please check the information you entered.",
+		"general": "An error occurred. Please try again.",
+		"no_user": "There is no user with this email address. Please enter a valid email address.",
+		"exist_user": "A user with this email address already exists.",
+		"password_mismatch": "Passwords do not match.",
+		"min_password": "Password must contain at least 8 characters",
+		"min_username": "At least 3 characters",
+		"invalid_link": "Invalid link."
+	},
+	"success": {
+		"email_sent": "A letter with instructions has been sent to your email.",
+		"email_change": "Password changed successfully. You can log in."
+	}
+}
