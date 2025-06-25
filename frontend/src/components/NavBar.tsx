@@ -4,8 +4,10 @@ import Logo from "../assets/logo_nav.png";
 import { useAuth } from "../context/AuthContext";
 import { FaUserCircle, FaTimes, FaBars } from "react-icons/fa";
 import GoogleLoginButton from "../components/GoogleLoginButton";
+import { useTranslation } from "react-i18next";
 
 const Navbar: React.FC = () => {
+	const { t } = useTranslation();
 	const [isOpen, setIsOpen] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const { isAuthenticated, logout } = useAuth();
@@ -26,9 +28,9 @@ const Navbar: React.FC = () => {
 				</Link>
 
 				<button
-					className="md:hidden text-3xl text-[#4A1158] z-10"
+					className="md:hidden text-3xl text-[var(--color-primary)] z-10"
 					onClick={toggleMenu}
-					aria-label="Меню"
+					aria-label={t("nav.menu")}
 				>
 					{isOpen ? <FaTimes size={36} /> : <FaBars size={36} />}
 				</button>
@@ -41,12 +43,12 @@ const Navbar: React.FC = () => {
 					<ul className="flex flex-col text-lg md:flex-row md:space-x-10 font-medium text-center w-full justify-center [&_a]:hover:text-[#4A1158]">
 						<li>
 							<Link to="/" onClick={() => setIsOpen(false)}>
-								Головна
+								{t("nav.home")}
 							</Link>
 						</li>
 						<li>
 							<Link to="/about" onClick={() => setIsOpen(false)}>
-								Про нас
+								{t("nav.about")}
 							</Link>
 						</li>
 						<li>
@@ -54,7 +56,7 @@ const Navbar: React.FC = () => {
 								to="/contacts"
 								onClick={() => setIsOpen(false)}
 							>
-								Контакти
+								{t("nav.contacts")}
 							</Link>
 						</li>
 					</ul>
@@ -64,7 +66,7 @@ const Navbar: React.FC = () => {
 						<div className="relative">
 							<button
 								onClick={() => setMenuOpen(!menuOpen)}
-								className="text-2xl text-[#4A1158] hover:text-[#4A1158] transition duration-300"
+								className="text-2xl text-[var(--color-primary)] hover:text-[#4A1158] transition duration-300"
 							>
 								<FaUserCircle size={36} />
 							</button>
@@ -80,7 +82,7 @@ const Navbar: React.FC = () => {
 													setIsOpen(false);
 												}}
 											>
-												Профіль
+												{t("nav.profile")}
 											</Link>
 											<Link
 												to="/edit-profile"
@@ -90,7 +92,7 @@ const Navbar: React.FC = () => {
 													setIsOpen(false);
 												}}
 											>
-												Редагувати Профіль
+												{t("nav.edit_profile")}
 											</Link>
 											<button
 												onClick={() => {
@@ -100,7 +102,7 @@ const Navbar: React.FC = () => {
 												}}
 												className="block w-full text-left px-4 py-2 text-sm"
 											>
-												Вихід
+												{t("auth.logout")}
 											</button>
 										</>
 									) : (
@@ -113,7 +115,7 @@ const Navbar: React.FC = () => {
 													setIsOpen(false);
 												}}
 											>
-												Реєстрація
+												{t("auth.register")}
 											</Link>
 											<Link
 												to="/login"
@@ -123,7 +125,7 @@ const Navbar: React.FC = () => {
 													setIsOpen(false);
 												}}
 											>
-												Вхід
+												{t("nav.login")}
 											</Link>
 											<div className="px-4 py-2">
 												<GoogleLoginButton />
@@ -157,14 +159,14 @@ const Navbar: React.FC = () => {
 											className="block px-2 py-2 text-sm"
 											onClick={() => setMenuOpen(false)}
 										>
-											Профіль
+											{t("nav.profile")}
 										</Link>
 										<Link
 											to="/edit-profile"
 											className="block px-2 py-2 text-sm"
 											onClick={() => setMenuOpen(false)}
 										>
-											Редагувати Профіль
+											{t("nav.edit_profile")}
 										</Link>
 										<button
 											onClick={() => {
@@ -173,7 +175,7 @@ const Navbar: React.FC = () => {
 											}}
 											className="block w-full text-left px-2 py-2 text-sm"
 										>
-											Вихід
+											{t("auth.logout")}
 										</button>
 									</>
 								) : (
@@ -183,14 +185,14 @@ const Navbar: React.FC = () => {
 											className="block px-2 py-2 text-sm"
 											onClick={() => setMenuOpen(false)}
 										>
-											Реєстрація
+											{t("auth.register")}
 										</Link>
 										<Link
 											to="/login"
 											className="block px-2 py-2 text-sm"
 											onClick={() => setMenuOpen(false)}
 										>
-											Вхід
+											{t("auth.login")}
 										</Link>
 										<div className="px-2 py-2">
 											<GoogleLoginButton />
