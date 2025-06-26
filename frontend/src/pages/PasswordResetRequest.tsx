@@ -1,20 +1,22 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { requestPasswordResetRequest } from "../services/AuthService";
 import { useTranslation } from "react-i18next";
+import { TFunction } from "i18next";
+import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
 import * as Yup from "yup";
 import bgImage from "../assets/hero_main.png";
 
 const PasswordResetRequest: React.FC = () => {
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
 	const [message, setMessage] = useState<string | null>(null);
 	const [isError, setIsError] = useState<boolean>(false);
 	const navigate = useNavigate();
 
-	const getValidationSchema = (t: any) =>
+	const getValidationSchema = (t: TFunction) =>
 		Yup.object({
 			email: Yup.string()
 				.email(t("errors.email_format"))
@@ -44,11 +46,8 @@ const PasswordResetRequest: React.FC = () => {
 			}
 		},
 	});
-	useEffect(() => {
-		if (formik.submitCount > 0 || Object.keys(formik.errors).length > 0) {
-			formik.validateForm();
-		}
-	}, [i18n.language]);
+
+	useRevalidateOnLangChange(formik);
 
 	return (
 		<>
@@ -61,7 +60,7 @@ const PasswordResetRequest: React.FC = () => {
 					backgroundPosition: "center",
 				}}
 			>
-				<div className="w-[340px] sm:w-[450px] bg-[#F6F0FA] rounded shadow-lg p-6 my-26">
+				<div className="w-[340px] sm:w-[450px] bg-[var(--color-bg-main)] rounded shadow-lg p-6 my-26">
 					<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
 						{t("auth.reset_request")}
 					</h2>
@@ -92,7 +91,7 @@ const PasswordResetRequest: React.FC = () => {
 
 						<button
 							type="submit"
-							className="py-2 px-4 bg-[#4A1158] text-white rounded-full mt-6 text-base sm:text-lg block mx-auto"
+							className="py-2 px-4 bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] text-white rounded-full mt-6 text-base sm:text-lg block mx-auto"
 						>
 							{t("auth.reset_request_button")}
 						</button>

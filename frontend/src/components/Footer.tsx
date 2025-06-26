@@ -7,15 +7,13 @@ import { FaFacebook, FaInstagram, FaTelegram } from "react-icons/fa";
 const Footer: React.FC = () => {
 	const { t } = useTranslation();
 	return (
-		<footer className="bg-[#F0EDF2] py-8 mt-auto shadow-inner">
+		<footer className="bg-[var(--color-bg)] py-8 mt-auto shadow-inner">
 			<div className="max-w-screen-xl mx-auto px-4 grid grid-cols-2 md:grid-cols-3 gap-8">
 				<div className="hidden md:block">
 					<h2 className="text-xl font-bold text-center mb-4">
 						Adaptive Travel Guide
 					</h2>
-					<p className="text-sm text-center">
-						{t("footer.text")}
-					</p>
+					<p className="text-sm text-center">{t("footer.text")}</p>
 				</div>
 
 				<div className="md:col-span-1 col-span-1">
@@ -24,19 +22,25 @@ const Footer: React.FC = () => {
 					</h3>
 					<ul className="space-y-2 text-sm text-center">
 						<li>
-							<Link to="/" className="hover:text-[#4A1158]">
+							<Link
+								to="/"
+								className="hover:text-[var(--color-purple)]"
+							>
 								{t("nav.home")}
 							</Link>
 						</li>
 						<li>
-							<Link to="/about" className="hover:text-[#4A1158]">
+							<Link
+								to="/about"
+								className="hover:text-[var(--color-purple)]"
+							>
 								{t("nav.about")}
 							</Link>
 						</li>
 						<li>
 							<Link
 								to="/contacts"
-								className="hover:text-[#4A1158]"
+								className="hover:text-[var(--color-purple)]"
 							>
 								{t("nav.contacts")}
 							</Link>
@@ -54,21 +58,30 @@ const Footer: React.FC = () => {
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							<FaFacebook size={24} color="#4A1158" />
+							<FaFacebook
+								size={24}
+								className="text-[var(--color-purple)] hover:text-[var(--color-purple-hover)]"
+							/>
 						</a>
 						<a
 							href="https://instagram.com"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							<FaInstagram size={24} color="#4A1158" />
+							<FaInstagram
+								size={24}
+								className="text-[var(--color-purple)] hover:text-[var(--color-purple-hover)]"
+							/>
 						</a>
 						<a
 							href="https://t.me"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							<FaTelegram size={24} color="#4A1158" />
+							<FaTelegram
+								size={24}
+								className="text-[var(--color-purple)] hover:text-[var(--color-purple-hover)]"
+							/>
 						</a>
 					</div>
 					<LanguageSwitcher />
@@ -76,7 +89,8 @@ const Footer: React.FC = () => {
 			</div>
 
 			<div className="text-center text-[8px] md:text-[10px] mt-8">
-				&copy; {new Date().getFullYear()} Adaptive Travel Guide. {t("footer.rights")}
+				&copy; {new Date().getFullYear()} Adaptive Travel Guide.{" "}
+				{t("footer.rights")}
 			</div>
 		</footer>
 	);

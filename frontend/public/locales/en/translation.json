@@ -13,6 +13,13 @@
 		"button": "Start your journey",
 		"img_alt": "Travel"
 	},
+	"features": {
+		"title": "Choose not just a direction — choose an approach to traveling!",
+		"personalization": "Personalization 24/7",
+		"integration": "Integration with real services",
+		"aggregators": "No aggregator sites",
+		"culture": "Cultural insights"
+	},
 	"sta": {
 		"title": "Ready to start your journey?",
 		"button": "Create your profile",
@@ -56,10 +63,17 @@
 		"password_mismatch": "Passwords do not match.",
 		"min_password": "Password must contain at least 8 characters",
 		"min_username": "At least 3 characters",
-		"invalid_link": "Invalid link."
+		"invalid_link": "Invalid link.",
+		"google_error": "Failed to sign in with Google. Please try again.",
+		"google_error_general": "Failed to sign in with Google."
 	},
 	"success": {
 		"email_sent": "A letter with instructions has been sent to your email.",
 		"email_change": "Password changed successfully. You can log in."
+	},
+	"not_found": {
+		"404": "404",
+		"page_not_found": "Page not found",
+		"return_home": "Return to home page"
 	}
 }

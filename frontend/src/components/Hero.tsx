@@ -32,7 +32,7 @@ const Hero: React.FC = () => {
 					<>
 						<a
 							href="/profile"
-							className="inline-block bg-[var(--color-primary)] px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-lg rounded-full font-semibold"
+							className="inline-block bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-lg rounded-full font-semibold"
 						>
 							{t("hero.button")}
 						</a>
@@ -41,7 +41,7 @@ const Hero: React.FC = () => {
 					<>
 						<a
 							href="/login"
-							className="inline-block bg-[var(--color-primary)] px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-lg rounded-full font-semibold"
+							className="inline-block bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-lg rounded-full font-semibold"
 						>
 							{t("hero.button")}
 						</a>

@@ -5,11 +5,13 @@ import { confirmPasswordResetRequest } from "../services/AuthService";
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
+import { TFunction } from "i18next";
+import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
 import * as Yup from "yup";
 import bgImage from "../assets/hero_main.png";
 
 const PasswordResetConfirm: React.FC = () => {
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
 	const [message, setMessage] = useState<string | null>(null);
 	const [isError, setIsError] = useState<boolean>(false);
 	const [searchParams] = useSearchParams();
@@ -25,7 +27,7 @@ const PasswordResetConfirm: React.FC = () => {
 		}
 	}, [uid, token]);
 
-	const getValidationSchema = (t: any) =>
+	const getValidationSchema = (t: TFunction) =>
 		Yup.object({
 			newPassword: Yup.string()
 				.min(8, t("errors.min_password"))
@@ -71,11 +73,7 @@ const PasswordResetConfirm: React.FC = () => {
 		},
 	});
 
-	useEffect(() => {
-		if (formik.submitCount > 0 || Object.keys(formik.errors).length > 0) {
-			formik.validateForm();
-		}
-	}, [i18n.language]);
+	useRevalidateOnLangChange(formik);
 
 	return (
 		<>
@@ -88,7 +86,7 @@ const PasswordResetConfirm: React.FC = () => {
 					backgroundPosition: "center",
 				}}
 			>
-				<div className="w-[340px] sm:w-[450px] bg-[#F6F0FA] rounded shadow-lg p-6 my-26">
+				<div className="w-[340px] sm:w-[450px] bg-[var(--color-bg-main)] rounded shadow-lg p-6 my-26">
 					<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
 						{t("auth.reset_confirm")}
 					</h2>
@@ -145,7 +143,7 @@ const PasswordResetConfirm: React.FC = () => {
 
 						<button
 							type="submit"
-							className="block mx-auto mt-10 bg-[#4A1158] text-white rounded-full text-base sm:text-lg w-[157px] sm:w-[176px] h-[42px]"
+							className="block mx-auto mt-10 bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] text-white rounded-full text-base sm:text-lg w-[157px] sm:w-[176px] h-[42px]"
 						>
 							{t("auth.reset_confirm_button")}
 						</button>

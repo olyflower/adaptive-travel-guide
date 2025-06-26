@@ -2,7 +2,10 @@
 @import "tailwindcss";
 
 :root {
-	--color-primary: #4A1158;
-	--color-text-muted: #4C4C4C;
+	--color-purple: #4a1158;
+	--color-purple-hover: #1a041f;
+	--color-text-muted: #4c4c4c;
+	--color-bg: #f0edf2;
+	--color-bg-main: #f6f0fa;
 	font-family: "Raleway", system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
