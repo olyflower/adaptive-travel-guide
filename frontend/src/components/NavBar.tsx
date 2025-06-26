@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
 	};
 
 	return (
-		<nav className="bg-[#F0EDF2] px-4 py-4 w-full z-50 top-0 h-auto md:h-[150px]">
+		<nav className="bg-[var(--color-bg)] px-4 py-4 w-full z-50 top-0 h-auto md:h-[150px]">
 			<div className="max-w-screen-xl mx-auto w-full flex items-center justify-between relative flex-wrap h-full">
 				<Link to="/" className="flex items-center z-10">
 					<img
@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
 				</Link>
 
 				<button
-					className="md:hidden text-3xl text-[var(--color-primary)] z-10"
+					className="md:hidden text-3xl text-[var(--color-purple)] hover:text-[var(--color-purple-hover)] z-10"
 					onClick={toggleMenu}
 					aria-label={t("nav.menu")}
 				>
@@ -38,9 +38,9 @@ const Navbar: React.FC = () => {
 				<div
 					className={`${
 						isOpen ? "block" : "hidden"
-					} w-full bg-[#F0EDF2] px-6 py-4 flex-col md:flex md:flex-row md:static md:w-auto md:items-center md:justify-center md:flex-1 md:bg-transparent md:py-0 md:px-0`}
+					} w-full bg-[var(--color-bg)] px-6 py-4 flex-col md:flex md:flex-row md:static md:w-auto md:items-center md:justify-center md:flex-1 md:bg-transparent md:py-0 md:px-0`}
 				>
-					<ul className="flex flex-col text-lg md:flex-row md:space-x-10 font-medium text-center w-full justify-center [&_a]:hover:text-[#4A1158]">
+					<ul className="flex flex-col text-lg md:flex-row md:space-x-10 font-medium text-center w-full justify-center [&_a]:hover:text-[var(--color-purple)]">
 						<li>
 							<Link to="/" onClick={() => setIsOpen(false)}>
 								{t("nav.home")}
@@ -66,7 +66,7 @@ const Navbar: React.FC = () => {
 						<div className="relative">
 							<button
 								onClick={() => setMenuOpen(!menuOpen)}
-								className="text-2xl text-[var(--color-primary)] hover:text-[#4A1158] transition duration-300"
+								className="text-[var(--color-purple)] hover:text-[var(--color-purple-hover)] focus:outline-none cursor-pointer transition duration-300"
 							>
 								<FaUserCircle size={36} />
 							</button>
@@ -125,7 +125,7 @@ const Navbar: React.FC = () => {
 													setIsOpen(false);
 												}}
 											>
-												{t("nav.login")}
+												{t("auth.login")}
 											</Link>
 											<div className="px-4 py-2">
 												<GoogleLoginButton />
@@ -143,12 +143,9 @@ const Navbar: React.FC = () => {
 					<div>
 						<button
 							onClick={() => setMenuOpen(!menuOpen)}
-							className="text-2xl text-[#4A1158] focus:outline-none"
+							className="text-[var(--color-purple)] hover:text-[var(--color-purple-hover)] focus:outline-none cursor-pointer transition duration-300"
 						>
-							<FaUserCircle
-								size={52}
-								className={"text-[#4A1158]"}
-							/>
+							<FaUserCircle size={52} />
 						</button>
 						{menuOpen && (
 							<div className="absolute right-0 mt-2 w-64 bg-white rounded shadow-md z-20">

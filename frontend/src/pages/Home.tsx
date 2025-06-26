@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 
 const Home: React.FC = () => {
 	return (
-		<div className="min-h-screen bg-[#F6F0FA]">
+		<div className="min-h-screen bg-[var(--color-bg-main)]">
 			<NavBar />
 			<Hero />
 			<TravelStylePicker />

@@ -1,21 +1,23 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
+import { TFunction } from "i18next";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { registerUserRequest } from "../services/AuthService";
+import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
 import bgImage from "../assets/hero_main.png";
 
 const Register: React.FC = () => {
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { login } = useAuth();
 	const navigate = useNavigate();
 	const [message, setMessage] = useState<string | null>(null);
 
-	const getValidationSchema = (t: any) =>
+	const getValidationSchema = (t: TFunction) =>
 		Yup.object({
 			email: Yup.string()
 				.email(t("errors.email_format"))
@@ -65,11 +67,8 @@ const Register: React.FC = () => {
 		},
 	});
 
-	useEffect(() => {
-		if (formik.submitCount > 0 || Object.keys(formik.errors).length > 0) {
-			formik.validateForm();
-		}
-	}, [i18n.language]);
+	useRevalidateOnLangChange(formik);
+
 	return (
 		<>
 			<Navbar></Navbar>
@@ -81,7 +80,7 @@ const Register: React.FC = () => {
 					backgroundPosition: "center",
 				}}
 			>
-				<div className="w-[340px] sm:w-[455px] bg-[#F6F0FA] rounded shadow-lg p-6 my-20">
+				<div className="w-[340px] sm:w-[455px] bg-[var(--color-bg-main)] rounded shadow-lg p-6 my-20">
 					<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
 						{t("auth.register")}
 					</h2>
@@ -191,7 +190,7 @@ const Register: React.FC = () => {
 
 						<button
 							type="submit"
-							className="py-2 px-4 bg-[#4A1158] text-white rounded-full mt-8 text-base sm:text-lg block mx-auto"
+							className="py-2 px-4 bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] text-white rounded-full mt-8 text-base sm:text-lg block mx-auto"
 						>
 							{t("auth.button_register")}
 						</button>

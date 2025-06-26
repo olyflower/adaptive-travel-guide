@@ -15,8 +15,8 @@ const LanguageSwitcher: React.FC = () => {
 				onClick={() => changeLanguage("uk")}
 				className={`text-sm mx-2 transition-colors ${
 					currentLang === "uk"
-						? "text-[var(--color-primary)] font-semibold"
-						: "text-[var(--color-text-muted)] hover:text-[var(--color-primary)]"
+						? "text-[var(--color-purple)] font-semibold"
+						: "text-[var(--color-text-muted)] hover:text-[var(--color-purple-hover)]"
 				}`}
 			>
 				{t("footer.ukr")}
@@ -27,8 +27,8 @@ const LanguageSwitcher: React.FC = () => {
 				onClick={() => changeLanguage("en")}
 				className={`text-sm mx-2 transition-colors ${
 					currentLang === "en"
-						? "text-[var(--color-primary)] font-semibold"
-						: "text-[var(--color-text-muted)] hover:text-[var(--color-primary)]"
+						? "text-[var(--color-purple)] font-semibold"
+						: "text-[var(--color-text-muted)] hover:text-[var(--color-purple-hover)]"
 				}`}
 			>
 				{t("footer.eng")}

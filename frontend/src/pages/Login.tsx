@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -6,16 +6,18 @@ import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
+import { TFunction } from "i18next";
+import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
 import * as Yup from "yup";
 import bgImage from "../assets/hero_main.png";
 
 const Login: React.FC = () => {
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
 	const { login } = useAuth();
 	const navigate = useNavigate();
 	const [message, setMessage] = useState<string | null>(null);
 
-	const getValidationSchema = (t: any) =>
+	const getValidationSchema = (t: TFunction) =>
 		Yup.object({
 			email: Yup.string()
 				.email(t("errors.email_format"))
@@ -47,11 +49,7 @@ const Login: React.FC = () => {
 		},
 	});
 
-	useEffect(() => {
-		if (formik.submitCount > 0 || Object.keys(formik.errors).length > 0) {
-			formik.validateForm();
-		}
-	}, [i18n.language]);
+	useRevalidateOnLangChange(formik);
 
 	return (
 		<>
@@ -64,10 +62,7 @@ const Login: React.FC = () => {
 					backgroundPosition: "center",
 				}}
 			>
-				<div
-					key={i18n.language}
-					className="w-[340px] sm:w-[455px] bg-[#F6F0FA] rounded shadow-lg p-6 my-20"
-				>
+				<div className="w-[340px] sm:w-[455px] bg-[var(--color-bg-main)] rounded shadow-lg p-6 my-20">
 					<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
 						{t("auth.login")}
 					</h2>
@@ -125,7 +120,7 @@ const Login: React.FC = () => {
 
 						<button
 							type="submit"
-							className="py-2 px-4 bg-[#4A1158] text-white rounded-full mt-12 text-base sm:text-lg block mx-auto w-[125px] sm:w-[190px]"
+							className="py-2 px-4 bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] text-white rounded-full mt-12 text-base sm:text-lg block mx-auto w-[125px] sm:w-[190px]"
 						>
 							{t("auth.submit_button")}
 						</button>
@@ -134,7 +129,7 @@ const Login: React.FC = () => {
 					<div className="mt-4 flex flex-col items-center space-y-2">
 						<Link
 							to="/forgot-password"
-							className="hover:underline hover:decoration-[#4A1158]"
+							className="hover:underline hover:decoration-[var(--color-purple)]"
 						>
 							{t("auth.forgot_password")}
 						</Link>
