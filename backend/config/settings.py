@@ -21,6 +21,11 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 FRONTEND_URL = os.getenv('FRONTEND_URL')
+OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
+OPENWEATHER_BASE_URL= os.getenv('OPENWEATHER_BASE_URL')
+EXCHANGERATE_API_KEY = os.getenv('EXCHANGERATE_API_KEY')
+EXCHANGERATE_BASE_URL = os.getenv('EXCHANGERATE_BASE_URL')
+WIKIPEDIA_BASE_URL = os.getenv('WIKIPEDIA_BASE_URL')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -50,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'drf_spectacular',
     'accounts',
+	'live_data',
 ]
 
 MIDDLEWARE = [

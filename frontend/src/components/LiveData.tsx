@@ -1,57 +1,113 @@
-import React from "react";
-import { FaCloudSun, FaEuroSign, FaCalendarAlt } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import {
+	loadWeatherData,
+	WeatherData,
+	getCurrencyByCountry,
+	loadExchangeRate,
+} from "../services/LiveDataService";
+import { useTranslation } from "react-i18next";
+import { FaCloudSun, FaEuroSign } from "react-icons/fa";
+import ClipLoader from "react-spinners/ClipLoader";
 import BgImage from "../assets/livedata.png";
 
+const iconBaseUrl = import.meta.env.VITE_OPENWEATHER_ICON_URL;
+
 const LiveData: React.FC = () => {
+	const { t } = useTranslation();
+
+	const [weather, setWeather] = useState<WeatherData | null>(null);
+	const [currency, setCurrency] = useState<string | null>(null);
+	const [exchangeRate, setExchangeRate] = useState<number | null>(null);
+
+	useEffect(() => {
+		const fetchWeatherAndFact = async () => {
+			const weatherData = await loadWeatherData();
+			if (weatherData) {
+				setWeather(weatherData);
+				setCurrency(getCurrencyByCountry(weatherData.country));
+			}
+		};
+		fetchWeatherAndFact();
+	}, []);
+
+	useEffect(() => {
+		if (!currency) return;
+
+		const fetchRate = async () => {
+			const rate = await loadExchangeRate(currency, "UAH");
+			if (rate !== null) setExchangeRate(rate);
+		};
+		fetchRate();
+	}, [currency]);
+
 	return (
 		<section className="w-full">
 			<div className="text-center py-10 px-4">
 				<h2 className="md:text-xl font-bold mb-2">
-					Актуальна інформація
+					{t("live_data.title")}
 				</h2>
-				<p className="text-sm md:text-base">
-					Погода, курс валют і події оновлюються щодня
-				</p>
 			</div>
 
 			<div className="max-w-6xl mx-auto px-4">
 				<div className="relative w-full h-[calc(40vh-3rem)] overflow-hidden rounded-lg">
 					<img
 						src={BgImage}
-						alt="City"
+						alt={t("live_data.alt_img")}
 						className="w-full h-full object-cover"
 					/>
 				</div>
 			</div>
 
-			<div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 py-10 px-4">
+			<div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 py-10 px-4">
 				<div className="p-6 text-center">
 					<div className="flex justify-center mb-3">
-						<FaCloudSun size={28} className="text-[#4A1158]" />
+						<FaCloudSun
+							size={28}
+							className="text-[var(--color-purple)]"
+						/>
 					</div>
-					<h3 className="text-lg font-semibold mb-2">Погода</h3>
-					<p className="text-2xl font-bold pb-2">☀️ 22°C</p>
-					<p className="text-sm">Париж</p>
+					<h3 className="text-lg font-semibold mb-2">
+						{t("live_data.weather")}
+					</h3>
+					{weather ? (
+						<>
+							<p className="text-2xl font-bold pb-2">
+								<img
+									src={`${iconBaseUrl}/${weather.icon}@2x.png`}
+									alt="Weather Icon"
+									className="inline w-8 h-8 mr-2 align-middle"
+								/>
+								{weather.temperature}°C
+							</p>
+							<p className="text-sm">{weather.city}</p>
+						</>
+					) : (
+						<div className="flex justify-center">
+							<ClipLoader size={30} />
+						</div>
+					)}
 				</div>
 
 				<div className="p-6 text-center">
 					<div className="flex justify-center mb-3">
-						<FaEuroSign size={28} className="text-[#4A1158]" />
+						<FaEuroSign
+							size={28}
+							className="text-[var(--color-purple)]"
+						/>
 					</div>
-					<h3 className="text-lg font-semibold mb-2">Курс валют</h3>
-					<p className="text-2xl font-bold pb-2">€ 47.35</p>
-					<p className="text-sm">EUR-UAH</p>
-				</div>
-
-				<div className="p-6 text-center">
-					<div className="flex justify-center mb-3">
-						<FaCalendarAlt size={28} className="text-[#4A1158]" />
-					</div>
-					<h3 className="text-lg font-semibold mb-2">Події</h3>
-					<p className="text-base font-medium mb-1 pb-2">
-						Фестиваль вуличної їжи
-					</p>
-					<p className="text-sm">12 червня, Париж</p>
+					<h3 className="text-lg font-semibold mb-2">
+						{t("live_data.currency")}
+					</h3>
+					{exchangeRate !== null && currency ? (
+						<>
+							<p className="text-2xl font-bold pb-2">
+								{currency} {exchangeRate.toFixed(2)}
+							</p>
+							<p className="text-sm">{currency} → UAH</p>
+						</>
+					) : (
+						<ClipLoader size={30} />
+					)}
 				</div>
 			</div>
 		</section>

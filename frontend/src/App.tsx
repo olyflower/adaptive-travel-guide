@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Layout from "./layout/Layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import PasswordResetRequest from "./pages/PasswordResetRequest";
@@ -20,22 +21,27 @@ function App() {
 			<GoogleOAuthProvider clientId={clientId}>
 				<Router>
 					<Routes>
-						<Route index element={<Home />} />
-						<Route path="/login" element={<Login />} />
-						<Route
-							path="/forgot-password"
-							element={<PasswordResetRequest />}
-						/>
-						<Route
-							path="/password-reset-confirm"
-							element={<PasswordResetConfirm />}
-						/>
-						<Route path="/register" element={<Register />} />
-						<Route path="/profile" element={<Profile />} />
-						<Route path="/edit-profile" element={<EditProfile />} />
-						<Route path="/about" element={<About />} />
-						<Route path="/contacts" element={<Contacts />} />
-						<Route path="/*" element={<PageNotFound />} />
+						<Route path="/" element={<Layout />}>
+							<Route index element={<Home />} />
+							<Route path="/login" element={<Login />} />
+							<Route
+								path="/forgot-password"
+								element={<PasswordResetRequest />}
+							/>
+							<Route
+								path="/password-reset-confirm"
+								element={<PasswordResetConfirm />}
+							/>
+							<Route path="/register" element={<Register />} />
+							<Route path="/profile" element={<Profile />} />
+							<Route
+								path="/edit-profile"
+								element={<EditProfile />}
+							/>
+							<Route path="/about" element={<About />} />
+							<Route path="/contacts" element={<Contacts />} />
+							<Route path="/*" element={<PageNotFound />} />
+						</Route>
 					</Routes>
 				</Router>
 			</GoogleOAuthProvider>

@@ -1,8 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import Navbar from "../components/NavBar";
-import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import { TFunction } from "i18next";
 import { useFormik } from "formik";
@@ -70,141 +68,126 @@ const Register: React.FC = () => {
 	useRevalidateOnLangChange(formik);
 
 	return (
-		<>
-			<Navbar></Navbar>
-			<div
-				className="flex items-center justify-center"
-				style={{
-					backgroundImage: `url(${bgImage})`,
-					backgroundSize: "cover",
-					backgroundPosition: "center",
-				}}
-			>
-				<div className="w-[340px] sm:w-[455px] bg-[var(--color-bg-main)] rounded shadow-lg p-6 my-20">
-					<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
-						{t("auth.register")}
-					</h2>
+		<div
+			className="flex items-center justify-center"
+			style={{
+				backgroundImage: `url(${bgImage})`,
+				backgroundSize: "cover",
+				backgroundPosition: "center",
+			}}
+		>
+			<div className="w-[340px] sm:w-[455px] bg-[var(--color-bg-main)] rounded shadow-lg p-6 my-20">
+				<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
+					{t("auth.register")}
+				</h2>
 
-					<form onSubmit={formik.handleSubmit} className="space-y-4 ">
-						<div>
-							<label
-								className="block font-medium"
-								htmlFor="email"
-							>
-								{t("auth.email")}
-							</label>
-							<input
-								id="email"
-								name="email"
-								type="email"
-								autoComplete="email"
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.email}
-								placeholder="you@example.com"
-								className="w-full px-3 py-2 border rounded text-sm"
-							/>
-							{formik.touched.email && formik.errors.email && (
+				<form onSubmit={formik.handleSubmit} className="space-y-4 ">
+					<div>
+						<label className="block font-medium" htmlFor="email">
+							{t("auth.email")}
+						</label>
+						<input
+							id="email"
+							name="email"
+							type="email"
+							autoComplete="email"
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.email}
+							placeholder="you@example.com"
+							className="w-full px-3 py-2 border rounded text-sm"
+						/>
+						{formik.touched.email && formik.errors.email && (
+							<p className="text-red-500 text-sm mt-1">
+								{formik.errors.email}
+							</p>
+						)}
+					</div>
+
+					<div>
+						<label className="block font-medium" htmlFor="username">
+							{t("auth.username")}
+						</label>
+						<input
+							id="username"
+							name="username"
+							type="text"
+							autoComplete="username"
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.username}
+							placeholder="mandrivnyk123"
+							className="w-full px-3 py-2 border rounded text-sm"
+						/>
+						{formik.touched.username && formik.errors.username && (
+							<p className="text-red-500 text-sm mt-1">
+								{formik.errors.username}
+							</p>
+						)}
+					</div>
+
+					<div>
+						<label className="block font-medium" htmlFor="password">
+							{t("auth.password")}
+						</label>
+						<input
+							id="password"
+							name="password"
+							type="password"
+							autoComplete="new-password"
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.password}
+							placeholder={t("auth.placeholder")}
+							className="w-full px-3 py-2 border rounded text-sm"
+						/>
+						{formik.touched.password && formik.errors.password && (
+							<p className="text-red-500 text-sm mt-1">
+								{formik.errors.password}
+							</p>
+						)}
+					</div>
+					<div>
+						<label
+							className="block font-medium"
+							htmlFor="confirmPassword"
+						>
+							{t("auth.password_confirm")}
+						</label>
+						<input
+							id="confirmPassword"
+							name="confirmPassword"
+							type="password"
+							autoComplete="new-password"
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.confirmPassword}
+							placeholder={t("auth.placeholder_confirm")}
+							className="w-full px-3 py-2 border rounded text-sm"
+						/>
+						{formik.touched.confirmPassword &&
+							formik.errors.confirmPassword && (
 								<p className="text-red-500 text-sm mt-1">
-									{formik.errors.email}
+									{formik.errors.confirmPassword}
 								</p>
 							)}
-						</div>
+					</div>
 
-						<div>
-							<label
-								className="block font-medium"
-								htmlFor="username"
-							>
-								{t("auth.username")}
-							</label>
-							<input
-								id="username"
-								name="username"
-								type="text"
-								autoComplete="username"
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.username}
-								placeholder="mandrivnyk123"
-								className="w-full px-3 py-2 border rounded text-sm"
-							/>
-							{formik.touched.username &&
-								formik.errors.username && (
-									<p className="text-red-500 text-sm mt-1">
-										{formik.errors.username}
-									</p>
-								)}
-						</div>
+					<button
+						type="submit"
+						className="py-2 px-4 bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] text-white rounded-full mt-8 text-base sm:text-lg block mx-auto"
+					>
+						{t("auth.button_register")}
+					</button>
+				</form>
 
-						<div>
-							<label
-								className="block font-medium"
-								htmlFor="password"
-							>
-								{t("auth.password")}
-							</label>
-							<input
-								id="password"
-								name="password"
-								type="password"
-								autoComplete="new-password"
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.password}
-								placeholder={t("auth.placeholder")}
-								className="w-full px-3 py-2 border rounded text-sm"
-							/>
-							{formik.touched.password &&
-								formik.errors.password && (
-									<p className="text-red-500 text-sm mt-1">
-										{formik.errors.password}
-									</p>
-								)}
-						</div>
-						<div>
-							<label
-								className="block font-medium"
-								htmlFor="confirmPassword"
-							>
-								{t("auth.password_confirm")}
-							</label>
-							<input
-								id="confirmPassword"
-								name="confirmPassword"
-								type="password"
-								autoComplete="new-password"
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.confirmPassword}
-								placeholder={t("auth.placeholder_confirm")}
-								className="w-full px-3 py-2 border rounded text-sm"
-							/>
-							{formik.touched.confirmPassword &&
-								formik.errors.confirmPassword && (
-									<p className="text-red-500 text-sm mt-1">
-										{formik.errors.confirmPassword}
-									</p>
-								)}
-						</div>
-
-						<button
-							type="submit"
-							className="py-2 px-4 bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] text-white rounded-full mt-8 text-base sm:text-lg block mx-auto"
-						>
-							{t("auth.button_register")}
-						</button>
-					</form>
-
-					{message && (
-						<p className="mt-2 text-center text-sm text-red-500">
-							{t(message)}
-						</p>
-					)}
-				</div>
+				{message && (
+					<p className="mt-2 text-center text-sm text-red-500">
+						{t(message)}
+					</p>
+				)}
 			</div>
-			<Footer />
-		</>
+		</div>
 	);
 };
 
