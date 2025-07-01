@@ -5,8 +5,6 @@ import { requestPasswordResetRequest } from "../services/AuthService";
 import { useTranslation } from "react-i18next";
 import { TFunction } from "i18next";
 import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
-import Navbar from "../components/NavBar";
-import Footer from "../components/Footer";
 import * as Yup from "yup";
 import bgImage from "../assets/hero_main.png";
 
@@ -50,8 +48,6 @@ const PasswordResetRequest: React.FC = () => {
 	useRevalidateOnLangChange(formik);
 
 	return (
-		<>
-			<Navbar />
 			<div
 				className="flex items-center justify-center"
 				style={{
@@ -108,8 +104,6 @@ const PasswordResetRequest: React.FC = () => {
 					)}
 				</div>
 			</div>
-			<Footer />
-		</>
 	);
 };
 

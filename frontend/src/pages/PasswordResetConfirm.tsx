@@ -2,8 +2,6 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { confirmPasswordResetRequest } from "../services/AuthService";
-import Navbar from "../components/NavBar";
-import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
 import { TFunction } from "i18next";
 import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
@@ -76,92 +74,88 @@ const PasswordResetConfirm: React.FC = () => {
 	useRevalidateOnLangChange(formik);
 
 	return (
-		<>
-			<Navbar />
-			<div
-				className="flex items-center justify-center"
-				style={{
-					backgroundImage: `url(${bgImage})`,
-					backgroundSize: "cover",
-					backgroundPosition: "center",
-				}}
-			>
-				<div className="w-[340px] sm:w-[450px] bg-[var(--color-bg-main)] rounded shadow-lg p-6 my-26">
-					<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
-						{t("auth.reset_confirm")}
-					</h2>
-					<form onSubmit={formik.handleSubmit} className="space-y-4">
-						<div>
-							<label
-								className="block font-medium"
-								htmlFor="newPassword"
-							>
-								{t("auth.new_password")}
-							</label>
-							<input
-								id="newPassword"
-								name="newPassword"
-								type="password"
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.newPassword}
-								placeholder={t("auth.placeholder")}
-								className="w-full px-3 py-2 border rounded text-sm"
-							/>
-							{formik.touched.newPassword &&
-								formik.errors.newPassword && (
-									<p className="text-red-500 text-sm mt-1">
-										{formik.errors.newPassword}
-									</p>
-								)}
-						</div>
-
-						<div>
-							<label
-								className="block font-medium"
-								htmlFor="confirmPassword"
-							>
-								{t("auth.placeholder_confirm")}
-							</label>
-							<input
-								id="confirmPassword"
-								name="confirmPassword"
-								type="password"
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
-								value={formik.values.confirmPassword}
-								placeholder={t("auth.placeholder_new_confirm")}
-								className="w-full px-3 py-2 border rounded text-sm"
-							/>
-							{formik.touched.confirmPassword &&
-								formik.errors.confirmPassword && (
-									<p className="text-red-500 text-sm mt-1">
-										{formik.errors.confirmPassword}
-									</p>
-								)}
-						</div>
-
-						<button
-							type="submit"
-							className="block mx-auto mt-10 bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] text-white rounded-full text-base sm:text-lg w-[157px] sm:w-[176px] h-[42px]"
+		<div
+			className="flex items-center justify-center"
+			style={{
+				backgroundImage: `url(${bgImage})`,
+				backgroundSize: "cover",
+				backgroundPosition: "center",
+			}}
+		>
+			<div className="w-[340px] sm:w-[450px] bg-[var(--color-bg-main)] rounded shadow-lg p-6 my-26">
+				<h2 className="text-2xl sm:text-3xl font-medium mb-4 text-center">
+					{t("auth.reset_confirm")}
+				</h2>
+				<form onSubmit={formik.handleSubmit} className="space-y-4">
+					<div>
+						<label
+							className="block font-medium"
+							htmlFor="newPassword"
 						>
-							{t("auth.reset_confirm_button")}
-						</button>
-					</form>
+							{t("auth.new_password")}
+						</label>
+						<input
+							id="newPassword"
+							name="newPassword"
+							type="password"
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.newPassword}
+							placeholder={t("auth.placeholder")}
+							className="w-full px-3 py-2 border rounded text-sm"
+						/>
+						{formik.touched.newPassword &&
+							formik.errors.newPassword && (
+								<p className="text-red-500 text-sm mt-1">
+									{formik.errors.newPassword}
+								</p>
+							)}
+					</div>
 
-					{message && (
-						<p
-							className={`mt-2 text-center text-sm ${
-								isError ? "text-red-500" : "text-blue-700"
-							}`}
+					<div>
+						<label
+							className="block font-medium"
+							htmlFor="confirmPassword"
 						>
-							{t(message)}
-						</p>
-					)}
-				</div>
+							{t("auth.placeholder_confirm")}
+						</label>
+						<input
+							id="confirmPassword"
+							name="confirmPassword"
+							type="password"
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+							value={formik.values.confirmPassword}
+							placeholder={t("auth.placeholder_new_confirm")}
+							className="w-full px-3 py-2 border rounded text-sm"
+						/>
+						{formik.touched.confirmPassword &&
+							formik.errors.confirmPassword && (
+								<p className="text-red-500 text-sm mt-1">
+									{formik.errors.confirmPassword}
+								</p>
+							)}
+					</div>
+
+					<button
+						type="submit"
+						className="block mx-auto mt-10 bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] text-white rounded-full text-base sm:text-lg w-[157px] sm:w-[176px] h-[42px]"
+					>
+						{t("auth.reset_confirm_button")}
+					</button>
+				</form>
+
+				{message && (
+					<p
+						className={`mt-2 text-center text-sm ${
+							isError ? "text-red-500" : "text-blue-700"
+						}`}
+					>
+						{t(message)}
+					</p>
+				)}
 			</div>
-			<Footer />
-		</>
+		</div>
 	);
 };
 

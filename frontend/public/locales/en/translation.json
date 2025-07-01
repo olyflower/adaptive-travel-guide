@@ -71,6 +71,14 @@
 		"email_sent": "A letter with instructions has been sent to your email.",
 		"email_change": "Password changed successfully. You can log in."
 	},
+	"live_data": {
+		"title": "Current information",
+		"weather": "Weather",
+		"currency": "Currency exchange rate",
+		"fact": "Info",
+		"alt_img": "City",
+		"icon_weather": "Weather Icon"
+	},
 	"not_found": {
 		"404": "404",
 		"page_not_found": "Page not found",
