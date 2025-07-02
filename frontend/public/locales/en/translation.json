@@ -1,7 +1,7 @@
 {
 	"nav": {
 		"home": "Home",
-		"about": "About Us",
+		"about": "About",
 		"contacts": "Contacts",
 		"profile": "Profile",
 		"edit_profile": "Edit Profile",
@@ -79,9 +79,29 @@
 		"alt_img": "City",
 		"icon_weather": "Weather Icon"
 	},
+	"travel_picker": {
+		"title": "Choose your travel style",
+		"gourmet": "Gourmet",
+		"urban": "Urbanist",
+		"nature": "Nature researcher",
+		"artist": "Connoisseur of style",
+		"style": "Artist"
+	},
 	"not_found": {
 		"404": "404",
 		"page_not_found": "Page not found",
 		"return_home": "Return to home page"
+	},
+	"about": {
+		"title": "About the project Adaptive Travel Guide",
+		"img_alt": "Nature",
+		"p1": "This project is a web application that functions as an adaptive travel guide, focused on personalizing some aspects of the trip, including the choice of locations, activities, gastronomy, cultural events, and other elements that form a complete travel experience.",
+		"p2": "The web application is distinguished by a comprehensive approach, providing a personalized travel experience in a convenient, unified interface - taking into account the purpose of the trip, the user's interests, and external conditions.",
+		"p3": "Technologies used: React, TypeScript, TailwindCSS, Python, Django and OpenWeatherMap API."
+	},
+	"contacts": {
+		"title": "Contacts",
+		"p1": "Hello! My name is Olga. I am the author and developer of the Adaptive Travel Guide project, created as part of my coursework/diploma work.",
+		"p2": "Contact:"
 	}
 }
