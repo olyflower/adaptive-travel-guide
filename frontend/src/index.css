@@ -9,3 +9,14 @@
 	--color-bg-main: #f6f0fa;
 	font-family: "Raleway", system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+
+/* slick-dots custom styling color */
+.slick-dots li button:before {
+	color: var(--color-purple) !important;
+
+	font-size: 12px;
+}
+
+.slick-dots li.slick-active button:before {
+	color: var(--color-purple) !important;
+}
