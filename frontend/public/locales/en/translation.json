@@ -97,7 +97,7 @@
 		"img_alt": "Nature",
 		"p1": "This project is a web application that functions as an adaptive travel guide, focused on personalizing some aspects of the trip, including the choice of locations, activities, gastronomy, cultural events, and other elements that form a complete travel experience.",
 		"p2": "The web application is distinguished by a comprehensive approach, providing a personalized travel experience in a convenient, unified interface - taking into account the purpose of the trip, the user's interests, and external conditions.",
-		"p3": "Technologies used: React, TypeScript, TailwindCSS, Python, Django and OpenWeatherMap API."
+		"p3": "Technologies used: React, TypeScript, TailwindCSS, Python, Django, Docker and OpenWeatherMap API."
 	},
 	"contacts": {
 		"title": "Contacts",
