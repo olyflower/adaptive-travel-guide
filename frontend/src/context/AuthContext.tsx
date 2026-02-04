@@ -26,8 +26,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	useEffect(() => {
 		const checkStatus = async () => {
-			const isAuth = await checkAuthStatusRequest();
-			setIsAuthenticated(isAuth);
+			try {
+				const isAuth = await checkAuthStatusRequest();
+				setIsAuthenticated(isAuth);
+			} catch (error) {
+				setIsAuthenticated(false);	
+			}
 		};
 
 		checkStatus();

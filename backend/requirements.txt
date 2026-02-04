@@ -8,7 +8,7 @@ charset-normalizer==3.4.2
 click==8.2.1
 cryptography==44.0.3
 defusedxml==0.7.1
-Django==5.2
+Django==5.2.1
 django-admin-interface==0.30.1
 django-colorfield==0.14.0
 django-cors-headers==4.7.0

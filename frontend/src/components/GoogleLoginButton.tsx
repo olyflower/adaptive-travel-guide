@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
 
 const GoogleLoginButton: React.FC = () => {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const { login } = useAuth();
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -30,7 +30,11 @@ const GoogleLoginButton: React.FC = () => {
 
 	return (
 		<div>
-			<GoogleLogin onSuccess={handleSuccess} onError={handleError} />
+			<GoogleLogin
+				onSuccess={handleSuccess}
+				onError={handleError}
+				locale={i18n.language}
+			/>
 			{errorMessage && (
 				<p className="text-red-500 text-[12px] mt-2 text-center">
 					{t(errorMessage)}

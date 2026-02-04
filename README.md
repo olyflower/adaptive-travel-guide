@@ -61,6 +61,9 @@ npm run dev
 Після запуску (будь-яким способом) застосунок доступний за адресами:
 
 Фронтенд: http://localhost:5173
+
 Бекенд: http://localhost:8000
+
 Адмін-панель: http://localhost:8000/admin/
+
 Документація API: http://localhost:8000/api/docs/
