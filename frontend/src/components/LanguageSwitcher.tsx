@@ -2,37 +2,36 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 const LanguageSwitcher: React.FC = () => {
-	const { t } = useTranslation();
-	const { i18n } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const currentLang = i18n.language;
-	const changeLanguage = (lng: string) => {
-		i18n.changeLanguage(lng);
-	};
+
+	const languages = [
+		{ code: "uk", label: t("footer.ukr") },
+		{ code: "en", label: t("footer.eng") },
+	];
 
 	return (
-		<div className="mt-4 text-center">
-			<button
-				onClick={() => changeLanguage("uk")}
-				className={`text-sm mx-2 transition-colors ${
-					currentLang === "uk"
-						? "text-[var(--color-purple)] font-semibold"
-						: "text-[var(--color-text-muted)] hover:text-[var(--color-purple-hover)]"
-				}`}
-			>
-				{t("footer.ukr")}
-			</button>
+		<div className="mt-4 text-center flex justify-center items-center space-x-2">
+			{languages.map((lang, index) => (
+				<React.Fragment key={lang.code}>
+					<button
+						onClick={() => i18n.changeLanguage(lang.code)}
+						className={`text-sm transition-colors cursor-pointer ${
+							currentLang === lang.code
+								? "text-(--color-primary) font-semibold"
+								: "text-(--color-text) hover:text-(--color-primary-hover)"
+						}`}
+					>
+						{lang.label}
+					</button>
 
-			<span className="text-sm">|</span>
-			<button
-				onClick={() => changeLanguage("en")}
-				className={`text-sm mx-2 transition-colors ${
-					currentLang === "en"
-						? "text-[var(--color-purple)] font-semibold"
-						: "text-[var(--color-text-muted)] hover:text-[var(--color-purple-hover)]"
-				}`}
-			>
-				{t("footer.eng")}
-			</button>
+					{index < languages.length - 1 && (
+						<span className="text-sm text-(--color-text-muted)">
+							|
+						</span>
+					)}
+				</React.Fragment>
+			))}
 		</div>
 	);
 };

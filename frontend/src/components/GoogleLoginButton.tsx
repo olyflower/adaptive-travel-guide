@@ -11,12 +11,10 @@ const GoogleLoginButton: React.FC = () => {
 	const handleSuccess = async (credentialResponse: CredentialResponse) => {
 		try {
 			const { credential: idToken } = credentialResponse;
-
 			if (!idToken) {
 				setErrorMessage("errors.google_error");
 				return;
 			}
-
 			await login(idToken);
 			setErrorMessage(null);
 		} catch (error) {
@@ -24,19 +22,24 @@ const GoogleLoginButton: React.FC = () => {
 		}
 	};
 
-	const handleError = () => {
-		setErrorMessage("errors.google_error_general");
-	};
-
 	return (
-		<div>
-			<GoogleLogin
-				onSuccess={handleSuccess}
-				onError={handleError}
-				locale={i18n.language}
-			/>
+		<div className="flex flex-col items-center w-full">
+			<div className="min-h-10 w-full flex justify-center">
+				<GoogleLogin
+					onSuccess={handleSuccess}
+					onError={() =>
+						setErrorMessage("errors.google_error_general")
+					}
+					locale={i18n.language}
+					theme="outline"
+					size="large"
+					shape="pill"
+					width="222"
+				/>
+			</div>
+
 			{errorMessage && (
-				<p className="text-red-500 text-[12px] mt-2 text-center">
+				<p className="text-(--color-red) text-xs mt-2 text-center animate-pulse">
 					{t(errorMessage)}
 				</p>
 			)}

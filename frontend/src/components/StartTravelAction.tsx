@@ -7,39 +7,32 @@ const StartTravelAction: React.FC = () => {
 	const { t } = useTranslation();
 	const { isAuthenticated } = useAuth();
 
+	const targetPath = isAuthenticated ? "/profile" : "/login";
+
 	return (
-		<section className="relative w-full h-auto py-12 mb-10">
-			<h2 className="relative md:text-xl font-bold text-center mb-6 z-10">
+		<section className="relative w-full h-auto py-12 mb-12 md:mb-38 px-4">
+			<h2 className="relative text-xl md:text-3xl font-bold text-center mb-8 text-(--color-text)">
 				{t("sta.title")}
 			</h2>
 
-			<div className="relative w-full h-[calc(50vh-3rem)] overflow-hidden flex flex-col">
-				<img
-					src={travelImg}
-					alt={t("sta.img_alt")}
-					className="absolute top-0 left-0 w-full h-full object-cover"
-				/>
+			<div className="relative w-full h-[50vh] min-h-75 overflow-hidden rounded-3xl shadow-xl flex flex-col">
+				<div className="absolute inset-0">
+					<img
+						src={travelImg}
+						alt={t("sta.img_alt")}
+						className="w-full h-full object-cover"
+					/>
 
-				<div className="relative z-10 mt-auto flex justify-center py-6">
-					{isAuthenticated ? (
-						<>
-							<a
-								href="/profile"
-								className="bg-[var(--color-purple)] text-white rounded-full font-semibold hover:bg-[var(--color-purple-hover)] transition inline-block px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-lg"
-							>
-								{t("sta.button")}
-							</a>
-						</>
-					) : (
-						<>
-							<a
-								href="/login"
-								className="bg-[var(--color-purple)] text-white rounded-full font-semibold hover:bg-[var(--color-purple-hover)] transition inline-block px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-lg"
-							>
-								{t("sta.button")}
-							</a>
-						</>
-					)}
+					<div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent"></div>
+				</div>
+
+				<div className="relative z-10 mt-auto flex justify-center py-10 md:py-14">
+					<a
+						href={targetPath}
+						className="btn-primary px-12 py-4 md:px-16 md:py-5 text-lg md:text-2xl shadow-2xl scale-110 hover:scale-125"
+					>
+						{t("sta.button")}
+					</a>
 				</div>
 			</div>
 		</section>

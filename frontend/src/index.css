@@ -2,21 +2,88 @@
 @import "tailwindcss";
 
 :root {
-	--color-purple: #4a1158;
-	--color-purple-hover: #1a041f;
-	--color-text-muted: #4c4c4c;
-	--color-bg: #f0edf2;
-	--color-bg-main: #f6f0fa;
-	font-family: "Raleway", system-ui, Avenir, Helvetica, Arial, sans-serif;
+	--color-primary: #6b207e;
+	--color-primary-hover: #1a041f;
+	--color-text: #12142d;
+	--color-text-btn: #d6ddff;
+	--color-bg-nav-footer: #f0edf2;
+	--color-bg-main: #ffffff;
+
+	--color-red: #d94e51;
+	--color-blue: #466be9;
+
+	--font-sans: "Raleway", system-ui, sans-serif;
 }
 
-/* slick-dots custom styling color */
-.slick-dots li button:before {
-	color: var(--color-purple) !important;
+.dark {
+	--color-primary: #cdacf5;
+	--color-primary-hover: #be91ee;
+	--color-text: #d6ddff;
+	--color-text-btn: #12142d;
+	--color-bg-nav-footer: #1b132b;
+	--color-bg-main: #110c1c;
 
+	--color-red: #ff6b6b;
+	--color-blue: #7ba4ff;
+}
+
+html,
+body {
+	background-color: var(--color-bg-main);
+	min-height: 100vh;
+	margin: 0;
+	transition: background-color 0.3s ease;
+}
+
+@utility btn-primary {
+  @apply bg-(--color-primary) 
+         text-(--color-text-btn) 
+         rounded-full 
+         font-semibold 
+         transition-all 
+         duration-300 
+         ease-in-out
+         hover:bg-(--color-primary-hover) 
+         hover:scale-105 
+         active:scale-95
+         shadow-lg
+         inline-block 
+         px-6 py-3 
+         text-sm sm:text-lg 
+         text-center 
+         cursor-pointer;
+}
+
+/* slider custom styles */
+.slick-dots li button:before {
+	color: var(--color-primary) !important;
 	font-size: 12px;
+	opacity: 0.25;
 }
 
 .slick-dots li.slick-active button:before {
-	color: var(--color-purple) !important;
+	color: var(--color-primary) !important;
+	opacity: 1;
+}
+
+.slick-prev,
+.slick-next {
+	border-radius: 50%;
+	transition: all 0.3s ease !important;
+}
+
+.slick-prev:before,
+.slick-next:before {
+	color: var(--color-primary) !important;
+	opacity: 1 !important;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+	background-color: var(--color-primary) !important;
+}
+
+.slick-prev:hover:before,
+.slick-next:hover:before {
+	color: var(--color-bg-main) !important;
 }

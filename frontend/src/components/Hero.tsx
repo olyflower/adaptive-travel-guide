@@ -7,46 +7,39 @@ const Hero: React.FC = () => {
 	const { t } = useTranslation();
 	const { isAuthenticated } = useAuth();
 
+	const targetPath = isAuthenticated ? "/profile" : "/login";
+
 	return (
-		<div className="relative w-full h-auto min-h-[60vh] md:min-h-[100vh] flex items-center justify-center mb-10 px-4">
+		<div className="relative w-full h-auto min-h-[60vh] md:min-h-screen flex items-center justify-center mb-10 px-4">
 			<img
 				className="absolute top-0 left-0 w-full h-full object-cover"
 				src={HeroImageDesktop}
 				alt={t("hero.img_alt")}
 			/>
 
-			<div className="relative z-10 text-center max-w-3xl text-white px-4">
+			<div className="relative z-10 text-center max-w-4xl text-white px-4">
 				<h1
-					className="text-2xl sm:text-4xl md:text-5xl font-bold mb-12 md:mb-24 drop-shadow-2xl"
-					style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)" }}
+					className="text-3xl sm:text-5xl md:text-7xl font-bold mb-8 md:mb-12 drop-shadow-2xl"
+					style={{ textShadow: "3px 3px 6px rgba(0, 0, 0, 0.7)" }}
 				>
 					{t("hero.title")}
 				</h1>
+
 				<p
-					className="text-base sm:text-lg md:text-xl mb-12 md:mb-24 drop-shadow-xl leading-loose"
+					className="text-lg sm:text-xl md:text-2xl mb-12 md:mb-16 drop-shadow-xl leading-relaxed max-w-2xl mx-auto"
 					style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)" }}
 				>
 					{t("hero.text")}
 				</p>
-				{isAuthenticated ? (
-					<>
-						<a
-							href="/profile"
-							className="inline-block bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-lg rounded-full font-semibold"
-						>
-							{t("hero.button")}
-						</a>
-					</>
-				) : (
-					<>
-						<a
-							href="/login"
-							className="inline-block bg-[var(--color-purple)] hover:bg-[var(--color-purple-hover)] px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-lg rounded-full font-semibold"
-						>
-							{t("hero.button")}
-						</a>
-					</>
-				)}
+
+				<div className="flex justify-center">
+					<a
+						href={targetPath}
+						className="btn-primary px-12 py-4 md:px-16 md:py-5 text-lg md:text-2xl shadow-2xl scale-110 hover:scale-125"
+					>
+						{t("hero.button")}
+					</a>
+				</div>
 			</div>
 		</div>
 	);

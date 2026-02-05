@@ -6,10 +6,13 @@ const About: React.FC = () => {
 	const { t } = useTranslation();
 
 	return (
-		<section className="w-full py-10 px-4 max-w-6xl mx-auto">
-			<h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
+		<section
+			className="w-full py-10 px-4 mt-8 md:mt-12 mb-24 md:mb-32 max-w-6xl 
+			mx-auto bg-(--color-background-main) text-(--color-text)"
+		>
+			<h1 className="text-2xl sm:text-3xl font-bold text-center mb-8">
 				{t("about.title")}
-			</h2>
+			</h1>
 
 			<div className="flex flex-col md:flex-row items-center gap-10">
 				<img

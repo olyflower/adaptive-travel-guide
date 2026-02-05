@@ -15,15 +15,19 @@ const PageNotFound: React.FC = () => {
 				backgroundPosition: "center",
 			}}
 		>
-			<div className="w-[340px] sm:w-[450px] bg-[var(--color-bg-main)] rounded shadow-lg p-6 flex flex-col items-center justify-center text-center">
-				<h1 className="text-[72px] font-extrabold mb-4 text-[var(--color-purple)]">
+			<div
+				className="relative z-10 w-85 sm:w-112.5 rounded-3xl shadow-2xl p-8 flex flex-col 
+      items-center justify-center text-center bg-(--color-bg-nav-footer) backdrop-blur-sm"
+			>
+				<h1 className="text-[80px] font-extrabold mb-2 text-(--color-primary) leading-none">
 					{t("not_found.404")}
 				</h1>
-				<p className="text-lg mb-6">{t("not_found.page_not_found")}</p>
-				<Link
-					to="/"
-					className="py-3 px-10 bg-[var(--color-purple)] text-white rounded-full hover:bg-[var(--color-purple-hover)]"
-				>
+
+				<p className="text-xl mb-8 text-(--color-text) font-medium">
+					{t("not_found.page_not_found")}
+				</p>
+
+				<Link to="/" className="btn-primary px-10">
 					{t("not_found.return_home")}
 				</Link>
 			</div>

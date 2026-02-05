@@ -7,7 +7,7 @@ import StartTravelAction from "../components/StartTravelAction";
 
 const Home: React.FC = () => {
 	return (
-		<div className="min-h-screen bg-[var(--color-bg-main)]">
+		<div>
 			<Hero />
 			<TravelStylePicker />
 			<LiveData />

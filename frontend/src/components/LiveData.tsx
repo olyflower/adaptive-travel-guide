@@ -41,7 +41,7 @@ const LiveData: React.FC = () => {
 	}, [currency]);
 
 	return (
-		<section className="w-full">
+		<section className="w-full text-(--color-text)">
 			<div className="text-center py-10 px-4">
 				<h2 className="md:text-xl font-bold mb-2">
 					{t("live_data.title")}
@@ -63,7 +63,7 @@ const LiveData: React.FC = () => {
 					<div className="flex justify-center mb-3">
 						<FaCloudSun
 							size={28}
-							className="text-[var(--color-purple)]"
+							className="text-(--color-primary) hover:text-(--color-primary-hover)"
 						/>
 					</div>
 					<h3 className="text-lg font-semibold mb-2">
@@ -92,7 +92,7 @@ const LiveData: React.FC = () => {
 					<div className="flex justify-center mb-3">
 						<FaEuroSign
 							size={28}
-							className="text-[var(--color-purple)]"
+							className="text-(--color-primary) hover:text-(--color-primary-hover)"
 						/>
 					</div>
 					<h3 className="text-lg font-semibold mb-2">

@@ -13,7 +13,7 @@ const Features: React.FC = () => {
 	const { t } = useTranslation();
 
 	return (
-		<section className="py-12 px-4">
+		<section className="py-12 px-4 mb-12 md:mb-24 text-(--color-text)">
 			<h2 className="md:text-xl font-bold text-center mb-10 ">
 				{t("features.title")}
 			</h2>
@@ -21,13 +21,18 @@ const Features: React.FC = () => {
 				{features.map(({ icon: Icon, titleKey }, index) => (
 					<div
 						key={index}
-						className="flex flex-col items-center text-center py-3 px-4 bg-[var(--color-bg)] rounded-2xl shadow hover:shadow-md transition h-[140px] sm:h-[160px] md:h-[160px] justify-center"
+						className="flex flex-col items-center text-center py-3 px-4 rounded-2xl shadow-sm 
+						hover:shadow-md hover:-translate-y-1 transition-all duration-300
+						h-35 sm:h-40 md:h-40 justify-center bg-(--color-bg-nav-footer) group"
 					>
 						<Icon
 							size={28}
-							className="text-[var(--color-purple)] hover:text-[var(--color-purple-hover)]"
+							className="text-(--color-primary) group-hover:text-(--color-primary-hover) transition-colors duration-300"
 						/>
-						<p className="mt-4 text-xs sm:text-sm md:text-base font-medium">
+						<p
+							className="mt-4 text-xs sm:text-sm md:text-base font-medium text-(--color-text) 
+						group-hover:text-(--color-primary-hover) transition-colors duration-300"
+						>
 							{t(`features.${titleKey}`)}
 						</p>
 					</div>
