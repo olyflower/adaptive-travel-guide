@@ -1,9 +1,8 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import contactImage from "../assets/code.jpg";
 
-const Contacts: React.FC = () => {
+const Contacts = () => {
 	const { t } = useTranslation();
 
 	const contactLinks = [
@@ -31,7 +30,12 @@ const Contacts: React.FC = () => {
 	];
 
 	return (
-		<section className="w-full py-12 px-4 max-w-6xl mx-auto text-(--color-text) bg-(--color-background-main) mt-8 md:mt-12 mb-24 md:mb-32">
+		<section
+			className="w-full py-12 px-4 max-w-6xl mx-auto text-(--color-text) bg-(--color-background-main) 
+		mt-8 md:mt-12 mb-24 md:mb-32"
+		>
+			<title>{t("meta.contacts_title")}</title>
+			<meta name="description" content={t("meta.contacts_description")} />
 			<h1 className="text-3xl font-bold text-center mb-8">
 				{t("contacts.title")}
 			</h1>

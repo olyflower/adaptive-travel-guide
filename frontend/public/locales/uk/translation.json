@@ -104,5 +104,11 @@
 		"title": "Контакти",
 		"p1": "Привіт! Мене звуть Ольга. Я автор і розробниця проекту Adaptive Travel Guide, створеного в рамках курсової/дипломної роботи.",
 		"p2": "Зв'язатись:"
+	},
+	"meta": {
+		"about_title": "Про проект | Adaptive Travel Guide",
+		"about_description": "Дізнайтеся більше про розумний гід, який підлаштовується під ваші інтереси.",
+		"contacts_title": "Контакти | Adaptive Travel Guide",
+		"contacts_description": "Сторінка контактів"
 	}
 }

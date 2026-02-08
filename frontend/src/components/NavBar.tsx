@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { useAuth } from "../context/AuthContext";
 import { FaUserCircle, FaTimes, FaBars } from "react-icons/fa";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 import { useTranslation } from "react-i18next";
+import ThemeToggle from "./ThemeToggle";
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
 	const { t } = useTranslation();
 	const [isOpen, setIsOpen] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -33,13 +34,16 @@ const Navbar: React.FC = () => {
 					</span>
 				</Link>
 
-				<button
-					className="md:hidden text-3xl text-(--color-primary) hover:text-(--color-primary-hover) z-10"
-					onClick={toggleMenu}
-					aria-label={t("nav.menu")}
-				>
-					{isOpen ? <FaTimes size={36} /> : <FaBars size={36} />}
-				</button>
+				<div className="flex items-center gap-4 md:hidden">
+					<ThemeToggle />
+					<button
+						className="text-3xl text-(--color-primary) hover:text-(--color-primary-hover) z-10"
+						onClick={toggleMenu}
+						aria-label={t("nav.menu")}
+					>
+						{isOpen ? <FaTimes size={35} /> : <FaBars size={35} />}
+					</button>
+				</div>
 
 				{/* Mobile Menu Overlay */}
 				<div
@@ -157,7 +161,8 @@ const Navbar: React.FC = () => {
 				</div>
 
 				{/* Desktop Dropdown */}
-				<div className="hidden md:flex items-center relative">
+				<div className="hidden md:flex items-center relative gap-6">
+					<ThemeToggle />
 					<div className="relative">
 						<button
 							onClick={() => setMenuOpen(!menuOpen)}

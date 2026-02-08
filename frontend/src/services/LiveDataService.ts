@@ -16,7 +16,7 @@ const CACHE_DURATION = 24 * 60 * 60 * 1000;
 const DEFAULT_CITY = "Paris";
 
 const fetchAndCacheWeather = async (
-	cityOrCoords: CityOrCoords
+	cityOrCoords: CityOrCoords,
 ): Promise<WeatherData | null> => {
 	try {
 		let url = `${import.meta.env.VITE_API_URL}/api/live/weather/`;
@@ -59,7 +59,7 @@ export const loadWeatherData = async (): Promise<WeatherData | null> => {
 					navigator.geolocation.getCurrentPosition(resolve, reject, {
 						timeout: 5000,
 					});
-				}
+				},
 			);
 
 			const { latitude: lat, longitude: lon } = pos.coords;
@@ -120,7 +120,7 @@ const getCachedCurrencyRate = (from: string, to: string): CachedRate | null => {
 
 const fetchAndCacheCurrencyRate = async (
 	from: string,
-	to: string
+	to: string,
 ): Promise<CachedRate | null> => {
 	try {
 		const url = `${
@@ -146,7 +146,7 @@ const fetchAndCacheCurrencyRate = async (
 
 export const loadExchangeRate = async (
 	from: string,
-	to: string
+	to: string,
 ): Promise<number | null> => {
 	const cached = getCachedCurrencyRate(from, to);
 	if (cached) return cached.rate;

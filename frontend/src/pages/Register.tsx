@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
@@ -8,7 +8,7 @@ import { registerUserRequest } from "../services/AuthService";
 import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
 import bgImage from "../assets/hero_main.png";
 
-const Register: React.FC = () => {
+const Register = () => {
 	const { t } = useTranslation();
 	const { login } = useAuth();
 	const navigate = useNavigate();
@@ -67,7 +67,7 @@ const Register: React.FC = () => {
 		label: string,
 		type: string = "text",
 		placeholder: string,
-		autoComplete: string = "off"
+		autoComplete: string = "off",
 	) => (
 		<div className="flex flex-col">
 			<label className="block mb-1 font-medium" htmlFor={id}>
@@ -107,8 +107,10 @@ const Register: React.FC = () => {
 		>
 			<div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
 
-			<div className="relative z-10 w-full max-w-md bg-(--color-bg-nav-footer) rounded-3xl shadow-2xl 
-			p-8 my-10 transition-colors duration-300">
+			<div
+				className="relative z-10 w-full max-w-md bg-(--color-bg-nav-footer) rounded-3xl shadow-2xl 
+			p-8 my-10 transition-colors duration-300"
+			>
 				<h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-(--color-text)">
 					{t("auth.register")}
 				</h2>

@@ -3,7 +3,7 @@ import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
 
-const GoogleLoginButton: React.FC = () => {
+const GoogleLoginButton = () => {
 	const { t, i18n } = useTranslation();
 	const { login } = useAuth();
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);

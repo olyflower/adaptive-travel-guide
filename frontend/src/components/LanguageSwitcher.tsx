@@ -1,7 +1,7 @@
-import React from "react";
+import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 
-const LanguageSwitcher: React.FC = () => {
+const LanguageSwitcher = () => {
 	const { t, i18n } = useTranslation();
 	const currentLang = i18n.language;
 
@@ -13,7 +13,7 @@ const LanguageSwitcher: React.FC = () => {
 	return (
 		<div className="mt-4 text-center flex justify-center items-center space-x-2">
 			{languages.map((lang, index) => (
-				<React.Fragment key={lang.code}>
+				<Fragment key={lang.code}>
 					<button
 						onClick={() => i18n.changeLanguage(lang.code)}
 						className={`text-sm transition-colors cursor-pointer ${
@@ -30,7 +30,7 @@ const LanguageSwitcher: React.FC = () => {
 							|
 						</span>
 					)}
-				</React.Fragment>
+				</Fragment>
 			))}
 		</div>
 	);

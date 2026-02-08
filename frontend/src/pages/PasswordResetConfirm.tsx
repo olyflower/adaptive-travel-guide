@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { confirmPasswordResetRequest } from "../services/AuthService";
@@ -7,7 +7,7 @@ import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
 import * as Yup from "yup";
 import bgImage from "../assets/hero_main.png";
 
-const PasswordResetConfirm: React.FC = () => {
+const PasswordResetConfirm = () => {
 	const { t } = useTranslation();
 	const [message, setMessage] = useState<string | null>(null);
 	const [isError, setIsError] = useState<boolean>(false);
@@ -78,7 +78,7 @@ const PasswordResetConfirm: React.FC = () => {
 		label: string,
 		type: string,
 		placeholder: string,
-		autoComplete: string = "off"
+		autoComplete: string = "off",
 	) => (
 		<div className="flex flex-col text-(--color-text)">
 			<label className="block mb-1 font-medium" htmlFor={id}>
@@ -118,8 +118,10 @@ const PasswordResetConfirm: React.FC = () => {
 		>
 			<div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
 
-			<div className="relative z-10 w-full max-w-md bg-(--color-bg-nav-footer) rounded-3xl shadow-2xl 
-			p-8 my-10 transition-colors duration-300">
+			<div
+				className="relative z-10 w-full max-w-md bg-(--color-bg-nav-footer) rounded-3xl shadow-2xl 
+			p-8 my-10 transition-colors duration-300"
+			>
 				<h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-(--color-text)">
 					{t("auth.reset_confirm")}
 				</h2>

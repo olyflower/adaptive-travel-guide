@@ -12,7 +12,7 @@ import BgImage from "../assets/livedata.png";
 
 const iconBaseUrl = import.meta.env.VITE_OPENWEATHER_ICON_URL;
 
-const LiveData: React.FC = () => {
+const LiveData = () => {
 	const { t } = useTranslation();
 
 	const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -34,8 +34,15 @@ const LiveData: React.FC = () => {
 		if (!currency) return;
 
 		const fetchRate = async () => {
-			const rate = await loadExchangeRate(currency, "UAH");
-			if (rate !== null) setExchangeRate(rate);
+			const targetFrom = currency === "UAH" ? "EUR" : currency;
+			const rate = await loadExchangeRate(targetFrom, "UAH");
+
+			if (rate !== null) {
+				setExchangeRate(rate);
+				if (targetFrom !== currency) {
+					setCurrency(targetFrom);
+				}
+			}
 		};
 		fetchRate();
 	}, [currency]);

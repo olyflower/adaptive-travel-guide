@@ -1,9 +1,8 @@
-import React from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
 import travelImg from "../assets/sta_image.png";
 
-const StartTravelAction: React.FC = () => {
+const StartTravelAction = () => {
 	const { t } = useTranslation();
 	const { isAuthenticated } = useAuth();
 

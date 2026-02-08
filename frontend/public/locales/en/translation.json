@@ -103,5 +103,11 @@
 		"title": "Contacts",
 		"p1": "Hello! My name is Olga. I am the author and developer of the Adaptive Travel Guide project, created as part of my coursework/diploma work.",
 		"p2": "Contact:"
+	},
+	"meta": {
+		"about_title": "About the project | Adaptive Travel Guide",
+		"about_description": "Learn more about the smart guide that adapts to your interests.",
+		"contacts_title": "Contacts | Adaptive Travel Guide",
+		"contacts_description": "Contact page"
 	}
 }

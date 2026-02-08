@@ -1,4 +1,3 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaRegClock, FaPlug, FaBan, FaGlobeEurope } from "react-icons/fa";
 
@@ -9,7 +8,7 @@ const features = [
 	{ icon: FaGlobeEurope, titleKey: "culture" },
 ];
 
-const Features: React.FC = () => {
+const Features = () => {
 	const { t } = useTranslation();
 
 	return (

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import Slider from "react-slick";
 import { useTranslation } from "react-i18next";
 import "slick-carousel/slick/slick.css";
@@ -17,7 +17,7 @@ const travelStyles = [
 	{ image: styleImg, titleKey: "style" },
 ];
 
-const TravelStylePicker: React.FC = () => {
+const TravelStylePicker = () => {
 	const { t } = useTranslation();
 
 	const settings = useMemo(

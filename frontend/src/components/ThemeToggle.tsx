@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaSun, FaMoon } from "react-icons/fa";
 
-const ThemeToggle: React.FC = () => {
+const ThemeToggle = () => {
 	const [isDark, setIsDark] = useState<boolean>(() => {
 		if (typeof window !== "undefined") {
 			const savedTheme = localStorage.getItem("theme");
@@ -32,7 +32,7 @@ const ThemeToggle: React.FC = () => {
 			aria-label="Toggle theme"
 			title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
 		>
-			{isDark ? <FaSun size={20} /> : <FaMoon size={20} />}
+			{isDark ? <FaSun size={24} /> : <FaMoon size={24} />}
 		</button>
 	);
 };

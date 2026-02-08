@@ -1,14 +1,12 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import LanguageSwitcher from "./LanguageSwitcher";
-import ThemeToggle from "./ThemeToggle";
 import { useTranslation } from "react-i18next";
 import { FaFacebook, FaInstagram, FaTelegram } from "react-icons/fa";
 
-const Footer: React.FC = () => {
+const Footer = () => {
 	const { t } = useTranslation();
 	return (
-		<footer className="bg-(--color-bg-nav-footer) text-(--color-text) py-8 mt-auto shadow-inner">
+		<footer className="bg-(--color-bg-nav-footer) text-(--color-text) py-8 md:py-24 mt-auto shadow-inner">
 			<div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-3 gap-8">
 				<div className="hidden md:block">
 					<h2 className="text-lg font-bold text-center text-(--color-text) mb-4">
@@ -50,10 +48,10 @@ const Footer: React.FC = () => {
 				</div>
 
 				<div className="md:col-span-1 col-span-1">
-					<h3 className="text-sm md:text-lg font-semibold mb-3 text-center">
+					<h3 className="text-sm md:text-lg font-semibold mb-6 text-center">
 						{t("footer.follow")}
 					</h3>
-					<div className="flex space-x-4 items-center justify-center">
+					<div className="flex space-x-4 items-center justify-center mb-6">
 						<a
 							href="https://facebook.com"
 							target="_blank"
@@ -86,10 +84,7 @@ const Footer: React.FC = () => {
 						</a>
 					</div>
 
-					<div className="flex flex-col items-center gap-4">
-						<LanguageSwitcher />
-						<ThemeToggle />
-					</div>
+					<LanguageSwitcher />
 				</div>
 			</div>
 

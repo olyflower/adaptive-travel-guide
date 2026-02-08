@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { requestPasswordResetRequest } from "../services/AuthService";
@@ -7,7 +7,7 @@ import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
 import * as Yup from "yup";
 import bgImage from "../assets/hero_main.png";
 
-const PasswordResetRequest: React.FC = () => {
+const PasswordResetRequest = () => {
 	const { t } = useTranslation();
 	const [message, setMessage] = useState<string | null>(null);
 	const [isError, setIsError] = useState<boolean>(false);
@@ -51,7 +51,7 @@ const PasswordResetRequest: React.FC = () => {
 		label: string,
 		type: string = "text",
 		placeholder: string,
-		autoComplete: string = "off"
+		autoComplete: string = "off",
 	) => (
 		<div className="flex flex-col">
 			<label

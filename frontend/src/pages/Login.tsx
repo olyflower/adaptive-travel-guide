@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { useAuth } from "../context/AuthContext";
@@ -7,7 +7,7 @@ import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
 import * as Yup from "yup";
 import bgImage from "../assets/hero_main.png";
 
-const Login: React.FC = () => {
+const Login = () => {
 	const { t } = useTranslation();
 	const { login } = useAuth();
 	const navigate = useNavigate();
@@ -51,7 +51,7 @@ const Login: React.FC = () => {
 		label: string,
 		type: string = "text",
 		placeholder: string,
-		autoComplete: string = "off"
+		autoComplete: string = "off",
 	) => (
 		<div className="flex flex-col">
 			<label

@@ -1,11 +1,10 @@
-import React from "react";
 import Hero from "../components/Hero";
 import TravelStylePicker from "../components/TravelPicker";
 import Features from "../components/Features";
 import LiveData from "../components/LiveData";
 import StartTravelAction from "../components/StartTravelAction";
 
-const Home: React.FC = () => {
+const Home = () => {
 	return (
 		<div>
 			<Hero />
