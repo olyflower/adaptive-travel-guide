@@ -1,6 +1,6 @@
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
-import HeroImageDesktop from "../assets/hero_main.png";
+import HeroImageDesktop from "../assets/hero_main.webp";
 
 const Hero = () => {
 	const { t } = useTranslation();

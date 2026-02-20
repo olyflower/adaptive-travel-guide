@@ -66,7 +66,8 @@
 		"min_username": "Мінімум 3 символи",
 		"invalid_link": "Недійсне посилання.",
 		"google_error": "Не вдалося увійти через Google. Спробуйте ще раз.",
-		"google_error_general": "Не вдалося увійти через Google."
+		"google_error_general": "Не вдалося увійти через Google.",
+		"age": "Вік в діапазоні від 14 до 100 років"
 	},
 	"success": {
 		"email_sent": "Лист з інструкціями надіслано на вашу електронну пошту.",
@@ -110,5 +111,21 @@
 		"about_description": "Дізнайтеся більше про розумний гід, який підлаштовується під ваші інтереси.",
 		"contacts_title": "Контакти | Adaptive Travel Guide",
 		"contacts_description": "Сторінка контактів"
+	},
+	"profile": {
+		"personal_title": "Загальна інформація",
+		"age": "Вік",
+		"nickname": "Нікнейм",
+		"male": "Чоловіча",
+		"female": "Жіноча",
+		"gender": "Стать",
+		"country": "Країна",
+		"avatar": "Аватар",
+		"select_nickname": "Як вас називати?",
+		"select_country": "В якій країні ви живете?",
+		"select_age": "Введить свій вік",
+		"preferences_title": "Інформація про вподобання",
+		"not_selected": "Не обрано",
+		"save": "Зберегти"
 	}
 }

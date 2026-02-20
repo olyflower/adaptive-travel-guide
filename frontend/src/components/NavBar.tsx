@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { useAuth } from "../context/AuthContext";
 import { FaUserCircle, FaTimes, FaBars } from "react-icons/fa";
@@ -9,6 +9,7 @@ import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
 	const { t } = useTranslation();
+	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const { isAuthenticated, logout } = useAuth();
@@ -106,21 +107,13 @@ const Navbar = () => {
 											>
 												{t("nav.profile")}
 											</Link>
-											<Link
-												to="/edit-profile"
-												className="block px-6 py-3 text-base border-b border-(--color-primary)/5 hover:bg-(--color-primary)/5"
-												onClick={() => {
-													setMenuOpen(false);
-													setIsOpen(false);
-												}}
-											>
-												{t("nav.edit_profile")}
-											</Link>
+
 											<button
 												onClick={() => {
 													logout();
 													setMenuOpen(false);
 													setIsOpen(false);
+													navigate("/");
 												}}
 												className="block w-full text-left px-6 py-3 text-base text-(--color-red) hover:bg-(--color-red)/5"
 											>
@@ -194,19 +187,12 @@ const Navbar = () => {
 											>
 												{t("nav.profile")}
 											</Link>
-											<Link
-												to="/edit-profile"
-												className="block px-6 py-3 text-sm hover:text-(--color-primary-hover) border-b border-(--color-primary)/5"
-												onClick={() =>
-													setMenuOpen(false)
-												}
-											>
-												{t("nav.edit_profile")}
-											</Link>
+
 											<button
 												onClick={() => {
 													logout();
 													setMenuOpen(false);
+													navigate("/");
 												}}
 												className="block w-full text-left px-6 py-3 text-sm text-(--color-red) hover:bg-(--color-red)/10 
 												transition-colors font-medium"

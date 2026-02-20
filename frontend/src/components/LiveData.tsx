@@ -7,8 +7,7 @@ import {
 } from "../services/LiveDataService";
 import { useTranslation } from "react-i18next";
 import { FaCloudSun, FaEuroSign } from "react-icons/fa";
-import ClipLoader from "react-spinners/ClipLoader";
-import BgImage from "../assets/livedata.png";
+import BgImage from "../assets/livedata.jpg";
 
 const iconBaseUrl = import.meta.env.VITE_OPENWEATHER_ICON_URL;
 
@@ -89,8 +88,9 @@ const LiveData = () => {
 							<p className="text-sm">{weather.city}</p>
 						</>
 					) : (
-						<div className="flex justify-center">
-							<ClipLoader size={30} />
+						<div className="flex flex-col items-center gap-2 animate-pulse">
+							<div className="h-8 w-24 bg-(--color-bg-nav-footer) rounded"></div>
+							<div className="h-4 w-16 bg-(--color-bg-nav-footer) rounded"></div>
 						</div>
 					)}
 				</div>
@@ -113,7 +113,10 @@ const LiveData = () => {
 							<p className="text-sm">{currency} → UAH</p>
 						</>
 					) : (
-						<ClipLoader size={30} />
+						<div className="flex flex-col items-center gap-2 animate-pulse">
+							<div className="h-8 w-32 bg-(--color-bg-nav-footer) rounded"></div>
+							<div className="h-4 w-20 bg-(--color-bg-nav-footer) rounded"></div>
+						</div>
 					)}
 				</div>
 			</div>

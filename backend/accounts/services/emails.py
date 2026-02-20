@@ -16,7 +16,8 @@ def send_registration_email(request, user):
     }
 
     template_path = os.path.join(
-        settings.BASE_DIR, 'templates', 'emails', 'welcome_email.html')
+        settings.BASE_DIR, "templates", "emails", "welcome_email.html"
+    )
 
     html_content = render_to_string(template_path, context)
 
@@ -42,7 +43,8 @@ def send_password_reset_email(request, user, reset_url):
     }
 
     template_path = os.path.join(
-        settings.BASE_DIR, 'templates', 'emails', 'reset_password_email.html')
+        settings.BASE_DIR, "templates", "emails", "reset_password_email.html"
+    )
 
     html_content = render_to_string(template_path, context)
 
@@ -67,7 +69,8 @@ def send_confirm_change_password_email(request, user):
     }
 
     template_path = os.path.join(
-        settings.BASE_DIR, 'templates', 'emails', 'confirm_password_email.html')
+        settings.BASE_DIR, "templates", "emails", "confirm_password_email.html"
+    )
 
     html_content = render_to_string(template_path, context)
 

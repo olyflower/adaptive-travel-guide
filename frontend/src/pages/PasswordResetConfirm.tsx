@@ -5,7 +5,7 @@ import { confirmPasswordResetRequest } from "../services/AuthService";
 import { useTranslation } from "react-i18next";
 import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
 import * as Yup from "yup";
-import bgImage from "../assets/hero_main.png";
+import bgImage from "../assets/hero_main.webp";
 
 const PasswordResetConfirm = () => {
 	const { t } = useTranslation();

@@ -3,11 +3,11 @@ import Slider from "react-slick";
 import { useTranslation } from "react-i18next";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import gourmetImg from "../assets/gourmet.png";
-import urbanistImg from "../assets/urban.png";
-import natureImg from "../assets/nature.png";
-import artistImg from "../assets/artist.png";
-import styleImg from "../assets/style.png";
+import gourmetImg from "../assets/gourmet.webp";
+import urbanistImg from "../assets/urban.webp";
+import natureImg from "../assets/nature.webp";
+import artistImg from "../assets/artist.webp";
+import styleImg from "../assets/style.webp";
 
 const travelStyles = [
 	{ image: gourmetImg, titleKey: "gourmet" },

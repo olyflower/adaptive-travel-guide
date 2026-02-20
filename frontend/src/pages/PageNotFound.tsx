@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import bgImage from "../assets/hero_main.png";
+import bgImage from "../assets/hero_main.webp";
 
 const PageNotFound = () => {
 	const { t } = useTranslation();

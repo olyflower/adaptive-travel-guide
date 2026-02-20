@@ -1,6 +1,6 @@
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
-import travelImg from "../assets/sta_image.png";
+import travelImg from "../assets/sta_image.webp";
 
 const StartTravelAction = () => {
 	const { t } = useTranslation();

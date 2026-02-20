@@ -6,15 +6,25 @@ from django.contrib.auth import get_user_model
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = '__all__'
+        fields = (
+            "user",
+            "nickname",
+            "age",
+            "country",
+            "avatar",
+            "gender",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("user", "created_at", "updated_at")
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    profile = UserProfileSerializer(source='userprofile', read_only=True)
+    profile = UserProfileSerializer(source="userprofile", read_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'email', 'username', 'profile']
+        fields = ["id", "email", "username", "profile"]
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -22,7 +32,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['id', 'email', 'password', 'username']
+        fields = ["id", "email", "password", "username"]
 
     def create(self, validated_data):
         user = get_user_model().objects.create_user(**validated_data)

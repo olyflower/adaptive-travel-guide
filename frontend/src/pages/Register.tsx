@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { registerUserRequest } from "../services/AuthService";
 import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
-import bgImage from "../assets/hero_main.png";
+import bgImage from "../assets/hero_main.webp";
 
 const Register = () => {
 	const { t } = useTranslation();

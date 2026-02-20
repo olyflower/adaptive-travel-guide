@@ -8,7 +8,11 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 from accounts.serializers import UserRegistrationSerializer
-from accounts.services.emails import send_registration_email, send_password_reset_email, send_confirm_change_password_email
+from accounts.services.emails import (
+    send_registration_email,
+    send_password_reset_email,
+    send_confirm_change_password_email,
+)
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from django.utils.encoding import force_bytes
@@ -18,6 +22,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
+from django.db import transaction
+from preferences.models import UserPreference
 
 
 class CookieTokenObtainPairView(TokenObtainPairView):
@@ -29,7 +35,7 @@ class CookieTokenObtainPairView(TokenObtainPairView):
         except AuthenticationFailed:
             return Response(
                 {"message": "Invalid credentials. Login failed."},
-                status=status.HTTP_401_UNAUTHORIZED
+                status=status.HTTP_401_UNAUTHORIZED,
             )
 
         user = serializer.user
@@ -46,20 +52,20 @@ class CookieTokenObtainPairView(TokenObtainPairView):
 
         response = Response(response_data, status=status.HTTP_200_OK)
         response.set_cookie(
-            key='access_token',
+            key="access_token",
             value=str(access),
             httponly=True,
             secure=True,
-            samesite='None',
-            max_age=3 * 24 * 3600
+            samesite="None",
+            max_age=3 * 24 * 3600,
         )
         response.set_cookie(
-            key='refresh_token',
+            key="refresh_token",
             value=str(refresh),
             httponly=True,
             secure=True,
-            samesite='None',
-            max_age=14 * 24 * 3600
+            samesite="None",
+            max_age=14 * 24 * 3600,
         )
         return response
 
@@ -72,26 +78,26 @@ class RegisterView(CreateAPIView):
     def create(self, request, *args, **kwargs):
         try:
             response = super().create(request, *args, **kwargs)
-            user = self.get_queryset().get(email=response.data['email'])
+            user = self.get_queryset().get(email=response.data["email"])
 
             send_registration_email(request, user)
 
             refresh = RefreshToken.for_user(user)
             access = refresh.access_token
 
-            response.data['access_token'] = str(access)
-            response.data['refresh_token'] = str(refresh)
+            response.data["access_token"] = str(access)
+            response.data["refresh_token"] = str(refresh)
 
             return response
         except ValidationError as e:
             return Response(
                 {"message": "Validation error", "details": e.detail},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
         except Exception as e:
             return Response(
                 {"message": "Internal server error", "details": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
 
@@ -115,7 +121,7 @@ class PasswordResetRequestView(APIView):
             except user_model.DoesNotExist:
                 return Response(
                     {"message": "User with this email does not exist."},
-                    status=status.HTTP_404_NOT_FOUND
+                    status=status.HTTP_404_NOT_FOUND,
                 )
 
             uid = urlsafe_base64_encode(force_bytes(user.pk))
@@ -126,13 +132,13 @@ class PasswordResetRequestView(APIView):
 
             return Response(
                 {"message": "Password reset email sent successfully."},
-                status=status.HTTP_200_OK
+                status=status.HTTP_200_OK,
             )
 
         except Exception as e:
             return Response(
                 {"message": "Internal server error", "details": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
 
@@ -148,22 +154,26 @@ class PasswordResetConfirmView(APIView):
             if not uidb64 or not token or not new_password:
                 return Response(
                     {"message": "Missing uid, token or new_password in request."},
-                    status=status.HTTP_400_BAD_REQUEST
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
 
             try:
                 uid = urlsafe_base64_decode(uidb64).decode()
                 user = get_user_model().objects.get(pk=uid)
-            except (TypeError, ValueError, OverflowError, get_user_model().DoesNotExist):
+            except (
+                TypeError,
+                ValueError,
+                OverflowError,
+                get_user_model().DoesNotExist,
+            ):
                 return Response(
-                    {"message": "Invalid uid."},
-                    status=status.HTTP_400_BAD_REQUEST
+                    {"message": "Invalid uid."}, status=status.HTTP_400_BAD_REQUEST
                 )
 
             if not default_token_generator.check_token(user, token):
                 return Response(
                     {"message": "Invalid or expired token."},
-                    status=status.HTTP_400_BAD_REQUEST
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
             user.set_password(new_password)
             user.save()
@@ -172,13 +182,13 @@ class PasswordResetConfirmView(APIView):
 
             return Response(
                 {"message": "Password has been reset successfully."},
-                status=status.HTTP_200_OK
+                status=status.HTTP_200_OK,
             )
 
         except Exception as e:
             return Response(
                 {"message": "Internal server error", "details": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
 
@@ -186,12 +196,9 @@ class LogoutView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        response = Response(
-            {"message": "Success logout"},
-            status=status.HTTP_200_OK
-        )
-        response.delete_cookie('access_token')
-        response.delete_cookie('refresh_token')
+        response = Response({"message": "Success logout"}, status=status.HTTP_200_OK)
+        response.delete_cookie("access_token")
+        response.delete_cookie("refresh_token")
         return response
 
 
@@ -199,18 +206,16 @@ class GoogleLoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        token = request.data.get('id_token')
+        token = request.data.get("id_token")
         if not token:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            idinfo = id_token.verify_oauth2_token(
-                token, google_requests.Request())
-            email = idinfo['email']
+            idinfo = id_token.verify_oauth2_token(token, google_requests.Request())
+            email = idinfo["email"]
 
             user, created = get_user_model().objects.get_or_create(
-                email=email,
-                defaults={'username': email}
+                email=email, defaults={"username": email}
             )
 
             if created:
@@ -220,13 +225,73 @@ class GoogleLoginView(APIView):
             access = refresh.access_token
 
             response = Response(status=status.HTTP_200_OK)
-            response.set_cookie('access_token', str(
-                access), httponly=True, secure=True, samesite='None', max_age=3 * 24 * 3600)
-            response.set_cookie('refresh_token', str(
-                refresh), httponly=True, secure=True, samesite='None', max_age=14 * 24 * 3600)
+            response.set_cookie(
+                "access_token",
+                str(access),
+                httponly=True,
+                secure=True,
+                samesite="None",
+                max_age=3 * 24 * 3600,
+            )
+            response.set_cookie(
+                "refresh_token",
+                str(refresh),
+                httponly=True,
+                secure=True,
+                samesite="None",
+                max_age=14 * 24 * 3600,
+            )
             return response
 
         except ValueError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class ProfileSaveFullView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        data = request.data
+
+        try:
+            with transaction.atomic():
+                profile = user.userprofile
+                profile.nickname = data.get("nickname", profile.nickname)
+                profile.age = data.get("age", profile.age)
+                profile.country = data.get("country", profile.country)
+                profile.avatar = data.get("avatar", profile.avatar)
+                profile.gender = data.get("gender", profile.gender)
+                profile.save()
+
+                selected_option_ids = data.get("selectedOptions", [])
+
+                UserPreference.objects.filter(user=user).delete()
+
+                new_prefs = [
+                    UserPreference(user=user, preference_option_id=opt_id)
+                    for opt_id in selected_option_ids
+                ]
+                UserPreference.objects.bulk_create(new_prefs)
+
+            return Response({"message": "Success"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request):
+        user = request.user
+        profile = user.userprofile
+
+        data = {
+            "nickname": profile.nickname,
+            "avatar": profile.avatar,
+            "age": profile.age,
+            "country": profile.country,
+            "gender": profile.gender,
+            "selectedOptions": list(
+                user.preferences.values_list("preference_option_id", flat=True)
+            ),
+        }
+        return Response(data)

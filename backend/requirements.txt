@@ -12,6 +12,7 @@ Django==6.0.2
 django-admin-interface==0.30.1
 django-colorfield==0.14.0
 django-cors-headers==4.7.0
+django-modeltranslation==0.19.19
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.0
 drf-spectacular==0.28.0

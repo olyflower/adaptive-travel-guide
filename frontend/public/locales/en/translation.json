@@ -65,7 +65,8 @@
 		"min_username": "At least 3 characters",
 		"invalid_link": "Invalid link.",
 		"google_error": "Failed to sign in with Google. Please try again.",
-		"google_error_general": "Failed to sign in with Google."
+		"google_error_general": "Failed to sign in with Google.",
+		"age": "Age range from 14 to 100 years"
 	},
 	"success": {
 		"email_sent": "A letter with instructions has been sent to your email.",
@@ -109,5 +110,21 @@
 		"about_description": "Learn more about the smart guide that adapts to your interests.",
 		"contacts_title": "Contacts | Adaptive Travel Guide",
 		"contacts_description": "Contact page"
+	},
+	"profile": {
+		"personal_title": "General info",
+		"age": "Age",
+		"nickname": "Nickname",
+		"male": "male",
+		"female": "female",
+		"gender": "Gender",
+		"country": "Country",
+		"avatar": "Avatar",
+		"select_nickname": "What's your nickname?",
+		"select_country": "What's your country?",
+		"select_age": "Enter your age",
+		"preferences_title": "Preferences info",
+		"not_selected": "Not selected",
+		"save": "Save"
 	}
 }
