@@ -1,18 +1,16 @@
 import { Category } from "../../types/preferences";
-import { FormikValues } from "formik";
+import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { getTranslatedName } from "../../utils/translate";
 
 interface PreferencesSectionProps {
 	categories: Category[];
-	formik: FormikValues;
 }
 
-const PreferencesSection = ({
-	categories,
-	formik,
-}: PreferencesSectionProps) => {
+const PreferencesSection = ({ categories }: PreferencesSectionProps) => {
 	const { i18n, t } = useTranslation();
+	const { watch, setValue } = useFormContext();
+	const selectedOptions: number[] = watch("selectedOptions") || [];
 
 	return (
 		<section className="bg-(--color-bg-nav-footer) rounded-3xl shadow-2xl p-8 border border-white/10">
@@ -26,7 +24,7 @@ const PreferencesSection = ({
 						(o) => o.id,
 					);
 					const selectedOptionId =
-						formik.values.selectedOptions.find((id: number) =>
+						selectedOptions.find((id) =>
 							currentCategoryIds.includes(id),
 						) || "";
 
@@ -44,8 +42,8 @@ const PreferencesSection = ({
 										const newId = Number(e.target.value);
 
 										const otherCategoriesSelected =
-											formik.values.selectedOptions.filter(
-												(id: number) =>
+											selectedOptions.filter(
+												(id) =>
 													!currentCategoryIds.includes(
 														id,
 													),
@@ -58,7 +56,7 @@ const PreferencesSection = ({
 												]
 											: otherCategoriesSelected;
 
-										formik.setFieldValue(
+										setValue(
 											"selectedOptions",
 											updatedOptions,
 										);

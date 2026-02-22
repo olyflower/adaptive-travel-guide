@@ -1,14 +1,27 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
-import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
 import * as Yup from "yup";
 import bgImage from "../assets/hero_main.webp";
 
+type LoginFormValues = {
+	email: string;
+	password: string;
+};
+
+type FieldProps = {
+	id: keyof LoginFormValues;
+	label: string;
+	type?: string;
+	placeholder?: string;
+	autoComplete?: string;
+};
+
 const Login = () => {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const { login } = useAuth();
 	const navigate = useNavigate();
 	const [message, setMessage] = useState<string | null>(null);
@@ -24,35 +37,45 @@ const Login = () => {
 		[t],
 	);
 
-	const formik = useFormik({
-		initialValues: {
+	const {
+		register,
+		handleSubmit,
+		trigger,
+		formState: { errors, isSubmitted },
+	} = useForm<LoginFormValues>({
+		resolver: yupResolver(validationSchema),
+		defaultValues: {
 			email: "",
 			password: "",
 		},
-		validationSchema,
-		onSubmit: async (values) => {
-			setMessage(null);
-			try {
-				await login(values.email, values.password);
-				navigate("/");
-			} catch (error: any) {
-				const errorKey = error.response?.data
-					? "errors.wrong_email_password"
-					: "errors.general";
-				setMessage(errorKey);
-			}
-		},
 	});
 
-	useRevalidateOnLangChange(formik);
+	useEffect(() => {
+		if (isSubmitted) {
+			trigger();
+		}
+	}, [i18n.language, isSubmitted, trigger]);
 
-	const renderField = (
-		id: string,
-		label: string,
-		type: string = "text",
-		placeholder: string,
-		autoComplete: string = "off",
-	) => (
+	const onSubmit = async (values: LoginFormValues) => {
+		setMessage(null);
+		try {
+			await login(values.email, values.password);
+			navigate("/");
+		} catch (error: any) {
+			const errorKey = error.response?.data
+				? "errors.wrong_email_password"
+				: "errors.general";
+			setMessage(errorKey);
+		}
+	};
+
+	const renderField = ({
+		id,
+		label,
+		type = "text",
+		placeholder = "",
+		autoComplete = "off",
+	}: FieldProps) => (
 		<div className="flex flex-col">
 			<label
 				className="block mb-1 font-medium text-(--color-text)"
@@ -63,23 +86,18 @@ const Login = () => {
 			<input
 				id={id}
 				type={type}
-				{...formik.getFieldProps(id)}
+				{...register(id)}
 				placeholder={placeholder}
 				autoComplete={autoComplete}
 				className="w-full px-4 py-2 border border-(--color-primary)/20 rounded-xl text-sm 
                    bg-(--color-bg-main) text-(--color-text) 
                    focus:outline-none focus:ring-2 focus:ring-(--color-primary) transition-all"
 			/>
-			{formik.touched[id as keyof typeof formik.values] &&
-				formik.errors[id as keyof typeof formik.values] && (
-					<p className="text-(--color-red) text-xs mt-1 ml-1">
-						{
-							formik.errors[
-								id as keyof typeof formik.values
-							] as string
-						}
-					</p>
-				)}
+			{errors[id] && (
+				<p className="text-(--color-red) text-xs mt-1 ml-1">
+					{errors[id]?.message}
+				</p>
+			)}
 		</div>
 	);
 
@@ -90,10 +108,9 @@ const Login = () => {
 				backgroundImage: `url(${bgImage})`,
 				backgroundSize: "cover",
 				backgroundPosition: "center",
+				backgroundAttachment: "fixed",
 			}}
 		>
-			<div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
-
 			<div
 				className="relative z-10 w-full max-w-md bg-(--color-bg-nav-footer) rounded-3xl shadow-2xl 
       p-8 my-10 transition-colors duration-300"
@@ -103,21 +120,23 @@ const Login = () => {
 				</h2>
 
 				<form
-					onSubmit={formik.handleSubmit}
+					onSubmit={handleSubmit(onSubmit)}
 					className="space-y-4 text-(--color-text)"
 				>
-					{renderField(
-						"email",
-						t("auth.email"),
-						"email",
-						"you@example.com",
-					)}
-					{renderField(
-						"password",
-						t("auth.password"),
-						"password",
-						t("auth.placeholder"),
-					)}
+					{renderField({
+						id: "email",
+						label: t("auth.email"),
+						type: "email",
+						placeholder: "you@example.com",
+						autoComplete: "email",
+					})}
+					{renderField({
+						id: "password",
+						label: t("auth.password"),
+						type: "password",
+						placeholder: t("auth.placeholder"),
+						autoComplete: "current-password",
+					})}
 
 					<div className="flex justify-center pt-4">
 						<button
@@ -137,12 +156,6 @@ const Login = () => {
 						{t("auth.forgot_password")}
 					</Link>
 				</div>
-
-				{message && (
-					<p className="mt-4 text-center text-sm text-(--color-red) font-medium">
-						{t(message)}
-					</p>
-				)}
 
 				{message && (
 					<p className="mt-4 text-center text-sm text-(--color-red) font-medium">

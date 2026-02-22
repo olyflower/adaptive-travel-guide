@@ -1,14 +1,27 @@
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { confirmPasswordResetRequest } from "../services/AuthService";
 import { useTranslation } from "react-i18next";
-import { useRevalidateOnLangChange } from "../hooks/useRevalidateOnLangChange";
 import * as Yup from "yup";
 import bgImage from "../assets/hero_main.webp";
 
+type ResetConfirmValues = {
+	newPassword: string;
+	confirmPassword: string;
+};
+
+type FieldProps = {
+	id: keyof ResetConfirmValues;
+	label: string;
+	type?: string;
+	placeholder?: string;
+	autoComplete?: string;
+};
+
 const PasswordResetConfirm = () => {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const [message, setMessage] = useState<string | null>(null);
 	const [isError, setIsError] = useState<boolean>(false);
 	const [searchParams] = useSearchParams();
@@ -40,46 +53,50 @@ const PasswordResetConfirm = () => {
 		[t],
 	);
 
-	const formik = useFormik({
-		initialValues: { newPassword: "", confirmPassword: "" },
-		validationSchema,
-		onSubmit: async (values) => {
-			setMessage(null);
-			if (!uid || !token) {
-				setMessage("errors.invalid_link");
-				setIsError(true);
-				return;
-			}
-
-			try {
-				await confirmPasswordResetRequest(
-					uid,
-					token,
-					values.newPassword,
-				);
-				setMessage("success.email_change");
-				setIsError(false);
-				setTimeout(() => navigate("/login"), 2000);
-			} catch (error: any) {
-				const errorKey =
-					error.response?.status === 400
-						? "errors.invalid_link"
-						: "errors.general";
-				setMessage(errorKey);
-				setIsError(true);
-			}
-		},
+	const {
+		register,
+		handleSubmit,
+		trigger,
+		formState: { errors, isSubmitted },
+	} = useForm<ResetConfirmValues>({
+		resolver: yupResolver(validationSchema),
+		defaultValues: { newPassword: "", confirmPassword: "" },
 	});
 
-	useRevalidateOnLangChange(formik);
+	useEffect(() => {
+		if (isSubmitted) trigger();
+	}, [i18n.language, isSubmitted, trigger]);
 
-	const renderField = (
-		id: string,
-		label: string,
-		type: string,
-		placeholder: string,
-		autoComplete: string = "off",
-	) => (
+	const onSubmit = async (values: ResetConfirmValues) => {
+		setMessage(null);
+		if (!uid || !token) {
+			setMessage("errors.invalid_link");
+			setIsError(true);
+			return;
+		}
+
+		try {
+			await confirmPasswordResetRequest(uid, token, values.newPassword);
+			setMessage("success.email_change");
+			setIsError(false);
+			setTimeout(() => navigate("/login"), 2000);
+		} catch (error: any) {
+			const errorKey =
+				error.response?.status === 400
+					? "errors.invalid_link"
+					: "errors.general";
+			setMessage(errorKey);
+			setIsError(true);
+		}
+	};
+
+	const renderField = ({
+		id,
+		label,
+		type = "password",
+		placeholder = "",
+		autoComplete = "new-password",
+	}: FieldProps) => (
 		<div className="flex flex-col text-(--color-text)">
 			<label className="block mb-1 font-medium" htmlFor={id}>
 				{label}
@@ -87,23 +104,18 @@ const PasswordResetConfirm = () => {
 			<input
 				id={id}
 				type={type}
-				{...formik.getFieldProps(id)}
+				{...register(id)}
 				placeholder={placeholder}
 				autoComplete={autoComplete}
 				className="w-full px-4 py-2 border border-(--color-primary)/20 rounded-xl text-sm 
                    bg-(--color-bg-main) text-(--color-text) 
                    focus:outline-none focus:ring-2 focus:ring-(--color-primary) transition-all"
 			/>
-			{formik.touched[id as keyof typeof formik.values] &&
-				formik.errors[id as keyof typeof formik.values] && (
-					<p className="text-(--color-red) text-xs mt-1 ml-1">
-						{
-							formik.errors[
-								id as keyof typeof formik.values
-							] as string
-						}
-					</p>
-				)}
+			{errors[id] && (
+				<p className="text-(--color-red) text-xs mt-1 ml-1">
+					{errors[id]?.message}
+				</p>
+			)}
 		</div>
 	);
 
@@ -114,10 +126,9 @@ const PasswordResetConfirm = () => {
 				backgroundImage: `url(${bgImage})`,
 				backgroundSize: "cover",
 				backgroundPosition: "center",
+				backgroundAttachment: "fixed",
 			}}
 		>
-			<div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
-
 			<div
 				className="relative z-10 w-full max-w-md bg-(--color-bg-nav-footer) rounded-3xl shadow-2xl 
 			p-8 my-10 transition-colors duration-300"
@@ -126,19 +137,17 @@ const PasswordResetConfirm = () => {
 					{t("auth.reset_confirm")}
 				</h2>
 
-				<form onSubmit={formik.handleSubmit} className="space-y-4">
-					{renderField(
-						"newPassword",
-						t("auth.new_password"),
-						"password",
-						t("auth.placeholder"),
-					)}
-					{renderField(
-						"confirmPassword",
-						t("auth.password_confirm"),
-						"password",
-						t("auth.placeholder_new_confirm"),
-					)}
+				<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+					{renderField({
+						id: "newPassword",
+						label: t("auth.new_password"),
+						placeholder: t("auth.placeholder"),
+					})}
+					{renderField({
+						id: "confirmPassword",
+						label: t("auth.password_confirm"),
+						placeholder: t("auth.placeholder_new_confirm"),
+					})}
 
 					<div className="flex justify-center pt-4">
 						<button

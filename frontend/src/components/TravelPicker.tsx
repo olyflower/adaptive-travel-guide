@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import Slider from "react-slick";
 import { useTranslation } from "react-i18next";
 import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import gourmetImg from "../assets/gourmet.webp";
 import urbanistImg from "../assets/urban.webp";
 import natureImg from "../assets/nature.webp";
@@ -27,12 +26,12 @@ const TravelStylePicker = () => {
 			speed: 500,
 			slidesToShow: 3,
 			slidesToScroll: 1,
-			arrows: true,
+			arrows: false,
 			responsive: [
 				{ breakpoint: 1024, settings: { slidesToShow: 2 } },
 				{
 					breakpoint: 640,
-					settings: { slidesToShow: 1, arrows: false },
+					settings: { slidesToShow: 1},
 				},
 			],
 		}),
