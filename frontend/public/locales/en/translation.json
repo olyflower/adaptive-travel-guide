@@ -88,6 +88,52 @@
 		"artist": "Connoisseur of style",
 		"style": "Artist"
 	},
+	"previews": {
+		"example_plan_title": "Here is an example of a travel plan for you:",
+		"want_this_plan": "I want a plan like this",
+		"gourmet": {
+			"loc1": "Haute cuisine restaurant",
+			"loc2": "Cozy coffee shop",
+			"loc3": "Local market"
+		},
+		"urban": {
+			"loc1": "Museum of Modern Art",
+			"loc2": "Central Square",
+			"loc3": "Panoramic skyscraper"
+		},
+		"nature": {
+			"loc1": "National Park",
+			"loc2": "Crystal Lake",
+			"loc3": "Peak"
+		},
+		"artist": {
+			"loc1": "Art gallery",
+			"loc2": "Creative workshop",
+			"loc3": "Street art quarter"
+		},
+		"style": {
+			"loc1": "Designer boutique",
+			"loc2": "Creative Hub",
+			"loc3": "Fashion exhibition"
+		}
+	},
+	"location_types": {
+		"Restaurant": "Restaurant",
+		"Cafe": "Cafe",
+		"Market": "Market",
+		"Museum": "Museum",
+		"Square": "Square",
+		"Skyscraper": "Skyscraper",
+		"Park": "Park",
+		"Lake": "Lake",
+		"Mountain": "Mountain",
+		"Gallery": "Gallery",
+		"Workshop": "Workshop",
+		"Street Art": "Street Art",
+		"Boutique": "Boutique",
+		"Design Hub": "Design Hub",
+		"Exhibition": "Exhibition"
+	},
 	"not_found": {
 		"404": "404",
 		"page_not_found": "Page not found",

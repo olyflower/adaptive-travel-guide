@@ -1,23 +1,27 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../context/AuthContext";
+import { travelStylesPreview, StylePreview } from "../data/travelStylesPreview";
 import "slick-carousel/slick/slick.css";
-import gourmetImg from "../assets/gourmet.webp";
-import urbanistImg from "../assets/urban.webp";
-import natureImg from "../assets/nature.webp";
-import artistImg from "../assets/artist.webp";
-import styleImg from "../assets/style.webp";
-
-const travelStyles = [
-	{ image: gourmetImg, titleKey: "gourmet" },
-	{ image: urbanistImg, titleKey: "urban" },
-	{ image: natureImg, titleKey: "nature" },
-	{ image: artistImg, titleKey: "artist" },
-	{ image: styleImg, titleKey: "style" },
-];
 
 const TravelStylePicker = () => {
 	const { t } = useTranslation();
+	const navigate = useNavigate();
+	const { isAuthenticated } = useAuth();
+	const [selectedStyle, setSelectedStyle] = useState<StylePreview | null>(
+		null,
+	);
+
+	const handlePlanSelection = () => {
+		if (selectedStyle) {
+			const targetPath = isAuthenticated ? "/profile" : "/register";
+			window.scrollTo(0, 0);
+			navigate(targetPath);
+			setSelectedStyle(null);
+		}
+	};
 
 	const settings = useMemo(
 		() => ({
@@ -31,7 +35,7 @@ const TravelStylePicker = () => {
 				{ breakpoint: 1024, settings: { slidesToShow: 2 } },
 				{
 					breakpoint: 640,
-					settings: { slidesToShow: 1},
+					settings: { slidesToShow: 1 },
 				},
 			],
 		}),
@@ -45,18 +49,23 @@ const TravelStylePicker = () => {
 			</h2>
 
 			<Slider {...settings}>
-				{travelStyles.map(({ image, titleKey }, index) => {
-					const title = t(`travel_picker.${titleKey}`);
+				{travelStylesPreview.map((style) => {
+					const title = t(style.titleKey);
 
 					return (
-						<div key={index} className="px-3 pb-8">
+						<div
+							key={style.id}
+							className="px-3 pb-8 cursor-pointer outline-none"
+							onClick={() => setSelectedStyle(style)}
+							tabIndex={-1}
+						>
 							<div className="text-center group">
-								<div className="text-lg font-semibold mb-3 transition-colors">
+								<div className="text-lg font-semibold mb-3 transition-colors group-hover:text-(--color-primary)">
 									{title}
 								</div>
-								<div className="overflow-hidden rounded-2xl shadow-lg">
+								<div className="overflow-hidden rounded-2xl shadow-lg border border-white/10">
 									<img
-										src={image}
+										src={style.image}
 										alt={title}
 										className="w-full h-60 object-cover transition-transform duration-500 group-hover:scale-110"
 									/>
@@ -66,6 +75,54 @@ const TravelStylePicker = () => {
 					);
 				})}
 			</Slider>
+			{selectedStyle && (
+				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+					<div className="bg-(--color-bg-nav-footer) p-8 rounded-3xl max-w-lg w-full border border-white/10 shadow-2xl relative">
+						<button
+							onClick={() => setSelectedStyle(null)}
+							className="absolute top-4 right-4 text-2xl"
+						>
+							✕
+						</button>
+
+						<h3 className="text-2xl font-bold mb-4">
+							{t(selectedStyle.titleKey)}
+						</h3>
+						<p className="mb-4 opacity-70">
+							{t("previews.example_plan_title")}
+						</p>
+
+						<div className="space-y-4">
+							{selectedStyle.locations.map((loc, i) => (
+								<div
+									key={i}
+									className="flex justify-between items-center p-3 bg-white/5 rounded-xl"
+								>
+									<div>
+										<div className="font-medium">
+											{t(loc.nameKey)}
+										</div>
+										<div className="text-xs opacity-50">
+											{t(`location_types.${loc.type}`)}
+										</div>
+									</div>
+									<div className="text-(--color-primary)">
+										★ {loc.rating}
+									</div>
+								</div>
+							))}
+						</div>
+
+						<button
+						type="button"
+							className="btn-primary w-full mt-6 py-3"
+							onClick={handlePlanSelection}
+						>
+							{t("previews.want_this_plan")}
+						</button>
+					</div>
+				</div>
+			)}
 		</section>
 	);
 };
