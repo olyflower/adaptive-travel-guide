@@ -55,13 +55,17 @@ class UserProfileAdmin(admin.ModelAdmin):
         "created_at",
     )
 
-    readonly_fields = ("created_at", "updated_at")
+    readonly_fields = ("created_at", "updated_at", "interests_embedding")
 
     fieldsets = (
         ("User Info", {"fields": ("user",)}),
         (
             "Profile Data",
             {"fields": ("nickname", "age", "country", "gender", "avatar")},
+        ),
+        (
+            "AI Analytics",
+            {"classes": ("collapse",), "fields": ("interests_embedding",)},
         ),
         ("Timestamps", {"fields": ("created_at", "updated_at")}),
     )

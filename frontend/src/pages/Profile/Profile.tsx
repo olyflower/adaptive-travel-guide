@@ -172,7 +172,9 @@ const Profile = () => {
 								<label>{t("profile.nickname")}</label>
 								<input
 									{...register("nickname")}
-									className="px-4 py-2 rounded-xl border"
+									className="w-full px-4 py-2 rounded-xl bg-(--color-bg-main) 
+									border border-(--color-primary)/20 text-(--color-text) focus:ring-2 
+									focus:ring-(--color-primary) outline-none transition-all hover:border-white/40"
 								/>
 								{errors.nickname && (
 									<p className="text-red-500 text-sm">
@@ -213,6 +215,9 @@ const Profile = () => {
 									{...register("age", {
 										valueAsNumber: true,
 									})}
+									className="w-full px-4 py-2 rounded-xl bg-(--color-bg-main) border 
+									border-(--color-primary)/20 text-(--color-text) focus:ring-2 
+									focus:ring-(--color-primary) outline-none transition-all hover:border-white/40"
 								/>
 								{errors.age && (
 									<p className="text-red-500">
@@ -237,15 +242,45 @@ const Profile = () => {
 							</div>
 
 							<div className="flex flex-col">
-								<label>{t("profile.gender")}</label>
-								<select {...register("gender")}>
-									<option value="M">
-										{t("profile.male")}
-									</option>
-									<option value="F">
-										{t("profile.female")}
-									</option>
-								</select>
+								<label className="text-sm font-medium text-(--color-text)/70 mb-2 px-1">
+									{t("profile.gender")}
+								</label>
+
+								<div className="relative group">
+									<select
+										{...register("gender")}
+										className="w-full px-4 py-2 rounded-xl 
+										bg-(--color-bg-main) border border-(--color-primary)/20 text-(--color-text) 
+										focus:ring-2 focus:ring-(--color-primary) outline-none appearance-none cursor-pointer transition-all
+										 hover:border-white/40"
+									>
+										<option value="M">
+											{t("profile.male")}
+										</option>
+										<option value="F">
+											{t("profile.female")}
+										</option>
+									</select>
+
+									<div
+										className="absolute inset-y-0 right-4 flex items-center pointer-events-none 
+									text-(--color-text)/30 group-hover:text-(--color-primary)/60 transition-colors"
+									>
+										<svg
+											className="w-5 h-5"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth="2"
+												d="M19 9l-7 7-7-7"
+											/>
+										</svg>
+									</div>
+								</div>
 							</div>
 						</div>
 					</section>

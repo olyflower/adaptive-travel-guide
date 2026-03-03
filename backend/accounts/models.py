@@ -59,6 +59,10 @@ class UserProfile(models.Model):
         verbose_name=_("Updated at"),
     )
 
+    interests_embedding = models.JSONField(
+        null=True, blank=True, verbose_name=_("Interests Embedding")
+    )
+
     class Meta:
         verbose_name = _("User profile")
         verbose_name_plural = _("User profiles")
