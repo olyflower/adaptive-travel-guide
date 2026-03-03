@@ -19,7 +19,7 @@
     "i18next": "^25.2.1",
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-http-backend": "^3.0.2",
-    "minimatch": "^10.2.2",
+    "minimatch": "^10.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.71.2",
@@ -49,6 +49,6 @@
   },
   "overrides": {
     "ajv": "^8.18.0",
-    "minimatch": "^10.2.2"
+    "minimatch": "^10.2.4"
   }
 }
