@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from pgvector.django import VectorField
 from django.utils.translation import gettext_lazy as _
 
 
@@ -59,9 +60,7 @@ class UserProfile(models.Model):
         verbose_name=_("Updated at"),
     )
 
-    interests_embedding = models.JSONField(
-        null=True, blank=True, verbose_name=_("Interests Embedding")
-    )
+    interests_embedding = VectorField(dimensions=384, null=True, blank=True)
 
     class Meta:
         verbose_name = _("User profile")

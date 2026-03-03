@@ -1,5 +1,6 @@
 from django.db import models
 from preferences.models import PreferenceCategory
+from pgvector.django import VectorField
 from django.utils.translation import gettext_lazy as _
 
 
@@ -39,9 +40,7 @@ class Location(models.Model):
 
     description = models.TextField(verbose_name=_("Description"))
 
-    embedding = models.JSONField(
-        null=True, blank=True, verbose_name=_("Vector Embedding")
-    )
+    embedding = VectorField(dimensions=384, null=True, blank=True)
 
     class Meta:
         verbose_name = _("Location")
