@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-15 11:40+0000\n"
+"POT-Creation-Date: 2026-03-05 08:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,161 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: accounts/apps.py:8
+msgid "Accounts"
+msgstr ""
+
+#: accounts/models.py:8
+msgid "Email"
+msgstr ""
+
+#: accounts/models.py:11 accounts/models.py:61
+msgid "Created at"
+msgstr ""
+
+#: accounts/models.py:12 accounts/models.py:65
+msgid "Updated at"
+msgstr ""
+
+#: accounts/models.py:19
+msgid "Male"
+msgstr ""
+
+#: accounts/models.py:19
+msgid "Female"
+msgstr ""
+
+#: accounts/models.py:25 preferences/models.py:48
+msgid "User"
+msgstr ""
+
+#: accounts/models.py:28
+msgid "Nickname"
+msgstr ""
+
+#: accounts/models.py:32
+msgid "Age"
+msgstr ""
+
+#: accounts/models.py:37 locations/models.py:9
+msgid "Country"
+msgstr ""
+
+#: accounts/models.py:44
+msgid "Avatar"
+msgstr ""
+
+#: accounts/models.py:51
+msgid "Gender"
+msgstr ""
+
+#: accounts/models.py:56
+msgid "Travel Context / Wishes"
+msgstr ""
+
+#: accounts/models.py:71
+msgid "User profile"
+msgstr ""
+
+#: accounts/models.py:72
+msgid "User profiles"
+msgstr ""
+
+#: locations/models.py:8
+#, fuzzy
+#| msgid "Category Name"
+msgid "City Name"
+msgstr "Назва категорії"
+
+#: locations/models.py:10
+msgid "Country Code"
+msgstr ""
+
+#: locations/models.py:12 locations/models.py:38
+msgid "Latitude"
+msgstr ""
+
+#: locations/models.py:13 locations/models.py:39
+msgid "Longitude"
+msgstr ""
+
+#: locations/models.py:17 locations/models.py:26
+msgid "City"
+msgstr ""
+
+#: locations/models.py:18
+msgid "Cities"
+msgstr ""
+
+#: locations/models.py:28
+msgid "Name"
+msgstr ""
+
+#: locations/models.py:34 preferences/models.py:25
+#, fuzzy
+#| msgid "Category Name"
+msgid "Category"
+msgstr "Назва категорії"
+
+#: locations/models.py:36
+msgid "Address"
+msgstr ""
+
+#: locations/models.py:41
+msgid "Description"
+msgstr ""
+
+#: locations/models.py:101
+msgid "Location"
+msgstr ""
+
+#: locations/models.py:102
+msgid "Locations"
+msgstr ""
+
+#: preferences/apps.py:8
+#, fuzzy
+#| msgid "Preference Category"
+msgid "Preferences"
+msgstr "Категорія налаштувань"
+
 #: preferences/models.py:8
 msgid "Category Name"
 msgstr "Назва категорії"
 
-#: preferences/models.py:11
+#: preferences/models.py:13
 msgid "Preference Category"
 msgstr "Категорія налаштувань"
 
-#: preferences/models.py:12
+#: preferences/models.py:14
 msgid "Preference Categories"
 msgstr ""
 
-#: preferences/models.py:49
+#: preferences/models.py:31
+msgid "Option"
+msgstr ""
+
+#: preferences/models.py:32
+#, fuzzy
+#| msgid "Preference Category"
+msgid "Preference options"
+msgstr "Категорія налаштувань"
+
+#: preferences/models.py:51
+#, fuzzy
+#| msgid "Preference Category"
+msgid "Preference option"
+msgstr "Категорія налаштувань"
+
+#: preferences/models.py:55
+msgid "User preference"
+msgstr ""
+
+#: preferences/models.py:56
+msgid "User preferences"
+msgstr ""
+
 #, python-brace-format
-msgid "{user} likes {option}"
-msgstr "{user} подобається {option}"
+#~ msgid "{user} likes {option}"
+#~ msgstr "{user} подобається {option}"

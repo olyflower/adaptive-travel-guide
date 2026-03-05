@@ -23,6 +23,7 @@ from django.conf import settings
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 from django.db import transaction
+from accounts.models import UserProfile
 from preferences.models import UserPreference
 
 
@@ -258,12 +259,15 @@ class ProfileSaveFullView(APIView):
 
         try:
             with transaction.atomic():
-                profile = user.userprofile
+                profile, _ = UserProfile.objects.get_or_create(user=user)
                 profile.nickname = data.get("nickname", profile.nickname)
                 profile.age = data.get("age", profile.age)
                 profile.country = data.get("country", profile.country)
                 profile.avatar = data.get("avatar", profile.avatar)
                 profile.gender = data.get("gender", profile.gender)
+                profile.preferences_text = data.get(
+                    "preferences_text", profile.preferences_text
+                )
                 profile.save()
 
                 selected_option_ids = data.get("selectedOptions", [])
@@ -275,6 +279,11 @@ class ProfileSaveFullView(APIView):
                     for opt_id in selected_option_ids
                 ]
                 UserPreference.objects.bulk_create(new_prefs)
+
+                try:
+                    profile.generate_interests_vector()
+                except Exception as e:
+                    print(f"Embedding error for {user.email}: {e}")
 
             return Response({"message": "Success"}, status=status.HTTP_200_OK)
         except Exception as e:
@@ -290,6 +299,7 @@ class ProfileSaveFullView(APIView):
             "age": profile.age,
             "country": profile.country,
             "gender": profile.gender,
+            "preferences_text": profile.preferences_text,
             "selectedOptions": list(
                 user.preferences.values_list("preference_option_id", flat=True)
             ),

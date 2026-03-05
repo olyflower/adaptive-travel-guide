@@ -66,7 +66,8 @@
 		"invalid_link": "Invalid link.",
 		"google_error": "Failed to sign in with Google. Please try again.",
 		"google_error_general": "Failed to sign in with Google.",
-		"age": "Age range from 14 to 100 years"
+		"age": "Age range from 14 to 100 years",
+		"too_long": "This filed is too long"
 	},
 	"success": {
 		"email_sent": "A letter with instructions has been sent to your email.",
@@ -169,6 +170,8 @@
 		"select_nickname": "What's your nickname?",
 		"select_country": "What's your country?",
 		"select_age": "Enter your age",
+		"preferences_text_label": "Tell us about your preferences",
+    "preferences_text_placeholder": "Enter your interests or preferences here...",
 		"preferences_title": "Preferences info",
 		"not_selected": "Not selected",
 		"save": "Save"

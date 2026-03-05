@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-03 18:16+0000\n"
+"POT-Creation-Date: 2026-03-05 08:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,109 +25,107 @@ msgstr ""
 msgid "Accounts"
 msgstr "Аккаунти"
 
-#: accounts/models.py:7
+#: accounts/models.py:8
 msgid "Email"
 msgstr "Email"
 
-#: accounts/models.py:10 accounts/models.py:55
+#: accounts/models.py:11 accounts/models.py:61
 msgid "Created at"
 msgstr "Створено"
 
-#: accounts/models.py:11 accounts/models.py:59
+#: accounts/models.py:12 accounts/models.py:65
 msgid "Updated at"
 msgstr "Оновлено"
 
-#: accounts/models.py:18
+#: accounts/models.py:19
 msgid "Male"
 msgstr "Чоловіча"
 
-#: accounts/models.py:18
+#: accounts/models.py:19
 msgid "Female"
 msgstr "Жіноча"
 
-#: accounts/models.py:24 preferences/models.py:48
+#: accounts/models.py:25 preferences/models.py:48
 msgid "User"
 msgstr "Користувач"
 
-#: accounts/models.py:27
+#: accounts/models.py:28
 msgid "Nickname"
 msgstr "Нікнейм"
 
-#: accounts/models.py:31
+#: accounts/models.py:32
 msgid "Age"
 msgstr "Вік"
 
-#: accounts/models.py:36 locations/models.py:8
+#: accounts/models.py:37 locations/models.py:9
 msgid "Country"
 msgstr "Країна"
 
-#: accounts/models.py:43
+#: accounts/models.py:44
 msgid "Avatar"
 msgstr "Аватар"
 
-#: accounts/models.py:50
+#: accounts/models.py:51
 msgid "Gender"
 msgstr "Стать"
 
-#: accounts/models.py:63
+#: accounts/models.py:56
+msgid "Travel Context / Wishes"
+msgstr "Контекст подорожі / Побажання"
+
+#: accounts/models.py:71
 msgid "User profile"
 msgstr "Профіль користувача"
 
-#: accounts/models.py:64
+#: accounts/models.py:72
 msgid "User profiles"
 msgstr "Профілі користувачів"
 
-#: locations/models.py:7
-#| msgid "Category Name"
+#: locations/models.py:8
 msgid "City Name"
 msgstr "Назва міста"
 
-#: locations/models.py:9
-#| msgid "Country"
+#: locations/models.py:10
 msgid "Country Code"
 msgstr "Код країни"
 
-#: locations/models.py:11 locations/models.py:37
+#: locations/models.py:12 locations/models.py:38
 msgid "Latitude"
 msgstr "Широта"
 
-#: locations/models.py:12 locations/models.py:38
+#: locations/models.py:13 locations/models.py:39
 msgid "Longitude"
 msgstr "Довгота"
 
-#: locations/models.py:16 locations/models.py:25
+#: locations/models.py:17 locations/models.py:26
 msgid "City"
 msgstr "Місто"
 
-#: locations/models.py:17
+#: locations/models.py:18
 msgid "Cities"
 msgstr "Міста"
 
-#: locations/models.py:27
+#: locations/models.py:28
 msgid "Name"
 msgstr "Назва"
 
-#: locations/models.py:33 preferences/models.py:25
+#: locations/models.py:34 preferences/models.py:25
 msgid "Category"
 msgstr "Категорія"
 
-#: locations/models.py:35
+#: locations/models.py:36
 msgid "Address"
 msgstr "Адреса"
 
-#: locations/models.py:40
+#: locations/models.py:41
 msgid "Description"
 msgstr "Опис"
 
-#: locations/models.py:43
-msgid "Vector Embedding"
-msgstr "Вектор"
-
-#: locations/models.py:47
+#: locations/models.py:101
 msgid "Location"
 msgstr "Локація"
 
-#: locations/models.py:48
+#: locations/models.py:102
 msgid "Locations"
 msgstr "Локації"
 
@@ -166,3 +164,6 @@ msgstr "Вподобання користувача"
 #: preferences/models.py:56
 msgid "User preferences"
 msgstr "Вподобання користувачів"
+
+#~ msgid "Vector Embedding"
+#~ msgstr "Вектор"

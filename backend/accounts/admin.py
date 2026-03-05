@@ -35,15 +35,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = (
-        "user",
-        "nickname",
-        "age",
-        "country",
-        "gender",
-        "created_at",
-        "updated_at",
-    )
+    list_display = ("user", "nickname", "age", "country", "gender")
     search_fields = (
         "user__email",
         "user__username",
@@ -54,18 +46,24 @@ class UserProfileAdmin(admin.ModelAdmin):
         "country",
         "created_at",
     )
+    exclude = ("interests_embedding",)
 
-    readonly_fields = ("created_at", "updated_at", "interests_embedding")
+    readonly_fields = ("created_at", "updated_at")
 
     fieldsets = (
         ("User Info", {"fields": ("user",)}),
         (
             "Profile Data",
-            {"fields": ("nickname", "age", "country", "gender", "avatar")},
-        ),
-        (
-            "AI Analytics",
-            {"classes": ("collapse",), "fields": ("interests_embedding",)},
+            {
+                "fields": (
+                    "nickname",
+                    "age",
+                    "country",
+                    "gender",
+                    "avatar",
+                    "preferences_text",
+                )
+            },
         ),
         ("Timestamps", {"fields": ("created_at", "updated_at")}),
     )

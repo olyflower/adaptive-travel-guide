@@ -13,6 +13,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "country",
             "avatar",
             "gender",
+            "preferences_text",
             "created_at",
             "updated_at",
         )

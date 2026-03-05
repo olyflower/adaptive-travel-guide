@@ -15,7 +15,7 @@ class LocationAdmin(TranslationAdmin):
     search_fields = ("name", "city__name", "description")
     ordering = ("id", "city")
     autocomplete_fields = ("city",)
-    readonly_fields = ("embedding",)
+    exclude = ("embedding",)
 
 
 admin.site.register(City, CityAdmin)

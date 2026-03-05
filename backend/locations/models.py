@@ -42,6 +42,61 @@ class Location(models.Model):
 
     embedding = VectorField(dimensions=384, null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        current_description = (
+            getattr(self, "description_uk", None)
+            or getattr(self, "description_en", None)
+            or self.description
+        )
+        current_name = (
+            getattr(self, "name_uk", None)
+            or getattr(self, "name_en", None)
+            or self.name
+        )
+
+        current_full_text = (
+            f"{current_name}. {current_description}"
+            if current_description
+            else current_name
+        )
+
+        should_update_embedding = False
+
+        if not self.pk:
+
+            should_update_embedding = True
+        else:
+            try:
+                old_instance = Location.objects.get(pk=self.pk)
+                old_description = (
+                    getattr(old_instance, "description_uk", None)
+                    or getattr(old_instance, "description_en", None)
+                    or old_instance.description
+                )
+                old_name = (
+                    getattr(old_instance, "name_uk", None)
+                    or getattr(old_instance, "name_en", None)
+                    or old_instance.name
+                )
+                old_full_text = (
+                    f"{old_name}. {old_description}" if old_description else old_name
+                )
+
+                if current_full_text != old_full_text:
+                    should_update_embedding = True
+            except Location.DoesNotExist:
+                should_update_embedding = True
+
+        if current_full_text and (should_update_embedding or self.embedding is None):
+            from .services import generate_embedding
+
+            try:
+                self.embedding = generate_embedding(current_full_text)
+            except Exception as e:
+                print(f"AI Error during saving location {self.name}: {e}")
+
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = _("Location")
         verbose_name_plural = _("Locations")

@@ -50,6 +50,11 @@ class UserProfile(models.Model):
         blank=True,
         verbose_name=_("Gender"),
     )
+    preferences_text = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name=_("Travel Context / Wishes"),
+    )
 
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -61,6 +66,50 @@ class UserProfile(models.Model):
     )
 
     interests_embedding = VectorField(dimensions=384, null=True, blank=True)
+
+    def generate_interests_vector(self):
+        user_prefs = self.user.preferences.select_related(
+            "preference_option", "preference_option__category"
+        )
+
+        pref_labels = []
+        for up in user_prefs:
+            opt = up.preference_option
+            cat = opt.category
+
+            cat_name = (
+                getattr(cat, "name_uk", None)
+                or getattr(cat, "name_en", None)
+                or cat.name
+            )
+            opt_name = (
+                getattr(opt, "name_uk", None)
+                or getattr(opt, "name_en", None)
+                or opt.name
+            )
+            pref_labels.append(f"{cat_name}: {opt_name}")
+
+        tags_text = ", ".join(pref_labels)
+        user_wishes = self.preferences_text or ""
+
+        full_context = " ".join(filter(None, [tags_text, user_wishes]))
+
+        print("Full context:", full_context)
+
+        if full_context:
+            from locations.services import generate_embedding
+
+            try:
+                new_vector = generate_embedding(full_context)
+
+                UserProfile.objects.filter(pk=self.pk).update(
+                    interests_embedding=new_vector
+                )
+                return True
+            except Exception as e:
+                print(f"AI Vector Error for {self.user.email}: {e}")
+
+        return False
 
     class Meta:
         verbose_name = _("User profile")

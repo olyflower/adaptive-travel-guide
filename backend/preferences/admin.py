@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.db.models import Count
+from modeltranslation.admin import TranslationAdmin
 from .models import PreferenceCategory, PreferenceOption, UserPreference
 
 
-class PreferenceCategoryAdmin(admin.ModelAdmin):
+class PreferenceCategoryAdmin(TranslationAdmin):
     list_display = ("id", "name", "options_count")
     search_fields = ("name",)
     ordering = ("name",)
@@ -18,7 +19,7 @@ class PreferenceCategoryAdmin(admin.ModelAdmin):
     options_count.admin_order_field = "_options_count"
 
 
-class PreferenceOptionAdmin(admin.ModelAdmin):
+class PreferenceOptionAdmin(TranslationAdmin):
     list_display = ("id", "category", "name")
     list_filter = ("category",)
     search_fields = ("name", "category__name")
