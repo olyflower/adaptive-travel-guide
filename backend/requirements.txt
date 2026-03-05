@@ -18,7 +18,7 @@ django-modeltranslation==0.19.19
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.0
 drf-spectacular==0.28.0
-filelock==3.20.0
+filelock==3.20.3
 fsspec==2025.12.0
 google-auth==2.39.0
 h11==0.16.0
@@ -66,7 +66,7 @@ safetensors==0.7.0
 scikit-learn==1.8.0
 scipy==1.17.1
 sentence-transformers==5.2.3
-setuptools==70.2.0
+setuptools==78.1.1
 shellingham==1.5.4
 sqlparse==0.5.5
 sympy==1.14.0
