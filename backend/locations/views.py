@@ -1,10 +1,16 @@
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from pgvector.django import CosineDistance
-from .models import Location
-from .serializers import LocationSerializer
+from .models import City, Location
+from .serializers import CitySerializer, LocationSerializer
+
+
+class CityListView(ListAPIView):
+    queryset = City.objects.all()
+    serializer_class = CitySerializer
 
 
 class RecommendationView(APIView):

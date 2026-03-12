@@ -1,12 +1,23 @@
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import DestinationInput from "../components/DestinationInput";
 import { useTranslation } from "react-i18next";
 import HeroImageDesktop from "../assets/hero_main.webp";
 
 const Hero = () => {
 	const { t } = useTranslation();
-	const { isAuthenticated } = useAuth();
+	const navigate = useNavigate();
+	const { isAuthenticated, user } = useAuth();
 
-	const targetPath = isAuthenticated ? "/profile" : "/login";
+	const handleSearch = (city: string) => {
+		if (!isAuthenticated) {
+			navigate("/login");
+		} else if (!user?.profile?.profile_complete) {
+			navigate("/profile");
+		} else {
+			navigate(`/recommendations?city=${encodeURIComponent(city)}`);
+		}
+	};
 
 	return (
 		<div className="relative w-full h-auto min-h-[60vh] md:min-h-screen flex items-center justify-center mb-10 px-4">
@@ -32,12 +43,7 @@ const Hero = () => {
 				</p>
 
 				<div className="flex justify-center">
-					<a
-						href={targetPath}
-						className="btn-primary px-12 py-4 md:px-16 md:py-5 text-lg md:text-2xl shadow-2xl scale-110 hover:scale-125"
-					>
-						{t("hero.button")}
-					</a>
+					<DestinationInput onSearch={handleSearch} />
 				</div>
 			</div>
 		</div>

@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 from accounts.serializers import UserRegistrationSerializer
+from accounts.serializers import CustomUserSerializer
 from accounts.services.emails import (
     send_registration_email,
     send_password_reset_email,
@@ -106,7 +107,8 @@ class AuthStatusView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response({"isAuthenticated": True, "user": request.user.username})
+        serializer = CustomUserSerializer(request.user)
+        return Response({"isAuthenticated": True, "user": serializer.data})
 
 
 class PasswordResetRequestView(APIView):

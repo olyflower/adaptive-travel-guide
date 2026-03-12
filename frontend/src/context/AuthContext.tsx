@@ -12,8 +12,22 @@ import {
 	googleLoginRequest,
 } from "../services/AuthService";
 
+interface UserProfile {
+	nickname?: string;
+	preferences_text?: string;
+	profile_complete: boolean;
+}
+
+interface User {
+	id: number;
+	email: string;
+	username: string;
+	profile: UserProfile | null;
+}
+
 interface AuthContextType {
 	isAuthenticated: boolean;
+	user: User | null;
 	login: (email: string, password?: string) => Promise<void>;
 	logout: () => Promise<void>;
 	checkAuthStatus: () => Promise<void>;
@@ -23,18 +37,21 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [user, setUser] = useState<User | null>(null);
+
+	const checkAuthStatus = async () => {
+		try {
+			const data = await checkAuthStatusRequest();
+			setIsAuthenticated(data.isAuthenticated);
+			setUser(data.user);
+		} catch {
+			setIsAuthenticated(false);
+			setUser(null);
+		}
+	};
 
 	useEffect(() => {
-		const checkStatus = async () => {
-			try {
-				const isAuth = await checkAuthStatusRequest();
-				setIsAuthenticated(isAuth);
-			} catch (error) {
-				setIsAuthenticated(false);	
-			}
-		};
-
-		checkStatus();
+		checkAuthStatus();
 	}, []);
 
 	const handleLogin = async (emailOrToken: string, password?: string) => {
@@ -44,8 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			} else {
 				await googleLoginRequest(emailOrToken);
 			}
-			const status = await checkAuthStatusRequest();
-			setIsAuthenticated(status);
+			await checkAuthStatus();
 		} catch (error) {
 			throw error;
 		}
@@ -54,15 +70,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const handleLogout = async () => {
 		await logoutRequest();
 		setIsAuthenticated(false);
+		setUser(null);
 	};
 
 	return (
 		<AuthContext.Provider
 			value={{
 				isAuthenticated,
+				user,
 				login: handleLogin,
 				logout: handleLogout,
-				checkAuthStatus: checkAuthStatusRequest,
+				checkAuthStatus,
 			}}
 		>
 			{children}

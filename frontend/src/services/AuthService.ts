@@ -4,7 +4,7 @@ export const loginRequest = async (email: string, password: string) => {
 	const response = await axios.post(
 		`${import.meta.env.VITE_API_URL}/api/auth/login/`,
 		{ email, password },
-		{ withCredentials: true }
+		{ withCredentials: true },
 	);
 	return response.data;
 };
@@ -13,27 +13,30 @@ export const logoutRequest = async () => {
 	await axios.post(
 		`${import.meta.env.VITE_API_URL}/api/auth/logout/`,
 		{},
-		{ withCredentials: true }
+		{ withCredentials: true },
 	);
 };
 
 export const checkAuthStatusRequest = async () => {
 	const response = await axios.get(
 		`${import.meta.env.VITE_API_URL}/api/auth/status/`,
-		{ withCredentials: true }
+		{ withCredentials: true },
 	);
-	return response.data.isAuthenticated;
+	return {
+		isAuthenticated: response.data.isAuthenticated,
+		user: response.data.user || null,
+	};
 };
 
 export const registerUserRequest = async (
 	email: string,
 	username: string,
-	password: string
+	password: string,
 ) => {
 	const response = await axios.post(
 		`${import.meta.env.VITE_API_URL}/api/auth/register/`,
 		{ email, username, password },
-		{ withCredentials: true }
+		{ withCredentials: true },
 	);
 	return response.data;
 };
@@ -41,7 +44,7 @@ export const registerUserRequest = async (
 export const requestPasswordResetRequest = async (email: string) => {
 	const response = await axios.post(
 		`${import.meta.env.VITE_API_URL}/api/auth/password-reset/`,
-		{ email }
+		{ email },
 	);
 	return response.data;
 };
@@ -49,11 +52,11 @@ export const requestPasswordResetRequest = async (email: string) => {
 export const confirmPasswordResetRequest = async (
 	uid: string,
 	token: string,
-	newPassword: string
+	newPassword: string,
 ) => {
 	const response = await axios.post(
 		`${import.meta.env.VITE_API_URL}/api/auth/password-reset-confirm/`,
-		{ uid, token, new_password: newPassword }
+		{ uid, token, new_password: newPassword },
 	);
 	return response.data;
 };
@@ -62,7 +65,7 @@ export const googleLoginRequest = async (idToken: string) => {
 	const response = await axios.post(
 		`${import.meta.env.VITE_API_URL}/api/auth/auth/google/`,
 		{ id_token: idToken },
-		{ withCredentials: true }
+		{ withCredentials: true },
 	);
 	return response.data;
 };

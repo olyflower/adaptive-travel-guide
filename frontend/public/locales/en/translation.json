@@ -11,7 +11,8 @@
 		"title": "Feel the atmosphere of travel",
 		"text": "Immerse yourself in a world of culture, nature and unforgettable experiences with personalized tips",
 		"button": "Start your journey",
-		"img_alt": "Travel"
+		"img_alt": "Travel",
+		"destination": "Where are you planning to travel to?"
 	},
 	"features": {
 		"title": "Choose not just a direction — choose an approach to traveling!",

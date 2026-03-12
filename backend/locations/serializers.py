@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from .models import Location
+from .models import City, Location
+
+
+class CitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = ["id", "name", "country", "country_code"]
 
 
 class LocationSerializer(serializers.ModelSerializer):
