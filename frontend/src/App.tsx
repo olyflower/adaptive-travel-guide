@@ -13,6 +13,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const PasswordResetRequest = lazy(() => import("./pages/PasswordResetRequest"));
 const PasswordResetConfirm = lazy(() => import("./pages/PasswordResetConfirm"));
+const RecommendationsPage = lazy(() => import("./pages/Recommendation/RecommendationsPage"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -62,6 +63,12 @@ function App() {
 											<Route
 												path="contacts"
 												element={<Contacts />}
+											/>
+											<Route
+												path="/recommendations"
+												element={
+													<RecommendationsPage />
+												}
 											/>
 											<Route
 												path="*"

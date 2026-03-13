@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from pgvector.django import CosineDistance
+from django.db.models import Q
 from .models import City, Location
 from .serializers import CitySerializer, LocationSerializer
 
@@ -33,7 +34,17 @@ class RecommendationView(APIView):
 
         if target_city:
             target_city = target_city.strip()
-            queryset = queryset.filter(city__name__iexact=target_city)
+            queryset = queryset.filter(
+                Q(city__name_uk__iexact=target_city) | 
+                Q(city__name_en__iexact=target_city) |
+                Q(city__name__iexact=target_city)
+            )
+
+        all_locations = queryset.order_by("distance")
+        print("DEBUG: Дистанції для знайдених локацій:")
+        for loc in all_locations:
+            print(f"  - {loc.name}: distance = {loc.distance}")
+
         queryset = queryset.filter(distance__lt=0.6)
 
         recommended_locations = queryset.order_by("distance")[:5]

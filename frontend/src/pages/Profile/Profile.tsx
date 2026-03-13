@@ -11,6 +11,7 @@ import bgImage from "../../assets/hero_main.webp";
 import PreferencesSection from "./PreferencesSection";
 import Loader from "../../components/Loader";
 import { usePreferences } from "../../hooks/usePreferences";
+import { clearRecommendationCache } from "../../services/RecommendationService";
 import countries from "i18n-iso-countries";
 
 type ProfileFormValues = {
@@ -141,6 +142,8 @@ const Profile = () => {
 			await axios.post(`${API_URL}/api/auth/profile/save-full/`, values, {
 				withCredentials: true,
 			});
+
+			clearRecommendationCache();
 
 			setTimeout(() => navigate("/"), 1000);
 		} catch {}

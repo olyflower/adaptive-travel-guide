@@ -176,5 +176,10 @@
 		"preferences_title": "Preferences info",
 		"not_selected": "Not selected",
 		"save": "Save"
+	},
+	"recommendations": {
+		"title": "Recommended places in",
+		"subtitle": "Based on your interests, here are places you might like",
+		"add": "Add to my trip"
 	}
 }
