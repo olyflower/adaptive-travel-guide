@@ -2,10 +2,20 @@ import axios from "axios";
 
 export type LocationData = {
 	id: number;
-	name: string;
-	description?: string;
-	city: { id: number; name: string };
-	category?: { id: number; name: string };
+	name_uk: string;
+	name_en: string;
+	description_uk?: string;
+	description_en?: string;
+	city: {
+		id: number;
+		name_uk: string;
+		name_en: string;
+	};
+	category?: {
+		id: number;
+		name_uk: string;
+		name_en: string;
+	};
 	distance?: number;
 };
 
