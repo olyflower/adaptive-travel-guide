@@ -4,6 +4,10 @@ from locations.models import City, Location
 
 
 class TripPlan(models.Model):
+    """
+    Trip plan for a user for a specific city
+    """
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="plans"
     )
@@ -22,6 +26,10 @@ class TripPlan(models.Model):
 
 
 class Recommendation(models.Model):
+    """
+    Selected locations and activities within a trip
+    """
+
     trip_plan = models.ForeignKey(
         TripPlan, on_delete=models.CASCADE, related_name="recommendations"
     )
@@ -40,6 +48,10 @@ class Recommendation(models.Model):
 
 
 class WeatherForecast(models.Model):
+    """
+    Daily weather forecast for a trip plan
+    """
+
     trip_plan = models.ForeignKey(
         TripPlan, on_delete=models.CASCADE, related_name="weather_forecasts"
     )
@@ -56,6 +68,10 @@ class WeatherForecast(models.Model):
 
 
 class CurrencyRate(models.Model):
+    """
+    Exchange rates relevant to the travel destination
+    """
+
     trip_plan = models.ForeignKey(
         TripPlan, on_delete=models.CASCADE, related_name="currency_rates"
     )
@@ -68,6 +84,8 @@ class CurrencyRate(models.Model):
 
 
 class LanguagePhrase(models.Model):
+    """Useful phrase and translation for a trip plan"""
+
     trip_plan = models.ForeignKey(
         TripPlan, on_delete=models.CASCADE, related_name="phrases"
     )

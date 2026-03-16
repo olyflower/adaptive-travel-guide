@@ -5,6 +5,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 class City(models.Model):
+    """
+    Geographical destination storing location data and country info
+    """
+
     name = models.CharField(max_length=100, unique=True, verbose_name=_("City Name"))
     country = models.CharField(max_length=100, verbose_name=_("Country"))
     country_code = models.CharField(max_length=2, verbose_name=_("Country Code"))
@@ -22,6 +26,10 @@ class City(models.Model):
 
 
 class Location(models.Model):
+    """
+    Specific location within a city, with category, address, description, and embedding
+    """
+
     city = models.ForeignKey(
         City, on_delete=models.CASCADE, related_name="locations", verbose_name=_("City")
     )

@@ -5,6 +5,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUser(AbstractUser):
+    """
+    Custom user model using email as the primary identifier
+    """
+
     email = models.EmailField(unique=True, max_length=255, verbose_name=_("Email"))
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
@@ -16,6 +20,9 @@ class CustomUser(AbstractUser):
 
 
 class UserProfile(models.Model):
+    """Personal details and travel preferences for a user
+    """
+
     GENDER_CHOICES = [("M", _("Male")), ("F", _("Female"))]
 
     user = models.OneToOneField(

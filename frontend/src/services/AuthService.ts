@@ -1,4 +1,12 @@
 import axios from "axios";
+/**
+ * Authentication API service
+ * Contains requests for login, logout, registration and password reset
+ */
+
+/**
+ * Send login request with user credentials
+ */
 
 export const loginRequest = async (email: string, password: string) => {
 	const response = await axios.post(
@@ -9,6 +17,9 @@ export const loginRequest = async (email: string, password: string) => {
 	return response.data;
 };
 
+/**
+ * Log out the current user
+ */
 export const logoutRequest = async () => {
 	await axios.post(
 		`${import.meta.env.VITE_API_URL}/api/auth/logout/`,
@@ -17,6 +28,9 @@ export const logoutRequest = async () => {
 	);
 };
 
+/**
+ * Check if the current user session is authenticated
+ */
 export const checkAuthStatusRequest = async () => {
 	const response = await axios.get(
 		`${import.meta.env.VITE_API_URL}/api/auth/status/`,
@@ -28,6 +42,9 @@ export const checkAuthStatusRequest = async () => {
 	};
 };
 
+/**
+ * Register a new user account
+ */
 export const registerUserRequest = async (
 	email: string,
 	username: string,
@@ -41,6 +58,9 @@ export const registerUserRequest = async (
 	return response.data;
 };
 
+/**
+ * Request a password reset email
+ */
 export const requestPasswordResetRequest = async (email: string) => {
 	const response = await axios.post(
 		`${import.meta.env.VITE_API_URL}/api/auth/password-reset/`,
@@ -49,6 +69,9 @@ export const requestPasswordResetRequest = async (email: string) => {
 	return response.data;
 };
 
+/**
+ * Confirm password reset with token and set a new password
+ */
 export const confirmPasswordResetRequest = async (
 	uid: string,
 	token: string,
@@ -61,6 +84,9 @@ export const confirmPasswordResetRequest = async (
 	return response.data;
 };
 
+/**
+ * Authenticate user via Google OAuth using ID token
+ */
 export const googleLoginRequest = async (idToken: string) => {
 	const response = await axios.post(
 		`${import.meta.env.VITE_API_URL}/api/auth/auth/google/`,

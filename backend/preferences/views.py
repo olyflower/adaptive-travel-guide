@@ -7,20 +7,31 @@ from .serializers import PreferenceCategorySerializer, UserPreferenceSaveSeriali
 
 
 class AllPreferencesListView(APIView):
+    """
+    Returns a complete list of all available preference categories and options
+    Used to populate the preference selection UI for the user
+    """
 
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        """Fetches and serializes all PreferenceCategory objects"""
+
         categories = PreferenceCategory.objects.all()
         serializer = PreferenceCategorySerializer(categories, many=True)
         return Response(serializer.data)
 
 
 class SaveUserPreferencesView(APIView):
+    """
+    Handles saving or updating the user's selected preferences
+    Uses a custom serializer method to process the batch of preferences
+    """
 
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        """Validates input data and calls save_preferences for the current user"""
 
         serializer = UserPreferenceSaveSerializer(data=request.data)
         if serializer.is_valid():

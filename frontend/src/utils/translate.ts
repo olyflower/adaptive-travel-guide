@@ -1,3 +1,8 @@
+/**
+ * Returns a translated field value based on the current i18n language
+ * Falls back to the default field if a localized version is not available
+ */
+
 export const getTranslatedName = (
 	item: any,
 	i18n: any,

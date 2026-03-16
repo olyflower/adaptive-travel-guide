@@ -19,6 +19,10 @@ type FieldProps = {
 	autoComplete?: string;
 };
 
+/**
+ * Password Reset Request page component
+ * Allows user to request a password reset email by providing their email address
+ */
 const PasswordResetRequest = () => {
 	const { t, i18n } = useTranslation();
 	const [message, setMessage] = useState<string | null>(null);
@@ -51,6 +55,12 @@ const PasswordResetRequest = () => {
 		}
 	}, [i18n.language, isSubmitted, trigger]);
 
+	/**
+ * Handles password reset request form submission
+ * Sends email to API to initiate password reset process,
+ * shows success or error message, and redirects to home page on success
+ * @param values - form values (email)
+ */
 	const onSubmit = async (values: ResetRequestValues) => {
 		setMessage(null);
 		try {
@@ -69,6 +79,9 @@ const PasswordResetRequest = () => {
 		}
 	};
 
+	/**
+ * Renders a single input field with label, error message, and styling
+ */
 	const renderField = ({
 		id,
 		label,

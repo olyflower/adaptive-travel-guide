@@ -1,7 +1,7 @@
 from django.urls import path
-from . import views
+from .views import WeatherView, CurrencyExchangeView
 
 urlpatterns = [
-    path("weather/", views.weather, name="weather"),
-    path("currency/", views.currency, name="currency"),
+    path("weather/", WeatherView.as_view(), name="weather"),
+    path("currency/", CurrencyExchangeView.as_view(), name="currency"),
 ]

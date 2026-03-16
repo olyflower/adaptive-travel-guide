@@ -4,6 +4,10 @@ from django.conf import settings
 
 
 class PreferenceCategory(models.Model):
+    """
+    Broad categories for user interests (e.g., Food, Arts)
+    """
+
     name = models.CharField(
         max_length=100, unique=True, verbose_name=_("Category Name")
     )
@@ -18,6 +22,10 @@ class PreferenceCategory(models.Model):
 
 
 class PreferenceOption(models.Model):
+    """
+    Specific choices within a category (e.g., Italian, Museums)
+    """
+
     category = models.ForeignKey(
         PreferenceCategory,
         on_delete=models.CASCADE,
@@ -41,6 +49,10 @@ class PreferenceOption(models.Model):
 
 
 class UserPreference(models.Model):
+    """
+    Mapping of users to their selected preference options
+    """
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

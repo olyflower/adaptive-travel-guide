@@ -20,6 +20,10 @@ type FieldProps = {
 	autoComplete?: string;
 };
 
+/**
+ * Login page component
+ * Renders login form and handles user authentication via email/password
+ */
 const Login = () => {
 	const { t, i18n } = useTranslation();
 	const { login } = useAuth();
@@ -56,6 +60,11 @@ const Login = () => {
 		}
 	}, [i18n.language, isSubmitted, trigger]);
 
+
+	/**
+	 * Handles form submission and attempts user login.
+	 * @param values - email and password from the form
+	 */
 	const onSubmit = async (values: LoginFormValues) => {
 		setMessage(null);
 		try {
@@ -69,6 +78,9 @@ const Login = () => {
 		}
 	};
 
+	/**
+	 * Renders a single form field with label, input, and error message
+	 */
 	const renderField = ({
 		id,
 		label,

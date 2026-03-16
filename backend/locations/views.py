@@ -10,14 +10,29 @@ from .serializers import CitySerializer, LocationSerializer
 
 
 class CityListView(ListAPIView):
+    """
+    Provides a simple list of all supported cities in the system
+    """
+
     queryset = City.objects.all()
     serializer_class = CitySerializer
 
 
 class RecommendationView(APIView):
+    """
+    Core recommendation engine 
+    Uses vector similarity search (Cosine Distance) to match locations 
+    with the user's personal interests and travel context
+    """
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        """
+        Retrieves top personalized recommendations for a specific city
+        Calculates semantic distance between user's profile embedding and location embeddings
+        """
+
         target_city = request.query_params.get("city")
         user_profile = getattr(request.user, "userprofile", None)
         if not user_profile or user_profile.interests_embedding is None:
@@ -35,15 +50,10 @@ class RecommendationView(APIView):
         if target_city:
             target_city = target_city.strip()
             queryset = queryset.filter(
-                Q(city__name_uk__iexact=target_city) | 
-                Q(city__name_en__iexact=target_city) |
-                Q(city__name__iexact=target_city)
+                Q(city__name_uk__iexact=target_city)
+                | Q(city__name_en__iexact=target_city)
+                | Q(city__name__iexact=target_city)
             )
-
-        all_locations = queryset.order_by("distance")
-        print("DEBUG: Дистанції для знайдених локацій:")
-        for loc in all_locations:
-            print(f"  - {loc.name}: distance = {loc.distance}")
 
         queryset = queryset.filter(distance__lt=0.6)
 

@@ -23,6 +23,10 @@ type FieldProps = {
 	autoComplete?: string;
 };
 
+/**
+ * Register page component
+ * Renders registration form and handles user signup
+ */
 const Register = () => {
 	const { t, i18n } = useTranslation();
 	const { login } = useAuth();
@@ -69,6 +73,11 @@ const Register = () => {
 		}
 	}, [i18n.language, isSubmitted, trigger]);
 
+	/**
+ * Handles form submission and registers a new user
+ * Then logs in the user and navigates to home page
+ * @param values - form values (email, username, password, confirmPassword)
+ */
 	const onSubmit = async (values: RegisterFormValues) => {
 		setMessage(null);
 		try {
@@ -90,6 +99,9 @@ const Register = () => {
 		}
 	};
 
+	/**
+ * Renders a single form field with label, input, and error message
+ */
 	const renderField = ({
 		id,
 		label,

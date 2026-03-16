@@ -29,6 +29,11 @@ from preferences.models import UserPreference
 
 
 class CookieTokenObtainPairView(TokenObtainPairView):
+    """
+    Custom JWT login view that stores tokens in secure HttpOnly cookies
+    Enhances security by preventing client-side script access to tokens
+    """
+
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
 
@@ -73,6 +78,11 @@ class CookieTokenObtainPairView(TokenObtainPairView):
 
 
 class RegisterView(CreateAPIView):
+    """
+    Handles new user registration, triggers welcome emails,
+    and automatically issues JWT tokens upon successful sign-up
+    """
+
     serializer_class = UserRegistrationSerializer
     queryset = get_user_model().objects.all()
     permission_classes = [AllowAny]
@@ -104,6 +114,11 @@ class RegisterView(CreateAPIView):
 
 
 class AuthStatusView(APIView):
+    """
+    Simple endpoint to check if the user is currently authenticated
+    and return basic user data
+    """
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -112,6 +127,11 @@ class AuthStatusView(APIView):
 
 
 class PasswordResetRequestView(APIView):
+    """
+    Initiates the password reset process by generating a secure token
+    and sending an email with a unique reset link
+    """
+
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -146,6 +166,11 @@ class PasswordResetRequestView(APIView):
 
 
 class PasswordResetConfirmView(APIView):
+    """
+    Validates the reset token and updates the user's password
+    after a successful verification
+    """
+
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -196,6 +221,10 @@ class PasswordResetConfirmView(APIView):
 
 
 class LogoutView(APIView):
+    """
+    Logs out the user by clearing the access and refresh token cookies
+    """
+
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -206,6 +235,11 @@ class LogoutView(APIView):
 
 
 class GoogleLoginView(APIView):
+    """
+    Handles OAuth2 authentication via Google
+    Verifies the ID token and creates a user record if it's their first login
+    """
+
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -253,9 +287,17 @@ class GoogleLoginView(APIView):
 
 
 class ProfileSaveFullView(APIView):
+    """
+    Managed combined profile data and user preferences
+    Uses database transactions to ensure data integrity and
+    triggers AI embedding generation for personalized recommendations
+    """
+
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        """Processes atomic updates for profile details and batch preference selections"""
+
         user = request.user
         data = request.data
 
@@ -292,6 +334,8 @@ class ProfileSaveFullView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):
+        """Retrieves the full profile state and current preference selections"""
+
         user = request.user
         profile = user.userprofile
 

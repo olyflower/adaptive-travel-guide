@@ -5,6 +5,21 @@ interface Props {
 	placeholder: string;
 }
 
+interface Props {
+	value: string;
+	onChange: (value: string) => void;
+	options: { code: string; name: string }[];
+	placeholder: string;
+}
+
+/**
+ * CountryCombobox component
+ * Renders an input with a datalist for selecting a country.
+ * - `value`: currently selected country code
+ * - `onChange`: callback when user selects a country (returns country code)
+ * - `options`: array of countries with code and name
+ * - `placeholder`: input placeholder text
+ */
 const CountryCombobox = ({ value, onChange, options, placeholder }: Props) => {
 	const selectedCountryName =
 		options.find((c) => c.code === value)?.name || "";

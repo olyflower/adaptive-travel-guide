@@ -26,6 +26,11 @@ type ProfileFormValues = {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+/**
+ * Registers country names for the given language in i18n-iso-countries library
+ * @param lang - language code (e.g., "en", "uk")
+ * @returns true if locale was successfully registered
+ */
 const registerCountryLang = async (lang: string) => {
 	try {
 		const response = await fetch(`/locales/countries/${lang}.json`);
@@ -37,6 +42,13 @@ const registerCountryLang = async (lang: string) => {
 	}
 };
 
+/**
+ * Profile page component
+ * Allows users to view and edit their personal profile information, including:
+ * - nickname, avatar, age, country, gender
+ * - travel preferences and selected options
+ * Handles form validation, submission to API, and cache clearing for recommendations.
+ */
 const Profile = () => {
 	const { categories } = usePreferences();
 	const { t, i18n } = useTranslation();
@@ -135,6 +147,12 @@ const Profile = () => {
 		fetchProfile();
 	}, [API_URL, navigate, reset]);
 
+	/**
+ * Handles profile form submission
+ * Sends updated profile data to the backend and clears cached recommendations
+ * On success, redirects user to home page after a short delay
+ * @param values - all profile form values
+ */
 	const onSubmit: SubmitHandler<ProfileFormValues> = async (
 		values: ProfileFormValues,
 	) => {

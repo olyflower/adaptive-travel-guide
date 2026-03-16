@@ -1,8 +1,15 @@
 import axios from "axios";
 
 // weather
+
+/**
+ * City name or geographic coordinates used to request weather data
+ */
 type CityOrCoords = string | { lat: number; lon: number };
 
+/**
+ * Weather data returned from the backend API
+ */
 export type WeatherData = {
 	city: string;
 	country: string;
@@ -15,6 +22,10 @@ const CACHE_KEY = "weatherData";
 const CACHE_DURATION = 24 * 60 * 60 * 1000;
 const DEFAULT_CITY = "Paris";
 
+
+/**
+ * Fetch weather data from the API and store it in localStorage cache
+ */
 const fetchAndCacheWeather = async (
 	cityOrCoords: CityOrCoords,
 ): Promise<WeatherData | null> => {
@@ -37,6 +48,9 @@ const fetchAndCacheWeather = async (
 	}
 };
 
+/**
+ * Retrieve cached weather data if it is still valid
+ */
 const getCachedWeather = (): WeatherData | null => {
 	const cached = localStorage.getItem(CACHE_KEY);
 	if (cached) {
@@ -48,6 +62,10 @@ const getCachedWeather = (): WeatherData | null => {
 	return null;
 };
 
+/**
+ * Load weather data using cache when possible
+ * Attempts to use user geolocation, falling back to a default city
+ */
 export const loadWeatherData = async (): Promise<WeatherData | null> => {
 	const cached = getCachedWeather();
 	if (cached) return cached;
@@ -76,6 +94,9 @@ export const loadWeatherData = async (): Promise<WeatherData | null> => {
 const CURRENCY_CACHE_KEY = "currencyData";
 const CURRENCY_CACHE_DURATION = 12 * 60 * 60 * 1000; // 12 часов
 
+/**
+ * Cached exchange rate structure stored in localStorage
+ */
 type CachedRate = {
 	from: string;
 	to: string;
@@ -83,6 +104,9 @@ type CachedRate = {
 	timestamp: number;
 };
 
+/**
+ * Mapping of country codes to their main currencies
+ */
 export const countryToCurrency: Record<string, string> = {
 	FR: "EUR",
 	US: "USD",
@@ -94,10 +118,16 @@ export const countryToCurrency: Record<string, string> = {
 	BG: "BGN",
 };
 
+/**
+ * Return the currency code for a given country code
+ */
 export const getCurrencyByCountry = (countryCode: string): string => {
 	return countryToCurrency[countryCode] || "USD";
 };
 
+/**
+ * Retrieve cached exchange rate if it is still valid
+ */
 const getCachedCurrencyRate = (from: string, to: string): CachedRate | null => {
 	const cached = localStorage.getItem(CURRENCY_CACHE_KEY);
 	if (!cached) return null;
@@ -118,6 +148,9 @@ const getCachedCurrencyRate = (from: string, to: string): CachedRate | null => {
 	return null;
 };
 
+/**
+ * Fetch exchange rate from the API and store it in cache
+ */
 const fetchAndCacheCurrencyRate = async (
 	from: string,
 	to: string,
@@ -144,6 +177,9 @@ const fetchAndCacheCurrencyRate = async (
 	}
 };
 
+/**
+ * Load exchange rate using cached data when available
+ */
 export const loadExchangeRate = async (
 	from: string,
 	to: string,

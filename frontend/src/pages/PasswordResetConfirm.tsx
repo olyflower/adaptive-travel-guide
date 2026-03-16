@@ -20,6 +20,10 @@ type FieldProps = {
 	autoComplete?: string;
 };
 
+/**
+ * Password Reset Confirm page component
+ * Allows user to set a new password using UID and token from email link
+ */
 const PasswordResetConfirm = () => {
 	const { t, i18n } = useTranslation();
 	const [message, setMessage] = useState<string | null>(null);
@@ -67,6 +71,12 @@ const PasswordResetConfirm = () => {
 		if (isSubmitted) trigger();
 	}, [i18n.language, isSubmitted, trigger]);
 
+	/**
+ * Handles password reset confirmation form submission
+ * Sends new password with UID and token to API, shows success/error message,
+ * and redirects to login page on success
+ * @param values - form values (newPassword, confirmPassword)
+ */
 	const onSubmit = async (values: ResetConfirmValues) => {
 		setMessage(null);
 		if (!uid || !token) {
@@ -90,6 +100,9 @@ const PasswordResetConfirm = () => {
 		}
 	};
 
+	/**
+ * Renders a single password input field with label, error message, and styling
+ */
 	const renderField = ({
 		id,
 		label,

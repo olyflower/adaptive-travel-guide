@@ -6,14 +6,26 @@ from .serializers import TripPlanSerializer, RecommendationSerializer
 
 
 class TripPlanViewSet(viewsets.ModelViewSet):
+    """
+    Handles CRUD operations for user trip plans
+    Provides a custom action to quickly add locations to a plan
+    """
+
     serializer_class = TripPlanSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
+        """Returns only the trip plans belonging to the authenticated user"""
+
         return TripPlan.objects.filter(user=self.request.user)
 
     @action(detail=False, methods=["post"])
     def add_location(self, request):
+        """
+        Custom endpoint to add a location to a trip plan
+        Automatically creates a new TripPlan if one doesn't exist for the city
+        """
+
         city_id = request.data.get("city_id")
         location_id = request.data.get("location_id")
 
@@ -42,8 +54,15 @@ class TripPlanViewSet(viewsets.ModelViewSet):
 
 
 class RecommendationViewSet(viewsets.ModelViewSet):
+    """
+    Manages specific recommendations within trip plans
+    Allows users to delete locations or update personal notes
+    """
+
     serializer_class = RecommendationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
+        """Filters recommendations to only show those owned by the current user"""
+        
         return Recommendation.objects.filter(trip_plan__user=self.request.user)

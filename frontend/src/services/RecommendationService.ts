@@ -1,5 +1,9 @@
 import axios from "axios";
 
+
+/**
+ * Location data returned from the recommendations API
+ */
 export type LocationData = {
 	id: number;
 	name_uk: string;
@@ -19,9 +23,15 @@ export type LocationData = {
 	distance?: number;
 };
 
+/**
+ * Generate a cache key for a specific city
+ */
 const getCacheKey = (city: string) => `recommendations_${city.toLowerCase()}`;
 const RECOMMENDATION_CACHE_DURATION = 5 * 60 * 1000;
 
+/**
+ * Retrieve cached recommendations for a city if they are still valid
+ */
 const getCachedRecommendations = (city: string): LocationData[] | null => {
 	const cached = localStorage.getItem(getCacheKey(city));
 	if (!cached) return null;
@@ -39,6 +49,9 @@ const getCachedRecommendations = (city: string): LocationData[] | null => {
 	return null;
 };
 
+/**
+ * Fetch recommendations from the backend API and store them in localStorage cache
+ */
 const fetchAndCacheRecommendations = async (
 	city: string,
 ): Promise<LocationData[]> => {
@@ -73,6 +86,10 @@ const fetchAndCacheRecommendations = async (
 	}
 };
 
+/**
+ * Load recommendations for a city
+ * Uses cached data if available, otherwise fetches from the API
+ */
 export const loadRecommendations = async (
 	city: string,
 ): Promise<LocationData[]> => {
@@ -84,6 +101,9 @@ export const loadRecommendations = async (
 	return await fetchAndCacheRecommendations(city);
 };
 
+/**
+ * Clear all cached recommendation data from localStorage
+ */
 export const clearRecommendationCache = () => {
 	Object.keys(localStorage).forEach((key) => {
 		if (key.startsWith("recommendations_")) {

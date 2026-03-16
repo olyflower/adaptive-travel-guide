@@ -12,12 +12,19 @@ import {
 	googleLoginRequest,
 } from "../services/AuthService";
 
+
+/**
+ * User profile data returned from backend
+ */
 interface UserProfile {
 	nickname?: string;
 	preferences_text?: string;
 	profile_complete: boolean;
 }
 
+/**
+ * User profile data returned from backend
+ */
 interface User {
 	id: number;
 	email: string;
@@ -25,6 +32,9 @@ interface User {
 	profile: UserProfile | null;
 }
 
+/**
+ * Authentication context type containing state and actions
+ */
 interface AuthContextType {
 	isAuthenticated: boolean;
 	user: User | null;
@@ -33,12 +43,21 @@ interface AuthContextType {
 	checkAuthStatus: () => Promise<void>;
 }
 
+/**
+ * React context for authentication state
+ */
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+/**
+ * Provides authentication state and actions to children components
+ */
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [user, setUser] = useState<User | null>(null);
 
+	/**
+	 * Checks current user authentication status from backend
+	 */
 	const checkAuthStatus = async () => {
 		try {
 			const data = await checkAuthStatusRequest();
@@ -54,6 +73,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		checkAuthStatus();
 	}, []);
 
+	/**
+	 * Logs in user either via email/password or Google OAuth
+	 */
 	const handleLogin = async (emailOrToken: string, password?: string) => {
 		try {
 			if (password) {
@@ -67,6 +89,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		}
 	};
 
+	/**
+	 * Logs out current user and resets state
+	 */
 	const handleLogout = async () => {
 		await logoutRequest();
 		setIsAuthenticated(false);
@@ -88,6 +113,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	);
 };
 
+/**
+ * Hook to access authentication context
+ */
 export const useAuth = () => {
 	const context = useContext(AuthContext);
 	if (!context) {
