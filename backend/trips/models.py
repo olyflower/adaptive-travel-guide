@@ -47,42 +47,6 @@ class Recommendation(models.Model):
         return f"{self.location} in {self.trip_plan.city}"
 
 
-class WeatherForecast(models.Model):
-    """
-    Daily weather forecast for a trip plan
-    """
-
-    trip_plan = models.ForeignKey(
-        TripPlan, on_delete=models.CASCADE, related_name="weather_forecasts"
-    )
-    date = models.DateField()
-    temp_min = models.FloatField()
-    temp_max = models.FloatField()
-    description = models.CharField(max_length=255)
-
-    class Meta:
-        unique_together = ("trip_plan", "date")
-
-    def __str__(self):
-        return f"Weather for {self.trip_plan.city} on {self.date}"
-
-
-class CurrencyRate(models.Model):
-    """
-    Exchange rates relevant to the travel destination
-    """
-
-    trip_plan = models.ForeignKey(
-        TripPlan, on_delete=models.CASCADE, related_name="currency_rates"
-    )
-    currency_code = models.CharField(max_length=3)
-    rate = models.DecimalField(max_digits=10, decimal_places=4)
-    date = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.currency_code} rate for {self.trip_plan.id}"
-
-
 class LanguagePhrase(models.Model):
     """Useful phrase and translation for a trip plan"""
 
@@ -98,6 +62,9 @@ class LanguagePhrase(models.Model):
             ("uk", "Ukrainian"),
             ("es", "Spanish"),
             ("fr", "French"),
+            ("pl", "Polish"),
+            ("it", "Italian"),
+            ("de", "German"),
         ],
     )
 

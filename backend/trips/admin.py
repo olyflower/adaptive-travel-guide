@@ -2,24 +2,12 @@ from django.contrib import admin
 from .models import (
     TripPlan,
     Recommendation,
-    WeatherForecast,
-    CurrencyRate,
     LanguagePhrase,
 )
 
 
 class RecommendationInline(admin.TabularInline):
     model = Recommendation
-    extra = 1
-
-
-class WeatherForecastInline(admin.TabularInline):
-    model = WeatherForecast
-    extra = 1
-
-
-class CurrencyRateInline(admin.TabularInline):
-    model = CurrencyRate
     extra = 1
 
 
@@ -40,13 +28,9 @@ class TripPlanAdmin(admin.ModelAdmin):
 
     inlines = [
         RecommendationInline,
-        WeatherForecastInline,
-        CurrencyRateInline,
         LanguagePhraseInline,
     ]
 
 
 admin.site.register(Recommendation)
-admin.site.register(WeatherForecast)
-admin.site.register(CurrencyRate)
 admin.site.register(LanguagePhrase)
