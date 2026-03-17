@@ -1,10 +1,25 @@
-import { LocationData } from "../../services/RecommendationService";
+import { useState } from "react";
+import {
+	LocationData,
+	addLocationToTripPlan,
+	clearRecommendationCache,
+} from "../../services/RecommendationService";
 import { getTranslatedName } from "../../utils/translate";
 import { FaMapMarkerAlt, FaTag, FaPlus } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
-const RecommendationCard = ({ location }: { location: LocationData }) => {
+type RecommendationCardProps = {
+	location: LocationData;
+	onAddedToPlan: (planId: number) => void;
+};
+
+const RecommendationCard = ({
+	location,
+	onAddedToPlan,
+}: RecommendationCardProps) => {
 	const { t, i18n } = useTranslation();
+	const [isLoading, setIsLoading] = useState(false);
+	const [isAdded, setIsAdded] = useState(location.is_in_trip);
 
 	const translatedDescription = getTranslatedName(
 		location,
@@ -16,6 +31,22 @@ const RecommendationCard = ({ location }: { location: LocationData }) => {
 	const translatedCategory = location.category
 		? getTranslatedName(location.category, i18n, "name")
 		: "";
+
+	const handleAddLocation = async () => {
+		if (isLoading || isAdded) return;
+
+		try {
+			setIsLoading(true);
+			const response = await addLocationToTripPlan(location.city.id, location.id);
+			onAddedToPlan(response.trip_plan_id);
+			clearRecommendationCache();
+			setIsAdded(true);
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	return (
 		<div className="group relative bg-(--color-bg-nav-footer) border border-(--color-primary)/10 rounded-3xl overflow-hidden hover:border-(--color-primary)/40 transition-all duration-500 hover:-translate-y-2 shadow-xl flex flex-col h-full">
@@ -42,12 +73,33 @@ const RecommendationCard = ({ location }: { location: LocationData }) => {
 					{translatedDescription}
 				</p>
 
-				<button className="mt-auto group/btn flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-(--color-primary)/10 text-(--color-primary) font-bold hover:bg-(--color-primary) hover:text-white transition-all duration-300 active:scale-95 border border-(--color-primary)/20">
-					<span>{t("recommendations.add")}</span>
-					<FaPlus
-						size={14}
-						className="group-hover/btn:rotate-90 transition-transform duration-300"
-					/>
+				<button
+					onClick={handleAddLocation}
+					disabled={isLoading || isAdded}
+					className={`mt-auto group/btn flex items-center justify-center gap-2 w-full py-3 rounded-2xl transition-all duration-300 active:scale-95 border 
+          ${
+				isAdded
+					? "bg-green-500/10 text-green-500 border-green-500/20 cursor-default"
+					: "bg-(--color-primary)/10 text-(--color-primary) border-(--color-primary)/20 hover:bg-(--color-primary) hover:text-white"
+			} 
+          disabled:opacity-80`}
+				>
+					<span>
+						{isLoading
+							? t("recommendations.adding")
+							: isAdded
+								? t("recommendations.added")
+								: t("recommendations.add")}
+					</span>
+
+					{isAdded ? (
+						<span className="text-lg">✓</span>
+					) : (
+						<FaPlus
+							size={14}
+							className="group-hover/btn:rotate-90 transition-transform duration-300"
+						/>
+					)}
 				</button>
 			</div>
 		</div>

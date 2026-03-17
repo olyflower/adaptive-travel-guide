@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import contactImage from "../assets/code.jpg";
 
 const Contacts = () => {
@@ -7,22 +7,15 @@ const Contacts = () => {
 
 	const contactLinks = [
 		{
-			id: "email",
-			href: "mailto:example@example.com",
-			icon: FaEnvelope,
-			label: "example@example.com",
-			external: false,
-		},
-		{
 			id: "github",
-			href: "https://github.com",
+			href: "https://github.com/olyflower",
 			icon: FaGithub,
 			label: "GitHub: Adaptive Travel Guide",
 			external: true,
 		},
 		{
 			id: "linkedin",
-			href: "https://www.linkedin.com/",
+			href: "https://www.linkedin.com/feed/",
 			icon: FaLinkedin,
 			label: "LinkedIn",
 			external: true,
@@ -43,7 +36,7 @@ const Contacts = () => {
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
 				<div className="space-y-6 text-lg leading-relaxed">
 					<p>{t("contacts.p1")}</p>
-					<p>{t("contacts.p2")}</p>
+					<p>{t("contacts.title")}:</p>
 
 					<div className="space-y-4">
 						{contactLinks.map(

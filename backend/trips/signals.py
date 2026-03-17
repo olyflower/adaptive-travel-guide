@@ -65,6 +65,11 @@ PHRASES = {
 
 @receiver(post_save, sender=TripPlan)
 def enrich_trip_plan(sender, instance, created, **kwargs):
+    """
+    Triggered when a new TripPlan is saved
+    Initiates the process of adding destination-specific data
+    """
+
     if not created:
         return
 
@@ -72,6 +77,11 @@ def enrich_trip_plan(sender, instance, created, **kwargs):
 
 
 def create_trip_phrases(trip_plan):
+    """
+    Identifies the destination language and populates the trip plan
+    with a predefined list of essential travel phrases
+    """
+
     if trip_plan.phrases.exists():
         return
 
@@ -79,6 +89,7 @@ def create_trip_phrases(trip_plan):
     lang_code = DESTINATION_LANG.get(country_code, "en")
     phrase_list = PHRASES.get(lang_code, PHRASES["en"])
 
+    # Create LanguagePhrase objects in memory
     phrases = [
         LanguagePhrase(
             trip_plan=trip_plan,
@@ -89,4 +100,5 @@ def create_trip_phrases(trip_plan):
         for origin, translation in phrase_list
     ]
 
+    # Efficiently insert all phrases into the database in a single query
     LanguagePhrase.objects.bulk_create(phrases)

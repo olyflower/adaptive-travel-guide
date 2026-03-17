@@ -1,26 +1,30 @@
 import axios from "axios";
 
+export type CityData = {
+	id: number;
+	name_uk: string;
+	name_en: string;
+};
 
-/**
- * Location data returned from the recommendations API
- */
 export type LocationData = {
 	id: number;
 	name_uk: string;
 	name_en: string;
 	description_uk?: string;
 	description_en?: string;
-	city: {
-		id: number;
-		name_uk: string;
-		name_en: string;
-	};
+	city: CityData;
 	category?: {
 		id: number;
 		name_uk: string;
 		name_en: string;
 	};
 	distance?: number;
+	is_in_trip: boolean;
+};
+
+export type RecommendationsResponse = {
+	city: CityData;
+	locations: LocationData[];
 };
 
 /**
@@ -32,7 +36,9 @@ const RECOMMENDATION_CACHE_DURATION = 5 * 60 * 1000;
 /**
  * Retrieve cached recommendations for a city if they are still valid
  */
-const getCachedRecommendations = (city: string): LocationData[] | null => {
+const getCachedRecommendations = (
+	city: string,
+): RecommendationsResponse | null => {
 	const cached = localStorage.getItem(getCacheKey(city));
 	if (!cached) return null;
 
@@ -54,7 +60,7 @@ const getCachedRecommendations = (city: string): LocationData[] | null => {
  */
 const fetchAndCacheRecommendations = async (
 	city: string,
-): Promise<LocationData[]> => {
+): Promise<RecommendationsResponse> => {
 	try {
 		const url = `${import.meta.env.VITE_API_URL}/api/locations/recommendations/`;
 
@@ -63,7 +69,7 @@ const fetchAndCacheRecommendations = async (
 			withCredentials: true,
 		});
 
-		const data: LocationData[] = response.data;
+		const data: RecommendationsResponse = response.data;
 
 		localStorage.setItem(
 			getCacheKey(city),
@@ -81,8 +87,19 @@ const fetchAndCacheRecommendations = async (
 		if (error.response?.status === 401) {
 			throw new Error("UNAUTHORIZED");
 		}
+		if (error.response?.status === 404) {
+			throw new Error("CITY_NOT_FOUND");
+		}
 		console.error("Error fetching recommendations:", error);
-		return [];
+
+		return {
+			city: {
+				id: 0,
+				name_uk: city,
+				name_en: city,
+			},
+			locations: [],
+		};
 	}
 };
 
@@ -92,8 +109,17 @@ const fetchAndCacheRecommendations = async (
  */
 export const loadRecommendations = async (
 	city: string,
-): Promise<LocationData[]> => {
-	if (!city) return [];
+): Promise<RecommendationsResponse> => {
+	if (!city) {
+		return {
+			city: {
+				id: 0,
+				name_uk: "",
+				name_en: "",
+			},
+			locations: [],
+		};
+	}
 
 	const cached = getCachedRecommendations(city);
 	if (cached) return cached;
@@ -110,4 +136,45 @@ export const clearRecommendationCache = () => {
 			localStorage.removeItem(key);
 		}
 	});
+};
+
+/**
+ * Clear cached recommendations only for one city
+ */
+export const clearRecommendationsCacheForCity = (city: string) => {
+	localStorage.removeItem(getCacheKey(city));
+};
+
+/**
+ * Add a selected location to the user's trip plan
+ */
+export const addLocationToTripPlan = async (
+	cityId: number,
+	locationId: number,
+) => {
+	try {
+		const url = `${import.meta.env.VITE_API_URL}/api/trips/plans/add_location/`;
+
+		const response = await axios.post(
+			url,
+			{
+				city_id: cityId,
+				location_id: locationId,
+			},
+			{
+				withCredentials: true,
+			},
+		);
+
+		return response.data;
+	} catch (error: any) {
+		if (error.response?.status === 400) {
+			throw new Error("INVALID_DATA");
+		}
+		if (error.response?.status === 401) {
+			throw new Error("UNAUTHORIZED");
+		}
+		console.error("Error adding location to trip plan:", error);
+		throw new Error("ADD_LOCATION_FAILED");
+	}
 };

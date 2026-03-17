@@ -91,8 +91,15 @@
 		"style": "Artist"
 	},
 	"previews": {
-		"example_plan_title": "Here is an example of a travel plan for you:",
 		"want_this_plan": "I want a plan like this",
+		"open_preview": "See more...",
+		"why_register": "What you will get:",
+		"smart_route_title": "Smart route",
+		"smart_route_desc": "Our smart system will select locations based on your personal interests and budget.",
+		"live_data_title": "Current data",
+		"live_data_desc": "Real-time weather and currency rates for your chosen city directly in your plan.",
+		"phrasebook_title": "Personal phrasebook",
+		"phrasebook_desc": "An automatically generated set of useful phrases in the language of the country you are traveling to.",
 		"gourmet": {
 			"loc1": "Haute cuisine restaurant",
 			"loc2": "Cozy coffee shop",
@@ -146,12 +153,11 @@
 		"img_alt": "Nature",
 		"p1": "This project is a web application that functions as an adaptive travel guide, focused on personalizing some aspects of the trip, including the choice of locations, activities, gastronomy, cultural events, and other elements that form a complete travel experience.",
 		"p2": "The web application is distinguished by a comprehensive approach, providing a personalized travel experience in a convenient, unified interface - taking into account the purpose of the trip, the user's interests, and external conditions.",
-		"p3": "Technologies used: React, TypeScript, TailwindCSS, Python, Django, Docker and OpenWeatherMap API."
+		"p3": "Technologies used: React, TypeScript, TailwindCSS, Python, Django Rest Framework (DRF), PostgreSQL, SimpleJWT (Auth), Sentence-Transformers (AI), Docker & Docker Compose, OpenWeatherMap API and ExchangeRate API."
 	},
 	"contacts": {
 		"title": "Contacts",
-		"p1": "Hello! My name is Olga. I am the author and developer of the Adaptive Travel Guide project, created as part of my coursework/diploma work.",
-		"p2": "Contact:"
+		"p1": "Hello! My name is Olga. I am the author and developer of the Adaptive Travel Guide project, created as part of my coursework/diploma work."
 	},
 	"meta": {
 		"about_title": "About the project | Adaptive Travel Guide",
@@ -172,7 +178,7 @@
 		"select_country": "What's your country?",
 		"select_age": "Enter your age",
 		"preferences_text_label": "Tell us about your preferences",
-    "preferences_text_placeholder": "Enter your interests or preferences here...",
+		"preferences_text_placeholder": "Enter your interests or preferences here...",
 		"preferences_title": "Preferences info",
 		"not_selected": "Not selected",
 		"save": "Save"
@@ -180,6 +186,43 @@
 	"recommendations": {
 		"title": "Recommended places in",
 		"subtitle": "Based on your interests, here are places you might like",
-		"add": "Add to my trip"
+		"add": "Add to my trip",
+		"adding": "Adding...",
+		"added": "Added",
+		"plan": "To my plans",
+		"empty": "No recommendations found for this city yet.",
+		"error_general": "Error loading recommendations. Please try again later.",
+		"profile_incomplete": "Please fill in your profile preferences to get AI recommendations.",
+		"city_not_specified": "City not specified.",
+		"city_not_found": "City not found.",
+		"go_to_profile": "Go to Profile"
+	},
+
+	"plans": {
+		"my_trips": "My trips",
+		"loading": "Loading...",
+		"error": "Failed to load trip plans.",
+		"no_dates": "Dates not specified",
+		"locations": "locations added",
+		"open_plan": "Open plan",
+		"empty_title": "You don’t have any plans yet",
+		"empty_text": "Choose a city and add interesting locations to create your first trip plan.",
+		"start_planning": "Start planning",
+		"new_plan": "Create new plan",
+		"back_to_list": "Back to list",
+		"trip_to": "Trip to",
+		"dates_not_set": "Dates not set",
+		"places": "Recommended locations",
+		"no_locations": "No locations",
+		"no_locations_hint": "You can go back to recommendations and add places for this city.",
+		"find_recommendations": "Find recommendations",
+		"weather_live": "Weather now in",
+		"currency": "Currency",
+		"essential_phrases": "Essential phrases",
+		"no_phrases": "No phrases",
+		"delete_plan": "Delete Plan",
+		"deleting": "Deleting...",
+		"remove_location": "Remove location",
+		"go_to_plan": "Go to plan"
 	}
 }

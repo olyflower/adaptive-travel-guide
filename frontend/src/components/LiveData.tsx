@@ -49,7 +49,7 @@ const LiveData = () => {
 	return (
 		<section className="w-full text-(--color-text)">
 			<div className="text-center py-10 px-4">
-				<h2 className="md:text-xl font-bold mb-2">
+				<h2 className="text-lg md:text-3xl font-bold mb-2">
 					{t("live_data.title")}
 				</h2>
 			</div>

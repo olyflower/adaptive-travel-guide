@@ -49,6 +49,7 @@ const registerCountryLang = async (lang: string) => {
  * - travel preferences and selected options
  * Handles form validation, submission to API, and cache clearing for recommendations.
  */
+
 const Profile = () => {
 	const { categories } = usePreferences();
 	const { t, i18n } = useTranslation();
@@ -145,14 +146,14 @@ const Profile = () => {
 		};
 
 		fetchProfile();
-	}, [API_URL, navigate, reset]);
+	}, [navigate, reset]);
 
 	/**
- * Handles profile form submission
- * Sends updated profile data to the backend and clears cached recommendations
- * On success, redirects user to home page after a short delay
- * @param values - all profile form values
- */
+	 * Handles profile form submission
+	 * Sends updated profile data to the backend and clears cached recommendations
+	 * On success, redirects user to home page after a short delay
+	 * @param values - all profile form values
+	 */
 	const onSubmit: SubmitHandler<ProfileFormValues> = async (
 		values: ProfileFormValues,
 	) => {

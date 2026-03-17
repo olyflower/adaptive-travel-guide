@@ -8,12 +8,20 @@ from locations.serializers import CitySerializer, LocationSerializer
 
 
 class LanguagePhraseSerializer(serializers.ModelSerializer):
+    """
+    Serializer for basic travel phrases in the destination's language
+    """
+
     class Meta:
         model = LanguagePhrase
         fields = ["phrase_origin", "phrase_translation", "language_code"]
 
 
 class RecommendationSerializer(serializers.ModelSerializer):
+    """
+    Serializer for individual trip points, including detailed location info
+    """
+
     location = LocationSerializer(read_only=True)
 
     class Meta:
@@ -22,6 +30,11 @@ class RecommendationSerializer(serializers.ModelSerializer):
 
 
 class TripPlanSerializer(serializers.ModelSerializer):
+    """
+    Core serializer for trip plans, aggregating cities,
+    recommendations, and language phrases into a single response
+    """
+
     city = CitySerializer(read_only=True)
     recommendations = RecommendationSerializer(many=True, read_only=True)
     phrases = LanguagePhraseSerializer(many=True, read_only=True)
@@ -39,6 +52,10 @@ class TripPlanSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, data):
+        """
+        Ensures the trip duration is logical by checking start and end dates
+        """
+
         start_date = data.get("start_date", getattr(self.instance, "start_date", None))
         end_date = data.get("end_date", getattr(self.instance, "end_date", None))
 

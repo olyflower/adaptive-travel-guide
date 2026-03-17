@@ -5,6 +5,10 @@ import os
 
 
 def send_registration_email(request, user):
+    """
+    Sends a welcome email after successful user registration
+    """
+
     subject = "Вітаємо на Adaptive Travel Guide!"
     from_email = settings.EMAIL_HOST_USER
     recipient_list = [user.email]
@@ -32,6 +36,10 @@ def send_registration_email(request, user):
 
 
 def send_password_reset_email(request, user, reset_url):
+    """
+    Sends a password reset link to the user
+    """
+
     subject = "Зміна пароля"
     from_email = settings.EMAIL_HOST_USER
     recipient_list = [user.email]
@@ -59,6 +67,10 @@ def send_password_reset_email(request, user, reset_url):
 
 
 def send_confirm_change_password_email(request, user):
+    """
+    Sends a notification confirming a successful password change
+    """
+
     subject = "Зміна пароля"
     from_email = settings.EMAIL_HOST_USER
     recipient_list = [user.email]

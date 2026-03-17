@@ -23,6 +23,10 @@ country_to_currency = {
 
 
 def get_weather_data(lat=None, lon=None, city="Paris"):
+    """
+    Fetches real-time weather data from OpenWeather API using coordinates or city name
+    """
+
     api_key = settings.OPENWEATHER_API_KEY
     base_url = settings.OPENWEATHER_BASE_URL
 
@@ -47,6 +51,10 @@ def get_weather_data(lat=None, lon=None, city="Paris"):
 
 
 def get_currency_rate(from_currency, to_currency="UAH"):
+    """
+    Requests the latest exchange rate between two currencies from an external API
+    """
+
     base_url = settings.EXCHANGERATE_BASE_URL
     api_key = settings.EXCHANGERATE_API_KEY
 
@@ -70,10 +78,18 @@ def get_currency_rate(from_currency, to_currency="UAH"):
 
 
 def get_currency_by_country(country_code):
+    """
+    Helper to map a country code to its official currency code
+    """
+
     return country_to_currency.get((country_code or "").upper())
 
 
 def get_currency_rate_for_country(country_code, to_currency="UAH"):
+    """
+    Combines currency lookup and rate fetching for a specific country
+    """
+
     from_currency = get_currency_by_country(country_code)
 
     if not from_currency:

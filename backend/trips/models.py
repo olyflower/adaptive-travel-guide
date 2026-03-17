@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 from locations.models import City, Location
 
 
@@ -20,6 +21,10 @@ class TripPlan(models.Model):
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("Trip Plan")
+        verbose_name_plural = _("Trip Plans")
 
     def __str__(self):
         return f"{self.city} - {self.user}"
@@ -42,13 +47,17 @@ class Recommendation(models.Model):
     class Meta:
         unique_together = ("trip_plan", "location")
         ordering = ["day"]
+        verbose_name = _("Recommendation")
+        verbose_name_plural = _("Recommendations")
 
     def __str__(self):
         return f"{self.location} in {self.trip_plan.city}"
 
 
 class LanguagePhrase(models.Model):
-    """Useful phrase and translation for a trip plan"""
+    """
+    Useful phrase and translation for a trip plan
+    """
 
     trip_plan = models.ForeignKey(
         TripPlan, on_delete=models.CASCADE, related_name="phrases"
@@ -57,6 +66,7 @@ class LanguagePhrase(models.Model):
     phrase_translation = models.TextField()
     language_code = models.CharField(
         max_length=10,
+        verbose_name=_("Language"),
         choices=[
             ("en", "English"),
             ("uk", "Ukrainian"),
@@ -67,6 +77,10 @@ class LanguagePhrase(models.Model):
             ("de", "German"),
         ],
     )
+
+    class Meta:
+        verbose_name = _("Language Phrase")
+        verbose_name_plural = _("Language Phrases")
 
     def __str__(self):
         return f"Phrase for {self.trip_plan.city}"

@@ -34,10 +34,11 @@ const DestinationInput = ({ onSearch }: DestinationInputProps) => {
 				placeholder={t("hero.destination")}
 				className="
 				block w-full
-				py-4 pl-6 pr-16
+				py-6 pl-4 md:pl-8 pr-14
 				rounded-full
 				bg-(--color-bg-main)
 				text-(--color-text)
+				text-sm md:text-xl
 				border border-(--color-primary)
 				placeholder:text-(--color-text)/50
 				shadow-lg

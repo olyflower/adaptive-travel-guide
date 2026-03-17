@@ -19,49 +19,59 @@ class CityListView(ListAPIView):
 
 
 class RecommendationView(APIView):
-    """
-    Core recommendation engine 
-    Uses vector similarity search (Cosine Distance) to match locations 
-    with the user's personal interests and travel context
-    """
-
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        """
-        Retrieves top personalized recommendations for a specific city
-        Calculates semantic distance between user's profile embedding and location embeddings
-        """
-
         target_city = request.query_params.get("city")
         user_profile = getattr(request.user, "userprofile", None)
+
         if not user_profile or user_profile.interests_embedding is None:
             return Response(
-                {"error": "Fill profile"}, status=status.HTTP_400_BAD_REQUEST
+                {"error": "Fill profile"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not target_city:
+            return Response(
+                {"error": "City parameter is required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        target_city = target_city.strip()
+
+        city = City.objects.filter(
+            Q(name_uk__iexact=target_city)
+            | Q(name_en__iexact=target_city)
+            | Q(name__iexact=target_city)
+        ).first()
+
+        if not city:
+            return Response(
+                {"error": "City not found"},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         user_vector = user_profile.interests_embedding
         distance_expr = CosineDistance("embedding", user_vector)
 
-        queryset = Location.objects.select_related("city", "category").annotate(
-            distance=distance_expr
+        queryset = (
+            Location.objects.select_related("city", "category")
+            .filter(city=city)
+            .annotate(distance=distance_expr)
+            .filter(distance__lt=0.6)
+            .order_by("distance")[:5]
         )
 
-        if target_city:
-            target_city = target_city.strip()
-            queryset = queryset.filter(
-                Q(city__name_uk__iexact=target_city)
-                | Q(city__name_en__iexact=target_city)
-                | Q(city__name__iexact=target_city)
-            )
+        city_data = CitySerializer(city).data
+        locations_data = LocationSerializer(
+            queryset,
+            many=True,
+            context={"request": request},
+        ).data
 
-        queryset = queryset.filter(distance__lt=0.6)
-
-        recommended_locations = queryset.order_by("distance")[:5]
-
-        print(f"Found {len(recommended_locations)} recommendations:")
-        for loc in recommended_locations:
-            print(f"- {loc.name} (ID: {loc.id})")
-
-        serializer = LocationSerializer(recommended_locations, many=True)
-        return Response(serializer.data)
+        return Response(
+            {
+                "city": city_data,
+                "locations": locations_data,
+            }
+        )

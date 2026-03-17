@@ -10,7 +10,7 @@ const StartTravelAction = () => {
 
 	return (
 		<section className="relative w-full h-auto py-12 mb-12 md:mb-38 px-4">
-			<h2 className="relative text-xl md:text-3xl font-bold text-center mb-8 text-(--color-text)">
+			<h2 className="relative text-lg md:text-3xl font-bold text-center mb-8 text-(--color-text)">
 				{t("sta.title")}
 			</h2>
 

@@ -107,6 +107,13 @@ const Navbar = () => {
 											>
 												{t("nav.profile")}
 											</Link>
+											<Link
+												to="/plans"
+												className="block px-6 py-3 text-base border-b border-(--color-primary)/5 hover:bg-(--color-primary)/5"
+												onClick={() => setIsOpen(false)}
+											>
+												{t("plans.my_trips")}
+											</Link>
 
 											<button
 												onClick={() => {
@@ -186,6 +193,13 @@ const Navbar = () => {
 												}
 											>
 												{t("nav.profile")}
+											</Link>
+											<Link
+												to="/plans"
+												className="block px-6 py-3 text-sm hover:text-(--color-primary-hover)"
+												onClick={() => setIsOpen(false)}
+											>
+												{t("plans.my_trips")}
 											</Link>
 
 											<button
