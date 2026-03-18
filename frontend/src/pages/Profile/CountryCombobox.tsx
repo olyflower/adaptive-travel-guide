@@ -31,7 +31,8 @@ const CountryCombobox = ({ value, onChange, options, placeholder }: Props) => {
 				list="countries-list"
 				defaultValue={selectedCountryName}
 				placeholder={placeholder}
-				className="w-full px-4 py-2 rounded-xl bg-(--color-bg-main) border border-(--color-primary)/20 text-(--color-text) outline-none focus:ring-2 focus:ring-(--color-primary)"
+				className="w-full px-4 py-2 rounded-xl bg-(--color-bg-main) border border-(--color-primary)/20 
+				text-(--color-text) outline-none focus:ring-2 focus:ring-(--color-primary)"
 				onChange={(e) => {
 					const found = options.find(
 						(c) => c.name === e.target.value,

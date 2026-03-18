@@ -19,7 +19,8 @@ const RecommendationCard = ({
 }: RecommendationCardProps) => {
 	const { t, i18n } = useTranslation();
 	const [isLoading, setIsLoading] = useState(false);
-	const [isAdded, setIsAdded] = useState(location.is_in_trip);
+
+	const isAdded = location.is_in_trip;
 
 	const translatedDescription = getTranslatedName(
 		location,
@@ -37,10 +38,12 @@ const RecommendationCard = ({
 
 		try {
 			setIsLoading(true);
-			const response = await addLocationToTripPlan(location.city.id, location.id);
-			onAddedToPlan(response.trip_plan_id);
+			const response = await addLocationToTripPlan(
+				location.city.id,
+				location.id,
+			);
 			clearRecommendationCache();
-			setIsAdded(true);
+			onAddedToPlan(response.trip_plan_id);
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -49,18 +52,31 @@ const RecommendationCard = ({
 	};
 
 	return (
-		<div className="group relative bg-(--color-bg-nav-footer) border border-(--color-primary)/10 rounded-3xl overflow-hidden hover:border-(--color-primary)/40 transition-all duration-500 hover:-translate-y-2 shadow-xl flex flex-col h-full">
-			<div className="h-48 bg-linear-to-br from-gray-800 to-gray-900 relative flex items-center justify-center overflow-hidden">
+		<div
+			className="group relative bg-(--color-bg-nav-footer) border border-(--color-primary)/10 
+		rounded-3xl overflow-hidden hover:border-(--color-primary)/40 transition-all duration-500 
+		hover:-translate-y-2 shadow-xl flex flex-col h-full"
+		>
+			<div
+				className="h-48 bg-linear-to-br from-gray-800 to-gray-900 relative 
+			flex items-center justify-center overflow-hidden"
+			>
 				<FaTag className="text-white/10" size={80} />
 
-				<div className="absolute top-4 left-4 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-white border border-white/10 uppercase tracking-widest">
+				<div
+					className="absolute top-4 left-4 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full 
+				text-[10px] font-bold text-white border border-white/10 uppercase tracking-widest"
+				>
 					{translatedCategory}
 				</div>
 			</div>
 
 			<div className="p-6 flex flex-col flex-1">
 				<div className="mb-4">
-					<h3 className="text-xl font-bold text-(--color-text) group-hover:text-(--color-primary) transition-colors line-clamp-1">
+					<h3
+						className="text-xl font-bold text-(--color-text) group-hover:text-(--color-primary) 
+					transition-colors line-clamp-1"
+					>
 						{translatedName}
 					</h3>
 					<div className="flex items-center gap-2 text-(--color-text)/50 text-sm mt-2">
@@ -76,7 +92,8 @@ const RecommendationCard = ({
 				<button
 					onClick={handleAddLocation}
 					disabled={isLoading || isAdded}
-					className={`mt-auto group/btn flex items-center justify-center gap-2 w-full py-3 rounded-2xl transition-all duration-300 active:scale-95 border 
+					className={`mt-auto group/btn flex items-center justify-center gap-2 w-full py-3 
+						rounded-2xl transition-all duration-300 active:scale-95 border 
           ${
 				isAdded
 					? "bg-green-500/10 text-green-500 border-green-500/20 cursor-default"

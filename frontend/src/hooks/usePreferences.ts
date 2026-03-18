@@ -3,7 +3,7 @@ import { Category } from "../types/preferences";
 import axios from "axios";
 
 /**
- * Custom hook to fetch user preference categories from the backend
+ * Hook to fetch user preference categories from the backend
  * 
  * Returns:
  * - categories: list of preference categories with options

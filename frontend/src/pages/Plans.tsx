@@ -1,33 +1,12 @@
-import { useEffect, useState } from "react";
-import { getMyPlans, TripPlan } from "../services/TripPlanService";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { getTranslatedName } from "../utils/translate";
+import { usePlans } from "../hooks/usePlans";
 
 const Plans = () => {
 	const { t, i18n } = useTranslation();
-	const [plans, setPlans] = useState<TripPlan[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState("");
-
-	useEffect(() => {
-		const loadPlans = async () => {
-			try {
-				setLoading(true);
-				setError("");
-				const data = await getMyPlans();
-				setPlans(data);
-			} catch (err) {
-				console.error(err);
-				setError("plans.error");
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		loadPlans();
-	}, []);
+	const { plans, loading, error } = usePlans();
 
 	if (loading) {
 		return (
@@ -44,7 +23,10 @@ const Plans = () => {
 			</h1>
 
 			{error && (
-				<div className="bg-(--color-red)/10 border border-(--color-red)/20 text-(--color-red) p-6 rounded-2xl text-center">
+				<div
+					className="bg-(--color-red)/10 border border-(--color-red)/20 text-(--color-red) 
+				p-6 rounded-2xl text-center"
+				>
 					<p className="text-lg font-medium">{t(error)}</p>
 				</div>
 			)}
@@ -66,7 +48,8 @@ const Plans = () => {
 						<Link
 							key={plan.id}
 							to={`/plans/${plan.id}`}
-							className="bg-(--color-bg-nav-footer) border border-(--color-primary)/10 p-6 rounded-3xl hover:border-(--color-primary) transition-all shadow-lg"
+							className="bg-(--color-bg-nav-footer) border border-(--color-primary)/10 p-6 rounded-3xl 
+							hover:border-(--color-primary) transition-all shadow-lg"
 						>
 							<div className="flex items-center gap-2 text-(--color-primary)">
 								<FaMapMarkerAlt className="text-lg" />

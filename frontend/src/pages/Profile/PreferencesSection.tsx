@@ -36,7 +36,9 @@ const PreferencesSection = ({ categories }: PreferencesSectionProps) => {
 
 							<div className="relative group">
 								<select
-									className="w-full px-4 py-3 rounded-xl bg-(--color-bg-main) border border-(--color-primary)/20 text-(--color-text) focus:ring-2 focus:ring-(--color-primary) outline-none appearance-none cursor-pointer transition-all hover:border-(--color-primary)/40"
+									className="w-full px-4 py-3 rounded-xl bg-(--color-bg-main) border border-(--color-primary)/20 
+									text-(--color-text) focus:ring-2 focus:ring-(--color-primary) outline-none appearance-none 
+									cursor-pointer transition-all hover:border-(--color-primary)/40"
 									value={selectedOptionId}
 									onChange={(e) => {
 										const newId = Number(e.target.value);
@@ -79,7 +81,8 @@ const PreferencesSection = ({ categories }: PreferencesSectionProps) => {
 									))}
 								</select>
 
-								<div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-(--color-text)/30 group-hover:text-(--color-primary)/60 transition-colors">
+								<div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-(--color-text)/30 
+								group-hover:text-(--color-primary)/60 transition-colors">
 									<svg
 										className="w-5 h-5"
 										fill="none"

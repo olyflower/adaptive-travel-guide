@@ -1,72 +1,28 @@
-import { useState, useEffect } from "react";
-import { useSearchParams, Link, useNavigate } from "react-router-dom";
-import {
-	loadRecommendations,
-	LocationData,
-	CityData,
-} from "../../services/RecommendationService";
+import { useSearchParams, Link } from "react-router-dom";
 import RecommendationCard from "./RecommendationCard";
 import { getTranslatedName } from "../../utils/translate";
 import { useTranslation } from "react-i18next";
+import { useRecommendations } from "../../hooks/useRecommendations";
 import { FaArrowLeft } from "react-icons/fa";
 
 const RecommendationsPage = () => {
 	const { t, i18n } = useTranslation();
 	const [searchParams] = useSearchParams();
-	const navigate = useNavigate();
-
-	const [city, setCity] = useState<CityData | null>(null);
-	const [recommendations, setRecommendations] = useState<LocationData[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState("");
-	const [isProfileIncomplete, setIsProfileIncomplete] = useState(false);
-	const [tripPlanId, setTripPlanId] = useState<number | null>(null);
 
 	const cityQuery = searchParams.get("city") || "";
+
+	const {
+		city,
+		recommendations,
+		loading,
+		error,
+		isProfileIncomplete,
+		tripPlanId,
+		handleLocationAdded,
+	} = useRecommendations(cityQuery);
+
 	const cityName = city ? getTranslatedName(city, i18n, "name") : cityQuery;
 
-	useEffect(() => {
-		const load = async () => {
-			if (!cityQuery) {
-				setError("recommendations.city_not_specified");
-				setLoading(false);
-				return;
-			}
-
-			setLoading(true);
-			setError("");
-			setIsProfileIncomplete(false);
-
-			try {
-				const data = await loadRecommendations(cityQuery);
-				setCity(data.city);
-				setRecommendations(data.locations);
-			} catch (err: unknown) {
-				if (err instanceof Error) {
-					switch (err.message) {
-						case "PROFILE_INCOMPLETE":
-							setError("recommendations.profile_incomplete");
-							setIsProfileIncomplete(true);
-							break;
-						case "CITY_NOT_FOUND":
-							setError("recommendations.city_not_found");
-							break;
-						case "UNAUTHORIZED":
-							navigate("/login");
-							break;
-						default:
-							setError("recommendations.error_general");
-					}
-				} else {
-					setError("recommendations.error_general");
-				}
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		load();
-	}, [cityQuery, navigate]);
 	return (
 		<div className="max-w-7xl mx-auto p-6 pt-32 min-h-screen">
 			<div className="flex items-center gap-4 mb-8">
@@ -124,7 +80,9 @@ const RecommendationsPage = () => {
 						<RecommendationCard
 							key={loc.id}
 							location={loc}
-							onAddedToPlan={(planId) => setTripPlanId(planId)}
+							onAddedToPlan={(planId) =>
+								handleLocationAdded(loc.id, planId)
+							}
 						/>
 					))}
 				</div>
