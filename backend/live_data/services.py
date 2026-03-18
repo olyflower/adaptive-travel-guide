@@ -38,9 +38,13 @@ def get_weather_data(lat=None, lon=None, city="Paris"):
     else:
         url = f"{base_url}/weather?q={city}&appid={api_key}&units=metric&lang=ua"
 
-    response = requests.get(url, timeout=5)
-    response.raise_for_status()
-    data = response.json()
+    try:
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+        data = response.json()
+    except requests.RequestException as e:
+        print(f"Weather API error: {e}")
+        return None
 
     return {
         "city": data.get("name"),
@@ -55,6 +59,13 @@ def get_currency_rate(from_currency, to_currency="UAH"):
     Requests the latest exchange rate between two currencies from an external API
     """
 
+    if from_currency == to_currency:
+        return {
+            "from": from_currency,
+            "to": to_currency,
+            "rate": 1.0,
+        }
+
     base_url = settings.EXCHANGERATE_BASE_URL
     api_key = settings.EXCHANGERATE_API_KEY
 
@@ -63,9 +74,13 @@ def get_currency_rate(from_currency, to_currency="UAH"):
         f"&from={from_currency}&to={to_currency}&amount=1"
     )
 
-    response = requests.get(url, timeout=5)
-    response.raise_for_status()
-    data = response.json()
+    try:
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+        data = response.json()
+    except requests.RequestException as e:
+        print(f"Currency API error: {e}")
+        return None
 
     if "result" not in data or data["result"] is None:
         return None

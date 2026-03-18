@@ -29,6 +29,6 @@ urlpatterns = [
         name="password_reset_confirm",
     ),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("auth/google/", GoogleLoginView.as_view(), name="google-login"),
+    path("google/", GoogleLoginView.as_view(), name="google-login"),
     path("profile/save-full/", ProfileSaveFullView.as_view(), name="profile-save-full"),
 ]

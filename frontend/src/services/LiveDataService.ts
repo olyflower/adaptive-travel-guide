@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// weather
+const API_URL = import.meta.env.VITE_API_URL;
 
 /**
  * City name or geographic coordinates used to request weather data
@@ -18,10 +18,13 @@ export type WeatherData = {
 	timestamp: number;
 };
 
-const CACHE_KEY = "weatherData";
-const CACHE_DURATION = 24 * 60 * 60 * 1000;
+const WEATHER_CACHE_DURATION = 30 * 60 * 1000;
 const DEFAULT_CITY = "Paris";
 
+const getWeatherCacheKey = (cityOrCoords: CityOrCoords) =>
+	typeof cityOrCoords === "string"
+		? `weather_city_${cityOrCoords.toLowerCase()}`
+		: `weather_coords_${cityOrCoords.lat}_${cityOrCoords.lon}`;
 
 /**
  * Fetch weather data from the API and store it in localStorage cache
@@ -30,7 +33,7 @@ const fetchAndCacheWeather = async (
 	cityOrCoords: CityOrCoords,
 ): Promise<WeatherData | null> => {
 	try {
-		let url = `${import.meta.env.VITE_API_URL}/api/live/weather/`;
+		let url = `${API_URL}/api/live/weather/`;
 
 		if (typeof cityOrCoords === "string") {
 			url += `?city=${encodeURIComponent(cityOrCoords)}`;
@@ -39,8 +42,12 @@ const fetchAndCacheWeather = async (
 		}
 
 		const response = await axios.get(url);
-		const data = { ...response.data, timestamp: Date.now() };
-		localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+		const data: WeatherData = { ...response.data, timestamp: Date.now() };
+
+		localStorage.setItem(
+			getWeatherCacheKey(cityOrCoords),
+			JSON.stringify(data),
+		);
 		return data;
 	} catch (error) {
 		console.error("Error fetching weather data:", error);
@@ -51,14 +58,19 @@ const fetchAndCacheWeather = async (
 /**
  * Retrieve cached weather data if it is still valid
  */
-const getCachedWeather = (): WeatherData | null => {
-	const cached = localStorage.getItem(CACHE_KEY);
-	if (cached) {
+const getCachedWeather = (cityOrCoords: CityOrCoords): WeatherData | null => {
+	const cached = localStorage.getItem(getWeatherCacheKey(cityOrCoords));
+	if (!cached) return null;
+
+	try {
 		const parsed: WeatherData = JSON.parse(cached);
-		if (Date.now() - parsed.timestamp < CACHE_DURATION) {
+		if (Date.now() - parsed.timestamp < WEATHER_CACHE_DURATION) {
 			return parsed;
 		}
+	} catch {
+		return null;
 	}
+
 	return null;
 };
 
@@ -67,9 +79,6 @@ const getCachedWeather = (): WeatherData | null => {
  * Attempts to use user geolocation, falling back to a default city
  */
 export const loadWeatherData = async (): Promise<WeatherData | null> => {
-	const cached = getCachedWeather();
-	if (cached) return cached;
-
 	if ("geolocation" in navigator) {
 		try {
 			const pos = await new Promise<GeolocationPosition>(
@@ -80,19 +89,31 @@ export const loadWeatherData = async (): Promise<WeatherData | null> => {
 				},
 			);
 
-			const { latitude: lat, longitude: lon } = pos.coords;
-			return await fetchAndCacheWeather({ lat, lon });
-		} catch (error) {
-			return await fetchAndCacheWeather(DEFAULT_CITY);
+			const cityOrCoords = {
+				lat: pos.coords.latitude,
+				lon: pos.coords.longitude,
+			};
+
+			const cached = getCachedWeather(cityOrCoords);
+			if (cached) return cached;
+
+			return fetchAndCacheWeather(cityOrCoords);
+		} catch {
+			const cached = getCachedWeather(DEFAULT_CITY);
+			if (cached) return cached;
+
+			return fetchAndCacheWeather(DEFAULT_CITY);
 		}
-	} else {
-		return await fetchAndCacheWeather(DEFAULT_CITY);
 	}
+
+	const cached = getCachedWeather(DEFAULT_CITY);
+	if (cached) return cached;
+
+	return fetchAndCacheWeather(DEFAULT_CITY);
 };
 
-//currency
 const CURRENCY_CACHE_KEY = "currencyData";
-const CURRENCY_CACHE_DURATION = 12 * 60 * 60 * 1000; // 12 часов
+const CURRENCY_CACHE_DURATION = 12 * 60 * 60 * 1000;
 
 /**
  * Cached exchange rate structure stored in localStorage
@@ -156,9 +177,7 @@ const fetchAndCacheCurrencyRate = async (
 	to: string,
 ): Promise<CachedRate | null> => {
 	try {
-		const url = `${
-			import.meta.env.VITE_API_URL
-		}/api/live/currency?from=${from}&to=${to}`;
+		const url = `${API_URL}/api/live/currency?from=${from}&to=${to}`;
 		const response = await axios.get(url);
 		const rate = response.data.rate;
 
@@ -184,6 +203,8 @@ export const loadExchangeRate = async (
 	from: string,
 	to: string,
 ): Promise<number | null> => {
+	if (from === to) return 1;
+
 	const cached = getCachedCurrencyRate(from, to);
 	if (cached) return cached.rate;
 

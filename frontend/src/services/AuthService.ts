@@ -1,4 +1,7 @@
 import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 /**
  * Authentication API service
  * Contains requests for login, logout, registration and password reset
@@ -7,10 +10,9 @@ import axios from "axios";
 /**
  * Send login request with user credentials
  */
-
 export const loginRequest = async (email: string, password: string) => {
 	const response = await axios.post(
-		`${import.meta.env.VITE_API_URL}/api/auth/login/`,
+		`${API_URL}/api/auth/login/`,
 		{ email, password },
 		{ withCredentials: true },
 	);
@@ -22,7 +24,7 @@ export const loginRequest = async (email: string, password: string) => {
  */
 export const logoutRequest = async () => {
 	await axios.post(
-		`${import.meta.env.VITE_API_URL}/api/auth/logout/`,
+		`${API_URL}/api/auth/logout/`,
 		{},
 		{ withCredentials: true },
 	);
@@ -32,10 +34,9 @@ export const logoutRequest = async () => {
  * Check if the current user session is authenticated
  */
 export const checkAuthStatusRequest = async () => {
-	const response = await axios.get(
-		`${import.meta.env.VITE_API_URL}/api/auth/status/`,
-		{ withCredentials: true },
-	);
+	const response = await axios.get(`${API_URL}/api/auth/status/`, {
+		withCredentials: true,
+	});
 	return {
 		isAuthenticated: response.data.isAuthenticated,
 		user: response.data.user || null,
@@ -51,7 +52,7 @@ export const registerUserRequest = async (
 	password: string,
 ) => {
 	const response = await axios.post(
-		`${import.meta.env.VITE_API_URL}/api/auth/register/`,
+		`${API_URL}/api/auth/register/`,
 		{ email, username, password },
 		{ withCredentials: true },
 	);
@@ -62,10 +63,9 @@ export const registerUserRequest = async (
  * Request a password reset email
  */
 export const requestPasswordResetRequest = async (email: string) => {
-	const response = await axios.post(
-		`${import.meta.env.VITE_API_URL}/api/auth/password-reset/`,
-		{ email },
-	);
+	const response = await axios.post(`${API_URL}/api/auth/password-reset/`, {
+		email,
+	});
 	return response.data;
 };
 
@@ -78,7 +78,7 @@ export const confirmPasswordResetRequest = async (
 	newPassword: string,
 ) => {
 	const response = await axios.post(
-		`${import.meta.env.VITE_API_URL}/api/auth/password-reset-confirm/`,
+		`${API_URL}/api/auth/password-reset-confirm/`,
 		{ uid, token, new_password: newPassword },
 	);
 	return response.data;
@@ -89,7 +89,7 @@ export const confirmPasswordResetRequest = async (
  */
 export const googleLoginRequest = async (idToken: string) => {
 	const response = await axios.post(
-		`${import.meta.env.VITE_API_URL}/api/auth/auth/google/`,
+		`${API_URL}/api/auth/google/`,
 		{ id_token: idToken },
 		{ withCredentials: true },
 	);

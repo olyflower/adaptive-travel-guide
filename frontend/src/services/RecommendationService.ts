@@ -1,30 +1,20 @@
 import axios from "axios";
+import { LocationData, LocationCity } from "../types/location";
 
-export type CityData = {
-	id: number;
-	name_uk: string;
-	name_en: string;
-};
+const API_URL = import.meta.env.VITE_API_URL;
 
-export type LocationData = {
-	id: number;
-	name_uk: string;
-	name_en: string;
-	description_uk?: string;
-	description_en?: string;
-	city: CityData;
-	category?: {
-		id: number;
-		name_uk: string;
-		name_en: string;
-	};
-	distance?: number;
-	is_in_trip: boolean;
-};
+export type CityData = LocationCity;
 
 export type RecommendationsResponse = {
 	city: CityData;
 	locations: LocationData[];
+};
+
+export type AddLocationToTripPlanResponse = {
+	status: string;
+	trip_plan_id: number;
+	recommendation_id: number;
+	created_new_plan: boolean;
 };
 
 /**
@@ -62,7 +52,7 @@ const fetchAndCacheRecommendations = async (
 	city: string,
 ): Promise<RecommendationsResponse> => {
 	try {
-		const url = `${import.meta.env.VITE_API_URL}/api/locations/recommendations/`;
+		const url = `${API_URL}/api/locations/recommendations/`;
 
 		const response = await axios.get(url, {
 			params: { city },
@@ -80,15 +70,17 @@ const fetchAndCacheRecommendations = async (
 		);
 
 		return data;
-	} catch (error: any) {
-		if (error.response?.status === 400) {
-			throw new Error("PROFILE_INCOMPLETE");
-		}
-		if (error.response?.status === 401) {
-			throw new Error("UNAUTHORIZED");
-		}
-		if (error.response?.status === 404) {
-			throw new Error("CITY_NOT_FOUND");
+	} catch (error: unknown) {
+		if (axios.isAxiosError(error)) {
+			if (error.response?.status === 400) {
+				throw new Error("PROFILE_INCOMPLETE");
+			}
+			if (error.response?.status === 401) {
+				throw new Error("UNAUTHORIZED");
+			}
+			if (error.response?.status === 404) {
+				throw new Error("CITY_NOT_FOUND");
+			}
 		}
 		console.error("Error fetching recommendations:", error);
 
@@ -124,7 +116,7 @@ export const loadRecommendations = async (
 	const cached = getCachedRecommendations(city);
 	if (cached) return cached;
 
-	return await fetchAndCacheRecommendations(city);
+	return fetchAndCacheRecommendations(city);
 };
 
 /**
@@ -151,9 +143,9 @@ export const clearRecommendationsCacheForCity = (city: string) => {
 export const addLocationToTripPlan = async (
 	cityId: number,
 	locationId: number,
-) => {
+): Promise<AddLocationToTripPlanResponse> => {
 	try {
-		const url = `${import.meta.env.VITE_API_URL}/api/trips/plans/add_location/`;
+		const url = `${API_URL}/api/trips/plans/add_location/`;
 
 		const response = await axios.post(
 			url,
@@ -167,13 +159,16 @@ export const addLocationToTripPlan = async (
 		);
 
 		return response.data;
-	} catch (error: any) {
-		if (error.response?.status === 400) {
-			throw new Error("INVALID_DATA");
+	} catch (error: unknown) {
+		if (axios.isAxiosError(error)) {
+			if (error.response?.status === 400) {
+				throw new Error("INVALID_DATA");
+			}
+			if (error.response?.status === 401) {
+				throw new Error("UNAUTHORIZED");
+			}
 		}
-		if (error.response?.status === 401) {
-			throw new Error("UNAUTHORIZED");
-		}
+
 		console.error("Error adding location to trip plan:", error);
 		throw new Error("ADD_LOCATION_FAILED");
 	}
