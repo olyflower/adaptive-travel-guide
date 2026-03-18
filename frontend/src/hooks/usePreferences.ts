@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Category } from "../types/preferences";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 /**
  * Hook to fetch user preference categories from the backend
  * 
@@ -20,7 +22,7 @@ export const usePreferences = () => {
 		const fetchPreferences = async () => {
 			try {
 				const response = await axios.get<Category[]>(
-					`${import.meta.env.VITE_API_URL}/api/preferences/all/`,
+					`${API_URL}/api/preferences/all/`,
 					{ withCredentials: true },
 				);
 				setCategories(response.data);

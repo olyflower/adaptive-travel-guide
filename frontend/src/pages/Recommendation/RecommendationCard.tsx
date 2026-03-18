@@ -1,9 +1,9 @@
 import { useState } from "react";
 import {
-	LocationData,
 	addLocationToTripPlan,
 	clearRecommendationCache,
 } from "../../services/RecommendationService";
+import { LocationData } from "../../types/location";
 import { getTranslatedName } from "../../utils/translate";
 import { FaMapMarkerAlt, FaTag, FaPlus } from "react-icons/fa";
 import { useTranslation } from "react-i18next";

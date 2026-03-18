@@ -3,7 +3,7 @@ import countries from "i18n-iso-countries";
 import { useMemo } from "react";
 
 /**
- * Custom hook that returns a list of countries based on the current UI language
+ * Hook that returns a list of countries based on the current UI language
  * Uses i18n language to localize country names
  */
 
