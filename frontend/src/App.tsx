@@ -18,7 +18,7 @@ const RecommendationsPage = lazy(
 	() => import("./pages/Recommendation/RecommendationsPage"),
 );
 const Plans = lazy(() => import("./pages/Plans"));
-const TripPlanDetail = lazy(() => import("./pages/TripPlanDetail"));
+const PlanDetails = lazy(() => import("./pages/PlanDetails"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
 const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -78,7 +78,7 @@ function App() {
 									path="plans/:id"
 									element={
 										<PrivateRoute>
-											<TripPlanDetail />
+											<PlanDetails />
 										</PrivateRoute>
 									}
 								/>
