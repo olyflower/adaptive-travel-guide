@@ -21,22 +21,51 @@ const PlanDetails = () => {
 		travelInfo,
 		loading,
 		isDeleting,
+		error,
+		actionError,
 		handleDeletePlan,
 		handleRemoveLocation,
 	} = usePlanDetails(id);
 
 	if (loading) {
 		return (
-			<div className="pt-40 text-center text-(--color-text)">
-				{t("plans.loading")}
+			<div className="max-w-3xl mx-auto p-6 pt-32 min-h-screen">
+				<div className="rounded-2xl border border-(--color-primary)/10 bg-(--color-primary)/5 p-6 text-center text-(--color-text)">
+					<p className="text-lg font-medium">{t("plans.loading")}</p>
+				</div>
+			</div>
+		);
+	}
+	if (error) {
+		return (
+			<div className="max-w-3xl mx-auto p-6 pt-32 min-h-screen">
+				<div className="rounded-2xl border border-(--color-red)/20 bg-(--color-red)/10 p-6 text-center text-(--color-red)">
+					<p className="text-lg font-medium">{error}</p>
+					<Link
+						to="/plans"
+						className="inline-block mt-4 text-(--color-primary) hover:underline"
+					>
+						{t("plans.back_to_list")}
+					</Link>
+				</div>
 			</div>
 		);
 	}
 
 	if (!plan) {
 		return (
-			<div className="pt-40 text-center text-(--color-red)">
-				{t("plans.not_found")}
+			<div className="max-w-3xl mx-auto p-6 pt-32 min-h-screen">
+				<div className="rounded-2xl border border-(--color-red)/20 bg-(--color-red)/10 p-6 text-center text-(--color-red)">
+					<p className="text-lg font-medium">
+						{t("plans.not_found")}
+					</p>
+					<Link
+						to="/plans"
+						className="inline-block mt-4 text-(--color-primary) hover:underline"
+					>
+						{t("plans.back_to_list")}
+					</Link>
+				</div>
 			</div>
 		);
 	}
@@ -63,6 +92,11 @@ const PlanDetails = () => {
 					{isDeleting ? t("plans.deleting") : t("plans.delete_plan")}
 				</button>
 			</div>
+			{actionError && (
+				<div className="mb-6 rounded-2xl border border-(--color-red)/20 bg-(--color-red)/10 p-4 text-(--color-red)">
+					{actionError}
+				</div>
+			)}
 
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
 				<div className="lg:col-span-2">
@@ -93,7 +127,7 @@ const PlanDetails = () => {
 						</h2>
 						{plan.recommendations.length > 0 ? (
 							<div className="space-y-4">
-								{plan.recommendations.map((rec: any) => (
+								{plan.recommendations.map((rec) => (
 									<div
 										key={rec.id}
 										className="bg-(--color-bg-nav-footer) p-6 rounded-3xl border border-(--color-primary)/10 shadow-sm"
