@@ -61,7 +61,7 @@ const Plans = () => {
 							<p className="text-sm opacity-60 mt-2">
 								{plan.start_date && plan.end_date
 									? `${plan.start_date} — ${plan.end_date}`
-									: t("plans.no_dates")}
+									: t("plans.dates_not_set")}
 							</p>
 
 							<div className="mt-4 text-sm font-medium text-(--color-text)">

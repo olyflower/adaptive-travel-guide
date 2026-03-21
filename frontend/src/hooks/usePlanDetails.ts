@@ -5,6 +5,7 @@ import {
 	getCityTravelInfo,
 	getPlanDetails,
 	removeRecommendationFromPlan,
+	updateTripDates,
 	TravelInfo,
 	TripPlan,
 } from "../services/TripPlanService";
@@ -15,20 +16,27 @@ type UsePlanDetailsReturn = {
 	travelInfo: TravelInfo | null;
 	loading: boolean;
 	isDeleting: boolean;
+	isUpdatingDates: boolean;
 	error: string | null;
 	actionError: string | null;
 	handleDeletePlan: () => Promise<void>;
 	handleRemoveLocation: (recommendationId: number) => Promise<void>;
+	handleUpdateDates: (
+		startDate: string | null,
+		endDate: string | null,
+	) => Promise<boolean>;
 };
 
 /**
- * Hook for handling Trip Plan Details page logic.
+ * Hook for handling Trip Plan Details page logic
  *
- * Fetches plan data and travel info, and provides handlers
- * for deleting the plan and removing recommendations.
+ * Fetches trip plan details and related travel info,
+ * and provides handlers for deleting the plan,
+ * removing saved recommendations, and updating trip dates
  *
- * Includes loading states and separated error handling
- * for page load and user actions.
+ * Includes separate loading states for page loading,
+ * plan deletion, and date updates, as well as
+ * separate error handling for page load and user actions
  */
 
 export const usePlanDetails = (
@@ -40,6 +48,7 @@ export const usePlanDetails = (
 	const [travelInfo, setTravelInfo] = useState<TravelInfo | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [isDeleting, setIsDeleting] = useState(false);
+	const [isUpdatingDates, setIsUpdatingDates] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [actionError, setActionError] = useState<string | null>(null);
 
@@ -158,15 +167,42 @@ export const usePlanDetails = (
 		},
 		[],
 	);
+	const handleUpdateDates = useCallback(
+		async (startDate: string | null, endDate: string | null) => {
+			if (!id) return false;
+
+			try {
+				setIsUpdatingDates(true);
+				setActionError(null);
+
+				const updatedPlan = await updateTripDates(id, {
+					start_date: startDate,
+					end_date: endDate,
+				});
+
+				setPlan(updatedPlan);
+				return true;
+			} catch (err) {
+				console.error(err);
+				setActionError("Failed to update trip dates");
+				return false;
+			} finally {
+				setIsUpdatingDates(false);
+			}
+		},
+		[id],
+	);
 
 	return {
 		plan,
 		travelInfo,
 		loading,
 		isDeleting,
+		isUpdatingDates,
 		error,
 		actionError,
 		handleDeletePlan,
 		handleRemoveLocation,
+		handleUpdateDates,
 	};
 };

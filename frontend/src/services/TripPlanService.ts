@@ -45,6 +45,9 @@ export interface TravelInfo {
 	} | null;
 }
 
+/**
+ * Fetch all trip plans created by the current user
+ */
 export const getMyPlans = async (): Promise<TripPlan[]> => {
 	const response = await axios.get<TripPlan[]>(
 		`${API_URL}/api/trips/plans/`,
@@ -55,6 +58,9 @@ export const getMyPlans = async (): Promise<TripPlan[]> => {
 	return response.data;
 };
 
+/**
+ * Fetch detailed information for a specific trip plan
+ */
 export const getPlanDetails = async (planId: string): Promise<TripPlan> => {
 	const response = await axios.get<TripPlan>(
 		`${API_URL}/api/trips/plans/${planId}/`,
@@ -65,12 +71,18 @@ export const getPlanDetails = async (planId: string): Promise<TripPlan> => {
 	return response.data;
 };
 
+/**
+ * Delete a trip plan by its id
+ */
 export const deletePlan = async (planId: string): Promise<void> => {
 	await axios.delete(`${API_URL}/api/trips/plans/${planId}/`, {
 		withCredentials: true,
 	});
 };
 
+/**
+ * Remove a saved recommendation from a trip plan
+ */
 export const removeRecommendationFromPlan = async (
 	recommendationId: number,
 ): Promise<void> => {
@@ -82,6 +94,9 @@ export const removeRecommendationFromPlan = async (
 	);
 };
 
+/**
+ * Fetch live weather and currency information for a city
+ */
 export const getCityTravelInfo = async (
 	cityId: number,
 ): Promise<TravelInfo> => {
@@ -90,5 +105,22 @@ export const getCityTravelInfo = async (
 		{ withCredentials: true },
 	);
 
+	return response.data;
+};
+
+/**
+ * Update travel dates for a specific trip plan
+ */
+export const updateTripDates = async (
+	planId: string,
+	payload: { start_date: string | null; end_date: string | null },
+): Promise<TripPlan> => {
+	const response = await axios.patch(
+		`${API_URL}/api/trips/plans/${planId}/`,
+		payload,
+		{
+			withCredentials: true,
+		},
+	);
 	return response.data;
 };

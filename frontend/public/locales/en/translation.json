@@ -157,7 +157,7 @@
 	},
 	"contacts": {
 		"title": "Contacts",
-		"p1": "Hello! My name is Olga. I am the author and developer of the Adaptive Travel Guide project, created as part of my coursework/diploma work."
+		"p1": "Hello! My name is Olga. I am the author and developer of the Adaptive Travel Guide project, created as part of my diploma work."
 	},
 	"meta": {
 		"about_title": "About the project | Adaptive Travel Guide",
@@ -202,7 +202,8 @@
 		"my_trips": "My trips",
 		"loading": "Loading...",
 		"error": "Failed to load trip plans.",
-		"no_dates": "Dates not specified",
+		"add_dates": "Add dates",
+		"edit_dates": "Edit dates",
 		"locations": "locations added",
 		"open_plan": "Open plan",
 		"empty_title": "You don’t have any plans yet",
@@ -223,6 +224,14 @@
 		"delete_plan": "Delete Plan",
 		"deleting": "Deleting...",
 		"remove_location": "Remove location",
-		"go_to_plan": "Go to plan"
+		"go_to_plan": "Go to plan",
+		"start_date": "Start date",
+		"end_date": "End date",
+		"save_dates": "Save dates",
+		"saving": "Saving...",
+		"cancel": "Cancel",
+		"error_date_order": "End date cannot be earlier than start date",
+		"from": "from",
+		"until": "until"
 	}
 }

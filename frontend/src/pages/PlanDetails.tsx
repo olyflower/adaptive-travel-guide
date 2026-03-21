@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getTranslatedName } from "../utils/translate";
 import { usePlanDetails } from "../hooks/usePlanDetails";
+import TripDatesForm from "../components/TripDatesForm";
 import {
 	FaArrowLeft,
 	FaCalendarAlt,
@@ -15,16 +17,19 @@ import {
 const PlanDetails = () => {
 	const { id } = useParams<{ id: string }>();
 	const { t, i18n } = useTranslation();
+	const [isEditingDates, setIsEditingDates] = useState(false);
 
 	const {
 		plan,
 		travelInfo,
 		loading,
 		isDeleting,
+		isUpdatingDates,
 		error,
 		actionError,
 		handleDeletePlan,
 		handleRemoveLocation,
+		handleUpdateDates,
 	} = usePlanDetails(id);
 
 	if (loading) {
@@ -69,7 +74,15 @@ const PlanDetails = () => {
 			</div>
 		);
 	}
-
+	const formatDateRange = (
+		startDate: string | null,
+		endDate: string | null,
+	) => {
+		if (startDate && endDate) return `${startDate} — ${endDate}`;
+		if (startDate) return `${t("plans.from")} ${startDate}`;
+		if (endDate) return `${t("plans.until")} ${endDate}`;
+		return t("plans.dates_not_set");
+	};
 	const cityName = getTranslatedName(plan.city, i18n, "name");
 
 	return (
@@ -110,14 +123,44 @@ const PlanDetails = () => {
 						<div className="flex flex-wrap gap-4 text-(--color-text) opacity-70">
 							<span className="flex items-center gap-2">
 								<FaCalendarAlt className="text-(--color-primary)" />
-								{plan.start_date && plan.end_date
-									? `${plan.start_date} — ${plan.end_date}`
-									: t("plans.dates_not_set")}
+								{formatDateRange(
+									plan.start_date,
+									plan.end_date,
+								)}
 							</span>
 							<span className="flex items-center gap-2">
 								<FaMapMarkerAlt className="text-(--color-primary)" />
 								{plan.city.country_code}
 							</span>
+						</div>
+						<div className="mt-4">
+							{isEditingDates ? (
+								<TripDatesForm
+									initialStartDate={plan.start_date}
+									initialEndDate={plan.end_date}
+									isSaving={isUpdatingDates}
+									onSave={async (startDate, endDate) => {
+										const success = await handleUpdateDates(
+											startDate,
+											endDate,
+										);
+										if (success) {
+											setIsEditingDates(false);
+										}
+									}}
+									onCancel={() => setIsEditingDates(false)}
+								/>
+							) : (
+								<button
+									type="button"
+									onClick={() => setIsEditingDates(true)}
+									className="px-4 py-2 rounded-xl border border-(--color-primary) text-(--color-primary) hover:bg-(--color-primary) hover:text-white transition"
+								>
+									{plan.start_date || plan.end_date
+										? t("plans.edit_dates")
+										: t("plans.add_dates")}
+								</button>
+							)}
 						</div>
 					</div>
 
@@ -190,7 +233,7 @@ const PlanDetails = () => {
 				</div>
 
 				<div className="space-y-6">
-					<div className="bg-blue-500/5 border border-blue-500/10 p-6 rounded-3xl">
+					<div className="bg-(--color-primary)/5 border border-(--color-primary)/10 p-6 rounded-3xl">
 						<h3 className="font-bold flex items-center gap-2 mb-4 text-(--color-primary) uppercase tracking-wider text-sm">
 							<FaCloudSun size={18} /> {t("plans.weather_live")}{" "}
 							<span className="text-(--color-primary)">
@@ -216,7 +259,7 @@ const PlanDetails = () => {
 						</div>
 					</div>
 
-					<div className="bg-green-500/5 border border-green-500/10 p-6 rounded-3xl">
+					<div className="bg-(--color-primary)/5 border border-(--color-primary)/10 p-6 rounded-3xl">
 						<h3 className="font-bold flex items-center gap-2 mb-4 text-(--color-primary) uppercase tracking-wider text-sm">
 							<FaCoins size={18} /> {t("plans.currency")}
 						</h3>
