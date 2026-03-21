@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { getTranslatedName } from "../utils/translate";
 import { usePlanDetails } from "../hooks/usePlanDetails";
 import TripDatesForm from "../components/TripDatesForm";
+import PlanLocationsMap from "../components/PlanLocationsMap";
 import {
 	FaArrowLeft,
 	FaCalendarAlt,
@@ -86,7 +87,7 @@ const PlanDetails = () => {
 	const cityName = getTranslatedName(plan.city, i18n, "name");
 
 	return (
-		<div className="max-w-7xl mx-auto p-6 pt-32 min-h-screen">
+		<div className="max-w-7xl mx-auto px-6 py-16 md:py-28 min-h-screen">
 			<div className="flex items-center justify-between gap-4 mb-8 flex-wrap">
 				<Link
 					to="/plans"
@@ -154,7 +155,8 @@ const PlanDetails = () => {
 								<button
 									type="button"
 									onClick={() => setIsEditingDates(true)}
-									className="px-4 py-2 rounded-xl border border-(--color-primary) text-(--color-primary) hover:bg-(--color-primary) hover:text-white transition"
+									className="px-4 py-2 rounded-xl border border-(--color-primary) text-(--color-primary) 
+									hover:bg-(--color-primary) hover:text-white transition"
 								>
 									{plan.start_date || plan.end_date
 										? t("plans.edit_dates")
@@ -229,6 +231,14 @@ const PlanDetails = () => {
 								</Link>
 							</div>
 						)}
+						<section className="mt-10">
+							<h2 className="text-2xl font-bold text-(--color-text) mb-6 border-l-4 border-(--color-primary) pl-4">
+								{t("plans.map")}
+							</h2>
+							<PlanLocationsMap
+								recommendations={plan.recommendations}
+							/>
+						</section>
 					</section>
 				</div>
 
@@ -263,12 +273,29 @@ const PlanDetails = () => {
 						<h3 className="font-bold flex items-center gap-2 mb-4 text-(--color-primary) uppercase tracking-wider text-sm">
 							<FaCoins size={18} /> {t("plans.currency")}
 						</h3>
+
 						<div className="text-(--color-text)">
-							<p className="text-xl font-bold">
-								{travelInfo?.currency
-									? `1 ${travelInfo.currency.from} = ${travelInfo.currency.rate} ${travelInfo.currency.to}`
-									: "--"}
-							</p>
+							{travelInfo?.currency ? (
+								travelInfo.currency.from ===
+								travelInfo.currency.to ? (
+									<div>
+										<p className="text-sm pb-2">
+											{t("plans.same_currency")}
+										</p>
+										<p className="text-sm opacity-70">
+											{`1 ${travelInfo.currency.from} = 1 ${travelInfo.currency.to}`}
+										</p>
+									</div>
+								) : (
+									<p className="text-xl font-bold">
+										{`1 ${travelInfo.currency.from} = ${travelInfo.currency.rate} ${travelInfo.currency.to}`}
+									</p>
+								)
+							) : (
+								<p className="text-sm opacity-60">
+									{t("plans.loading")}
+								</p>
+							)}
 						</div>
 					</div>
 

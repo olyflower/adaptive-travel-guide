@@ -232,6 +232,9 @@
 		"cancel": "Cancel",
 		"error_date_order": "End date cannot be earlier than start date",
 		"from": "from",
-		"until": "until"
+		"until": "until",
+		"map": "Locations map",
+		"map_not_available": "Map not available",
+		"same_currency": "You already use the local currency"
 	}
 }

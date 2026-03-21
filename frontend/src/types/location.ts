@@ -20,4 +20,7 @@ export interface LocationData {
 	category?: LocationCategory | null;
 	distance?: number;
 	is_in_trip: boolean;
+	lat: number | null;
+	lon: number | null;
+	address?: string | null;
 }
