@@ -1,7 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
-import requests
 
 from .services import get_weather_data, get_currency_rate
 
@@ -20,29 +19,21 @@ class WeatherView(APIView):
         lat = request.query_params.get("lat")
         lon = request.query_params.get("lon")
 
-        try:
-            data = get_weather_data(lat=lat, lon=lon)
-            return Response(data)
+        data = get_weather_data(lat=lat, lon=lon)
 
-        except requests.RequestException as e:
+        if not data:
             return Response(
-                {"error": "External API error", "details": str(e)},
+                {"error": "Weather service error"},
                 status=status.HTTP_502_BAD_GATEWAY,
             )
 
+        return Response(data)
+
 
 class CurrencyExchangeView(APIView):
-    """
-    Integrates with external exchange rate services
-    Handles currency conversion relevant to the user's travel destination
-    """
-
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        """
-        Converts currency from a source to a target (defaulting to UAH)
-        """
         from_currency = request.query_params.get("from")
         to_currency = request.query_params.get("to", "UAH")
 
@@ -52,22 +43,15 @@ class CurrencyExchangeView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        try:
-            data = get_currency_rate(
-                from_currency=from_currency,
-                to_currency=to_currency,
-            )
+        data = get_currency_rate(
+            from_currency=from_currency,
+            to_currency=to_currency,
+        )
 
-            if not data:
-                return Response(
-                    {"error": "Conversion failed"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            return Response(data)
-
-        except requests.RequestException as e:
+        if not data:
             return Response(
-                {"error": "Currency service error", "details": str(e)},
+                {"error": "Currency service error"},
                 status=status.HTTP_502_BAD_GATEWAY,
             )
+
+        return Response(data)

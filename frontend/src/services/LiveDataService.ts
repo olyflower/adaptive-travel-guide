@@ -112,7 +112,9 @@ export const loadWeatherData = async (): Promise<WeatherData | null> => {
 	return fetchAndCacheWeather(DEFAULT_CITY);
 };
 
-const CURRENCY_CACHE_KEY = "currencyData";
+const getCurrencyCacheKey = (from: string, to: string) =>
+	`currency_${from}_${to}`;
+
 const CURRENCY_CACHE_DURATION = 12 * 60 * 60 * 1000;
 
 /**
@@ -150,7 +152,7 @@ export const getCurrencyByCountry = (countryCode: string): string => {
  * Retrieve cached exchange rate if it is still valid
  */
 const getCachedCurrencyRate = (from: string, to: string): CachedRate | null => {
-	const cached = localStorage.getItem(CURRENCY_CACHE_KEY);
+	const cached = localStorage.getItem(getCurrencyCacheKey(from, to));
 	if (!cached) return null;
 
 	try {
@@ -170,6 +172,33 @@ const getCachedCurrencyRate = (from: string, to: string): CachedRate | null => {
 };
 
 /**
+ * Retrieve cached exchange rate for a specific currency pair
+ * without checking whether the cache entry is still fresh.
+ *
+ * Used as a fallback when the live API request fails, so the UI
+ * can still display the last known exchange rate.
+ */
+
+const getAnyCachedCurrencyRate = (
+	from: string,
+	to: string,
+): CachedRate | null => {
+	const cached = localStorage.getItem(getCurrencyCacheKey(from, to));
+	if (!cached) return null;
+
+	try {
+		const parsed: CachedRate = JSON.parse(cached);
+		if (parsed.from === from && parsed.to === to) {
+			return parsed;
+		}
+	} catch {
+		return null;
+	}
+
+	return null;
+};
+
+/**
  * Fetch exchange rate from the API and store it in cache
  */
 const fetchAndCacheCurrencyRate = async (
@@ -177,9 +206,14 @@ const fetchAndCacheCurrencyRate = async (
 	to: string,
 ): Promise<CachedRate | null> => {
 	try {
-		const url = `${API_URL}/api/live/currency?from=${from}&to=${to}`;
+		const url = `${API_URL}/api/live/currency/?from=${from}&to=${to}`;
 		const response = await axios.get(url);
-		const rate = response.data.rate;
+		const rate = response.data?.rate;
+
+		if (typeof rate !== "number") {
+			console.error("Invalid currency rate response:", response.data);
+			return null;
+		}
 
 		const cacheItem: CachedRate = {
 			from,
@@ -187,11 +221,18 @@ const fetchAndCacheCurrencyRate = async (
 			rate,
 			timestamp: Date.now(),
 		};
-		localStorage.setItem(CURRENCY_CACHE_KEY, JSON.stringify(cacheItem));
+		localStorage.setItem(
+			getCurrencyCacheKey(from, to),
+			JSON.stringify(cacheItem),
+		);
 
 		return cacheItem;
 	} catch (error) {
 		console.error("Error fetching exchange rate:", error);
+
+		const staleCached = getAnyCachedCurrencyRate(from, to);
+		if (staleCached) return staleCached;
+
 		return null;
 	}
 };

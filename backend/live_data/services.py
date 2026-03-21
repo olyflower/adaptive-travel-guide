@@ -56,40 +56,45 @@ def get_weather_data(lat=None, lon=None, city="Paris"):
 
 def get_currency_rate(from_currency, to_currency="UAH"):
     """
-    Requests the latest exchange rate between two currencies from an external API
+    Fetches the exchange rate from from_currency to to_currency.
     """
 
     if from_currency == to_currency:
-        return {
-            "from": from_currency,
-            "to": to_currency,
-            "rate": 1.0,
-        }
-
-    base_url = settings.EXCHANGERATE_BASE_URL
-    api_key = settings.EXCHANGERATE_API_KEY
-
-    url = (
-        f"{base_url}/convert?access_key={api_key}"
-        f"&from={from_currency}&to={to_currency}&amount=1"
-    )
+        return {"from": from_currency, "to": to_currency, "rate": 1.0}
 
     try:
+        url = f"{settings.CURRENCY_API_BASE_URL}/latest/{from_currency}"
         response = requests.get(url, timeout=5)
         response.raise_for_status()
+
         data = response.json()
+
+        if data.get("result") != "success":
+            print("[currency] bad response body", data)
+            return None
+
+        rates = data.get("rates")
+        if not rates:
+            print("[currency] rates missing", data)
+            return None
+
+        rate = rates.get(to_currency)
+        if rate is None:
+            print(
+                "[currency] target currency missing",
+                {
+                    "from": from_currency,
+                    "to": to_currency,
+                    "base_code": data.get("base_code"),
+                },
+            )
+            return None
+
+        return {"from": from_currency, "to": to_currency, "rate": round(rate, 4)}
+
     except requests.RequestException as e:
         print(f"Currency API error: {e}")
         return None
-
-    if "result" not in data or data["result"] is None:
-        return None
-
-    return {
-        "from": from_currency,
-        "to": to_currency,
-        "rate": round(data["result"], 4),
-    }
 
 
 def get_currency_by_country(country_code):
