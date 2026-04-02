@@ -31,9 +31,18 @@ class WeatherView(APIView):
 
 
 class CurrencyExchangeView(APIView):
+    """
+    Provides real-time currency exchange rates using an external API.
+    Allows conversion from one currency to another based on query parameters.
+    """
+
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
+        """
+        Fetches the exchange rate between the specified currencies.
+        Requires 'from' currency code and optionally accepts 'to' currency code.
+        """
         from_currency = request.query_params.get("from")
         to_currency = request.query_params.get("to", "UAH")
 
