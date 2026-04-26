@@ -16,9 +16,9 @@
 	},
 	"features": {
 		"title": "Choose not just a direction — choose an approach to traveling!",
-		"personalization": "Personalization 24/7",
-		"integration": "Integration with real services",
-		"aggregators": "No aggregator sites",
+		"personalization": "Personalized recommendations",
+		"integration": "Integration with external services",
+		"aggregators": "Convenient trip planning",
 		"culture": "Cultural insights"
 	},
 	"sta": {

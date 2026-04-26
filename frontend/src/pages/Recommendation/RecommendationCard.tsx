@@ -58,10 +58,10 @@ const RecommendationCard = ({
 		hover:-translate-y-2 shadow-xl flex flex-col h-full"
 		>
 			<div
-				className="h-48 bg-linear-to-br from-gray-800 to-gray-900 relative 
+				className="h-48 bg-linear-to-br from-(--color-primary)/20 via-(--color-primary)/40 to-(--color-primary)/80 relative 
 			flex items-center justify-center overflow-hidden"
 			>
-				<FaTag className="text-white/10" size={80} />
+				<FaTag className="text-white/20" size={80} />
 
 				<div
 					className="absolute top-4 left-4 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full 
@@ -96,7 +96,7 @@ const RecommendationCard = ({
 						rounded-2xl transition-all duration-300 active:scale-95 border 
           ${
 				isAdded
-					? "bg-green-500/10 text-green-500 border-green-500/20 cursor-default"
+					? "bg-green-500/10 text-green-700 border-green-400 cursor-default"
 					: "bg-(--color-primary)/10 text-(--color-primary) border-(--color-primary)/20 hover:bg-(--color-primary) hover:text-white"
 			} 
           disabled:opacity-80`}
