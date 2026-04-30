@@ -195,7 +195,8 @@
 		"profile_incomplete": "Please fill in your profile preferences to get AI recommendations.",
 		"city_not_specified": "City not specified.",
 		"city_not_found": "City not found.",
-		"go_to_profile": "Go to Profile"
+		"go_to_profile": "Go to Profile",
+		"remove_hint": "You can remove it in your trip plan"
 	},
 
 	"plans": {
@@ -235,6 +236,8 @@
 		"until": "until",
 		"map": "Locations map",
 		"map_not_available": "Map not available",
-		"same_currency": "You already use the local currency"
+		"same_currency": "You already use the local currency",
+		"deleted": "Trip plan deleted",
+    "location_removed": "Location removed"
 	}
 }

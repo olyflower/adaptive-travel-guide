@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import i18n from "i18next";
 import {
 	deletePlan,
 	getCityTravelInfo,
@@ -133,6 +135,7 @@ export const usePlanDetails = (
 			setIsDeleting(true);
 			setActionError(null);
 			await deletePlan(id);
+			toast.success(i18n.t("plans.deleted"));
 			navigate("/plans");
 		} catch (err) {
 			console.error(err);
@@ -147,7 +150,7 @@ export const usePlanDetails = (
 			try {
 				setActionError(null);
 				await removeRecommendationFromPlan(recommendationId);
-
+				toast.success(i18n.t("plans.location_removed"));
 				setPlan((prev) =>
 					prev
 						? {

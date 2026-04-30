@@ -92,6 +92,7 @@ const RecommendationCard = ({
 				<button
 					onClick={handleAddLocation}
 					disabled={isLoading || isAdded}
+					title={isAdded ? t("recommendations.remove_hint") : ""}
 					className={`mt-auto group/btn flex items-center justify-center gap-2 w-full py-3 
 						rounded-2xl transition-all duration-300 active:scale-95 border 
           ${

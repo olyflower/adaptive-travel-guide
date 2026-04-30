@@ -6,6 +6,8 @@ import { AuthProvider } from "./context/AuthContext";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Loader from "./components/Loader";
 import PrivateRoute from "./components/PrivateRoute";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const About = lazy(() => import("./pages/About"));
 const Contacts = lazy(() => import("./pages/Contacts"));
@@ -28,6 +30,7 @@ function App() {
 		<AuthProvider>
 			<GoogleOAuthProvider clientId={clientId}>
 				<Router>
+					<ToastContainer position="top-right" autoClose={2000} />
 					<Suspense fallback={<Loader />}>
 						<Routes>
 							<Route path="/" element={<Layout />}>
