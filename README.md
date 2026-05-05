@@ -15,7 +15,7 @@
 - **Документація API**: drf-spectacular (OpenAPI 3.0, Swagger UI)
 
 ## Встановлення та запуск
-Ви можете запустити проект за допомогою **Docker** (рекомендовано) або **вручну**
+Ви можете запустити проєкт за допомогою **Docker** (рекомендовано) або **вручну**
 
 ### Запуск через Docker (Швидкий старт)
 *Попередні вимоги: встановлений Docker та Docker Compose*
@@ -46,7 +46,10 @@ cd adaptive-travel-guide
 
 cd backend
 python -m venv .venv
-source .venv/bin/activate  # або .venv\Scripts\activate на Windows
+
+source .venv/bin/activate   # Linux / macOS
+.venv\Scripts\activate      # Windows
+
 pip install -r requirements.txt
 
 python manage.py migrate
@@ -57,6 +60,14 @@ cd ../frontend
 npm install
 npm run dev
 ```
+## Основні можливості
+- Реєстрація та автентифікація користувачів (JWT, Google OAuth)
+- Формування персоналізованих рекомендацій туристичних локацій
+- Створення та керування планами подорожей
+- Відображення локацій на інтерактивній карті
+- Отримання даних про погоду та валютний курс
+- Підтримка багатомовності (UA/EN)
+
 ## Доступ до сервісів
 Після запуску (будь-яким способом) застосунок доступний за адресами:
 

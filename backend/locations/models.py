@@ -100,8 +100,8 @@ class Location(models.Model):
 
             try:
                 self.embedding = generate_embedding(current_full_text)
-            except Exception as e:
-                print(f"AI Error during saving location {self.name}: {e}")
+            except Exception:
+                self.embedding = None
 
         super().save(*args, **kwargs)
 

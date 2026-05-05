@@ -48,7 +48,7 @@ const Profile = () => {
 						onSubmit={handleSubmit(onSubmit)}
 						className="relative z-10 w-full max-w-3xl space-y-6"
 					>
-						<section className="bg-(--color-bg-nav-footer) rounded-3xl shadow-2xl p-8 border border-white/10">
+						<section className="bg-(--color-bg-nav-footer) rounded-3xl shadow-2xl p-8 border border-white/10 mt-10">
 							<h2 className="text-2xl font-bold mb-6 text-(--color-text)">
 								{t("profile.personal_title")}
 							</h2>
@@ -196,7 +196,7 @@ const Profile = () => {
 
 						<PreferencesSection categories={categories} />
 
-						<div className="flex justify-center">
+						<div className="flex justify-center my-10">
 							<button
 								type="submit"
 								disabled={isSubmitting}

@@ -56,7 +56,7 @@ const Navbar = () => {
 					md:bg-transparent md:py-0 md:px-0 md:shadow-none md:border-none md:backdrop-blur-none`}
 				>
 					<ul
-						className="flex flex-col text-lg md:flex-row md:space-x-10 font-medium text-center 
+						className="flex flex-col text-lg md:flex-row md:space-x-4 lg:space-x-10 font-medium text-center 
 					text-(--color-text) w-full justify-center [&_a]:hover:text-(--color-primary)"
 					>
 						<li>

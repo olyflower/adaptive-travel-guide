@@ -225,7 +225,7 @@ class LogoutView(APIView):
     Logs out the user by clearing the access and refresh token cookies
     """
 
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         response = Response({"message": "Success logout"}, status=status.HTTP_200_OK)

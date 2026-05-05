@@ -20,8 +20,7 @@ class CustomUser(AbstractUser):
 
 
 class UserProfile(models.Model):
-    """Personal details and travel preferences for a user
-    """
+    """Personal details and travel preferences for a user"""
 
     GENDER_CHOICES = [("M", _("Male")), ("F", _("Female"))]
 
@@ -101,8 +100,6 @@ class UserProfile(models.Model):
 
         full_context = " ".join(filter(None, [tags_text, user_wishes]))
 
-        print("Full context:", full_context)
-
         if full_context:
             from locations.services import generate_embedding
 
@@ -113,8 +110,8 @@ class UserProfile(models.Model):
                     interests_embedding=new_vector
                 )
                 return True
-            except Exception as e:
-                print(f"AI Vector Error for {self.user.email}: {e}")
+            except Exception:
+                return False
 
         return False
 

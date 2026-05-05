@@ -38,7 +38,7 @@ const DestinationInput = ({ onSearch }: DestinationInputProps) => {
 				rounded-full
 				bg-(--color-bg-main)
 				text-(--color-text)
-				text-sm md:text-xl
+				text-[12px] md:text-xl
 				border border-(--color-primary)
 				placeholder:text-(--color-text)/50
 				shadow-lg
