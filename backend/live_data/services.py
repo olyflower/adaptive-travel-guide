@@ -1,5 +1,6 @@
 import requests
 from django.conf import settings
+from config.constants import EXTERNAL_API_TIMEOUT, DEFAULT_RECOMMENDATION_CITY
 
 """
 Service layer for integrations with external data providers.
@@ -22,7 +23,7 @@ country_to_currency = {
 }
 
 
-def get_weather_data(lat=None, lon=None, city="Paris"):
+def get_weather_data(lat=None, lon=None, city=DEFAULT_RECOMMENDATION_CITY):
     """
     Fetches real-time weather data from OpenWeather API using coordinates or city name
     """
@@ -39,7 +40,7 @@ def get_weather_data(lat=None, lon=None, city="Paris"):
         url = f"{base_url}/weather?q={city}&appid={api_key}&units=metric&lang=ua"
 
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=EXTERNAL_API_TIMEOUT)
         response.raise_for_status()
         data = response.json()
     except requests.RequestException as e:
@@ -64,7 +65,7 @@ def get_currency_rate(from_currency, to_currency="UAH"):
 
     try:
         url = f"{settings.CURRENCY_API_BASE_URL}/latest/{from_currency}"
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=EXTERNAL_API_TIMEOUT)
         response.raise_for_status()
 
         data = response.json()

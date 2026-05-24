@@ -7,6 +7,10 @@ from pgvector.django import CosineDistance
 from django.db.models import Q
 from .models import City, Location
 from .serializers import CitySerializer, LocationSerializer
+from config.constants import (
+    RECOMMENDATION_SIMILARITY_THRESHOLD,
+    MAX_RECOMMENDATIONS,
+)
 
 
 class CityListView(ListAPIView):
@@ -58,8 +62,8 @@ class RecommendationView(APIView):
             Location.objects.select_related("city", "category")
             .filter(city=city)
             .annotate(distance=distance_expr)
-            .filter(distance__lt=0.6)
-            .order_by("distance")[:5]
+            .filter(distance__lt=RECOMMENDATION_SIMILARITY_THRESHOLD)
+            .order_by("distance")[:MAX_RECOMMENDATIONS]
         )
 
         city_data = CitySerializer(city).data

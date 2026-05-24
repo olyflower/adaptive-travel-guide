@@ -26,6 +26,10 @@ from google.auth.transport import requests as google_requests
 from django.db import transaction
 from accounts.models import UserProfile
 from preferences.models import UserPreference
+from config.constants import (
+    ACCESS_TOKEN_COOKIE_AGE,
+    REFRESH_TOKEN_COOKIE_AGE,
+)
 
 
 class CookieTokenObtainPairView(TokenObtainPairView):
@@ -64,7 +68,7 @@ class CookieTokenObtainPairView(TokenObtainPairView):
             httponly=True,
             secure=True,
             samesite="None",
-            max_age=3 * 24 * 3600,
+            max_age=ACCESS_TOKEN_COOKIE_AGE,
         )
         response.set_cookie(
             key="refresh_token",
@@ -72,7 +76,7 @@ class CookieTokenObtainPairView(TokenObtainPairView):
             httponly=True,
             secure=True,
             samesite="None",
-            max_age=14 * 24 * 3600,
+            max_age=REFRESH_TOKEN_COOKIE_AGE,
         )
         return response
 
@@ -268,7 +272,7 @@ class GoogleLoginView(APIView):
                 httponly=True,
                 secure=True,
                 samesite="None",
-                max_age=3 * 24 * 3600,
+                max_age=ACCESS_TOKEN_COOKIE_AGE,
             )
             response.set_cookie(
                 "refresh_token",
@@ -276,7 +280,7 @@ class GoogleLoginView(APIView):
                 httponly=True,
                 secure=True,
                 samesite="None",
-                max_age=14 * 24 * 3600,
+                max_age=REFRESH_TOKEN_COOKIE_AGE,
             )
             return response
 
