@@ -1,10 +1,12 @@
 from rest_framework import serializers
-from .models import (
-    TripPlan,
-    Recommendation,
-    LanguagePhrase,
-)
+
 from locations.serializers import CitySerializer, LocationSerializer
+
+from .models import (
+    LanguagePhrase,
+    Recommendation,
+    TripPlan,
+)
 
 
 class LanguagePhraseSerializer(serializers.ModelSerializer):

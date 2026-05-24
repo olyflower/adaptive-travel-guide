@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.db.models import Count
 from modeltranslation.admin import TranslationAdmin
+
 from .models import PreferenceCategory, PreferenceOption, UserPreference
 
 

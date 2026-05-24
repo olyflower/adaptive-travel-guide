@@ -1,8 +1,8 @@
-from rest_framework.views import APIView
+from rest_framework import permissions, status
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework.views import APIView
 
-from .services import get_weather_data, get_currency_rate
+from .services import get_currency_rate, get_weather_data
 
 
 class WeatherView(APIView):

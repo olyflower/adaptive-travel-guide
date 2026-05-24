@@ -1,13 +1,13 @@
-from rest_framework.views import APIView
-from rest_framework import viewsets, status, permissions
+from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
-from rest_framework.response import Response
-from .models import TripPlan, Recommendation
-from .serializers import TripPlanSerializer, RecommendationSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .models import City
-from live_data.services import get_weather_data, get_currency_rate_for_country
+from live_data.services import get_currency_rate_for_country, get_weather_data
+
+from .models import City, Recommendation, TripPlan
+from .serializers import RecommendationSerializer, TripPlanSerializer
 
 
 class TripPlanViewSet(viewsets.ModelViewSet):

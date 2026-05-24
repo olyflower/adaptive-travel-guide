@@ -1,35 +1,32 @@
-from rest_framework.permissions import AllowAny
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.exceptions import ValidationError
-from rest_framework.exceptions import AuthenticationFailed
-from rest_framework.generics import CreateAPIView
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import get_user_model
-from accounts.serializers import UserRegistrationSerializer
-from accounts.serializers import CustomUserSerializer
-from accounts.services.emails import (
-    send_registration_email,
-    send_password_reset_email,
-    send_confirm_change_password_email,
-)
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
-from django.utils.http import urlsafe_base64_decode
-from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
-from google.oauth2 import id_token
-from google.auth.transport import requests as google_requests
+from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import default_token_generator
 from django.db import transaction
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from google.auth.transport import requests as google_requests
+from google.oauth2 import id_token
+from rest_framework import status
+from rest_framework.exceptions import AuthenticationFailed, ValidationError
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from accounts.models import UserProfile
-from preferences.models import UserPreference
+from accounts.serializers import CustomUserSerializer, UserRegistrationSerializer
+from accounts.services.emails import (
+    send_confirm_change_password_email,
+    send_password_reset_email,
+    send_registration_email,
+)
 from config.constants import (
     ACCESS_TOKEN_COOKIE_AGE,
     REFRESH_TOKEN_COOKIE_AGE,
 )
+from preferences.models import UserPreference
 
 
 class CookieTokenObtainPairView(TokenObtainPairView):

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from pgvector.django import VectorField
 from django.utils.translation import gettext_lazy as _
+from pgvector.django import VectorField
 
 
 class CustomUser(AbstractUser):
@@ -101,7 +101,7 @@ class UserProfile(models.Model):
         full_context = " ".join(filter(None, [tags_text, user_wishes]))
 
         if full_context:
-            from locations.services import generate_embedding
+            from ai.services import generate_embedding
 
             try:
                 new_vector = generate_embedding(full_context)

@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, UserProfile
+
 from preferences.models import UserPreference
+
+from .models import CustomUser, UserProfile
 
 
 class UserPreferenceInline(admin.TabularInline):

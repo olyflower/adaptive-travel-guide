@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from .models import City, Location
+
 from trips.models import Recommendation
+
+from .models import City, Location
 
 
 class CitySerializer(serializers.ModelSerializer):

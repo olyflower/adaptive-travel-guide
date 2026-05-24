@@ -1,16 +1,18 @@
-from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from pgvector.django import CosineDistance
 from django.db.models import Q
+from pgvector.django import CosineDistance
+from rest_framework import status
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from config.constants import (
+    MAX_RECOMMENDATIONS,
+    RECOMMENDATION_SIMILARITY_THRESHOLD,
+)
+
 from .models import City, Location
 from .serializers import CitySerializer, LocationSerializer
-from config.constants import (
-    RECOMMENDATION_SIMILARITY_THRESHOLD,
-    MAX_RECOMMENDATIONS,
-)
 
 
 class CityListView(ListAPIView):

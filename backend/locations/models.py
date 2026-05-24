@@ -1,7 +1,8 @@
 from django.db import models
-from preferences.models import PreferenceCategory
-from pgvector.django import VectorField
 from django.utils.translation import gettext_lazy as _
+from pgvector.django import VectorField
+
+from preferences.models import PreferenceCategory
 
 
 class City(models.Model):
@@ -96,7 +97,7 @@ class Location(models.Model):
                 should_update_embedding = True
 
         if current_full_text and (should_update_embedding or self.embedding is None):
-            from .services import generate_embedding
+            from ai.services import generate_embedding
 
             try:
                 self.embedding = generate_embedding(current_full_text)

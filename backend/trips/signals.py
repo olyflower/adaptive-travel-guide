@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .models import TripPlan, LanguagePhrase
+from .models import LanguagePhrase, TripPlan
 
 """
 Signals that automatically enrich a TripPlan after creation.

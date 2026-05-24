@@ -1,5 +1,8 @@
+import logging
+
 from sentence_transformers import SentenceTransformer
-import numpy as np
+
+logger = logging.getLogger(__name__)
 
 # Load a pre-trained multilingual model for generating semantic vector representations
 model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
@@ -15,6 +18,10 @@ def generate_embedding(text: str):
         return None
 
     # Generate a numerical representation of the text's meaning
-    embedding = model.encode(text)
+    try:
+        embedding = model.encode(text)
+        return embedding.tolist()
 
-    return embedding.tolist()
+    except Exception:
+        logger.exception("Failed to generate embedding")
+        return None

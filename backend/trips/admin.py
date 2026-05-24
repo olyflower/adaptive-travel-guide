@@ -1,8 +1,9 @@
 from django.contrib import admin
+
 from .models import (
-    TripPlan,
-    Recommendation,
     LanguagePhrase,
+    Recommendation,
+    TripPlan,
 )
 
 

@@ -1,7 +1,8 @@
+import os
+
+from django.conf import settings
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
-from django.conf import settings
-import os
 
 
 def send_registration_email(request, user):

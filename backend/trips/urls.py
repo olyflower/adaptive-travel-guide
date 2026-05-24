@@ -1,7 +1,7 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from .views import TripPlanViewSet, RecommendationViewSet
-from .views import CityTravelInfoView
+
+from .views import CityTravelInfoView, RecommendationViewSet, TripPlanViewSet
 
 router = DefaultRouter()
 router.register(r"plans", TripPlanViewSet, basename="trip-plan")
@@ -12,8 +12,7 @@ router.register(
 )
 
 
-
 urlpatterns = [
     path("", include(router.urls)),
-	path("cities/<int:city_id>/travel-info/", CityTravelInfoView.as_view()),
+    path("cities/<int:city_id>/travel-info/", CityTravelInfoView.as_view()),
 ]

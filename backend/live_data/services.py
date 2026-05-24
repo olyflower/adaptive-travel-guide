@@ -1,6 +1,9 @@
+import logging
+
 import requests
 from django.conf import settings
-from config.constants import EXTERNAL_API_TIMEOUT, DEFAULT_RECOMMENDATION_CITY
+
+from config.constants import DEFAULT_RECOMMENDATION_CITY, EXTERNAL_API_TIMEOUT
 
 """
 Service layer for integrations with external data providers.
@@ -10,6 +13,8 @@ Responsibilities:
 - Convert currency using an external exchange rate API
 - Determine the destination currency based on country code
 """
+
+logger = logging.getLogger(__name__)
 
 country_to_currency = {
     "FR": "EUR",
@@ -43,8 +48,8 @@ def get_weather_data(lat=None, lon=None, city=DEFAULT_RECOMMENDATION_CITY):
         response = requests.get(url, timeout=EXTERNAL_API_TIMEOUT)
         response.raise_for_status()
         data = response.json()
-    except requests.RequestException as e:
-        print(f"Weather API error: {e}")
+    except requests.RequestException:
+        logger.exception("Weather API request failed")
         return None
 
     return {
@@ -71,30 +76,29 @@ def get_currency_rate(from_currency, to_currency="UAH"):
         data = response.json()
 
         if data.get("result") != "success":
-            print("[currency] bad response body", data)
+            logger.warning(
+                "Currency API returned invalid response body",
+            )
             return None
 
         rates = data.get("rates")
         if not rates:
-            print("[currency] rates missing", data)
+            logger.warning(
+                "Currency API response missing rates",
+            )
             return None
 
         rate = rates.get(to_currency)
         if rate is None:
-            print(
-                "[currency] target currency missing",
-                {
-                    "from": from_currency,
-                    "to": to_currency,
-                    "base_code": data.get("base_code"),
-                },
+            logger.warning(
+                "Target currency missing in API response",
             )
             return None
 
         return {"from": from_currency, "to": to_currency, "rate": round(rate, 4)}
 
-    except requests.RequestException as e:
-        print(f"Currency API error: {e}")
+    except requests.RequestException:
+        logger.exception("Currency API request failed")
         return None
 
 
