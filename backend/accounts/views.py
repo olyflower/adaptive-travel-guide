@@ -1,3 +1,5 @@
+import logging
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
@@ -27,6 +29,8 @@ from config.constants import (
     REFRESH_TOKEN_COOKIE_AGE,
 )
 from preferences.models import UserPreference
+
+logger = logging.getLogger(__name__)
 
 
 class CookieTokenObtainPairView(TokenObtainPairView):
@@ -107,9 +111,11 @@ class RegisterView(CreateAPIView):
                 {"message": "Validation error", "details": e.detail},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        except Exception as e:
+        except Exception:
+            logger.exception("Registration failed")
+
             return Response(
-                {"message": "Internal server error", "details": str(e)},
+                {"message": "Internal server error"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -159,9 +165,11 @@ class PasswordResetRequestView(APIView):
                 status=status.HTTP_200_OK,
             )
 
-        except Exception as e:
+        except Exception:
+            logger.exception("Password reset request failed")
+
             return Response(
-                {"message": "Internal server error", "details": str(e)},
+                {"message": "Internal server error"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -214,9 +222,11 @@ class PasswordResetConfirmView(APIView):
                 status=status.HTTP_200_OK,
             )
 
-        except Exception as e:
+        except Exception:
+            logger.exception("Password reset confirmation failed")
+
             return Response(
-                {"message": "Internal server error", "details": str(e)},
+                {"message": "Internal server error"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -282,9 +292,16 @@ class GoogleLoginView(APIView):
             return response
 
         except ValueError:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                {"message": "Invalid Google token"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception:
+            logger.exception("Google login failed")
+            return Response(
+                {"message": "Internal server error"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
 
 class ProfileSaveFullView(APIView):
@@ -327,12 +344,23 @@ class ProfileSaveFullView(APIView):
 
                 try:
                     profile.generate_interests_vector()
-                except Exception as e:
-                    print(f"Embedding error for {user.email}: {e}")
+                except Exception:
+                    logger.exception(
+                        "Failed to generate embedding for user %s",
+                        user.email,
+                    )
 
             return Response({"message": "Success"}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception:
+            logger.exception(
+                "Failed to save full profile for user %s",
+                user.email,
+            )
+
+            return Response(
+                {"message": "Internal server error"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
     def get(self, request):
         """Retrieves the full profile state and current preference selections"""

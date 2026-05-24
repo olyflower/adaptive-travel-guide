@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import serializers
 
 from .models import PreferenceCategory, PreferenceOption, UserPreference
@@ -48,9 +49,13 @@ class UserPreferenceSaveSerializer(serializers.Serializer):
         """
 
         option_ids = self.validated_data["option_ids"]
-        UserPreference.objects.filter(user=user).delete()
 
-        new_prefs = [
-            UserPreference(user=user, preference_option_id=oid) for oid in option_ids
-        ]
-        UserPreference.objects.bulk_create(new_prefs)
+        with transaction.atomic():
+            UserPreference.objects.filter(user=user).delete()
+
+            new_prefs = [
+                UserPreference(user=user, preference_option_id=oid)
+                for oid in option_ids
+            ]
+
+            UserPreference.objects.bulk_create(new_prefs)

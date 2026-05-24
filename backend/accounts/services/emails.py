@@ -1,11 +1,14 @@
+import logging
 import os
 
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
+logger = logging.getLogger(__name__)
 
-def send_registration_email(request, user):
+
+def send_registration_email(user):
     """
     Sends a welcome email after successful user registration
     """
@@ -33,10 +36,17 @@ def send_registration_email(request, user):
         to=recipient_list,
     )
     email.content_subtype = "html"
-    email.send()
+    try:
+        email.send()
+
+    except Exception:
+        logger.exception(
+            "Failed to send registration email to %s",
+            user.email,
+        )
 
 
-def send_password_reset_email(request, user, reset_url):
+def send_password_reset_email(user, reset_url):
     """
     Sends a password reset link to the user
     """
@@ -64,10 +74,17 @@ def send_password_reset_email(request, user, reset_url):
         to=recipient_list,
     )
     email.content_subtype = "html"
-    email.send()
+    try:
+        email.send()
+
+    except Exception:
+        logger.exception(
+            "Failed to send password reset email to %s",
+            user.email,
+        )
 
 
-def send_confirm_change_password_email(request, user):
+def send_confirm_change_password_email(user):
     """
     Sends a notification confirming a successful password change
     """
@@ -94,4 +111,11 @@ def send_confirm_change_password_email(request, user):
         to=recipient_list,
     )
     email.content_subtype = "html"
-    email.send()
+    try:
+        email.send()
+
+    except Exception:
+        logger.exception(
+            "Failed to send password confirmation email to %s",
+            user.email,
+        )
