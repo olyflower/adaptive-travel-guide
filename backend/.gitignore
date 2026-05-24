@@ -1,5 +1,8 @@
 backend/venv/# Django #
+# Logs
 *.log
+logs/
+
 *.pot
 *.pyc
 __pycache__

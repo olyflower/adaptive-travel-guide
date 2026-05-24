@@ -1,3 +1,5 @@
+import logging
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -12,6 +14,8 @@ Key behaviors:
 - Falls back to English if the language is not supported
 - Uses bulk_create for efficient database insertion
 """
+
+logger = logging.getLogger(__name__)
 
 DESTINATION_LANG = {
     "FR": "fr",
@@ -73,7 +77,14 @@ def enrich_trip_plan(sender, instance, created, **kwargs):
     if not created:
         return
 
-    create_trip_phrases(instance)
+    try:
+        create_trip_phrases(instance)
+
+    except Exception:
+        logger.exception(
+            "Failed to create trip phrases for trip plan id=%s",
+            instance.id,
+        )
 
 
 def create_trip_phrases(trip_plan):
