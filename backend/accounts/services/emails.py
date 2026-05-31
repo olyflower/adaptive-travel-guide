@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 logger = logging.getLogger(__name__)
 
 
-def send_registration_email(user):
+def send_registration_email(request, user):
     """
     Sends a welcome email after successful user registration
     """
