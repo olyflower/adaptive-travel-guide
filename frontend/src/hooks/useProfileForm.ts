@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useCountryOptions } from "../hooks/useCountries";
+import { useAuth } from "../context/AuthContext";
 import { registerCountryLocale } from "../utils/countryLocale";
 import { clearRecommendationCache } from "../services/RecommendationService";
 import { getProfile, saveProfile } from "../services/ProfileService";
@@ -26,6 +27,7 @@ export type ProfileFormValues = {
 export const useProfileForm = () => {
 	const { t, i18n } = useTranslation();
 	const navigate = useNavigate();
+	const { checkAuthStatus } = useAuth();
 	const [isReady, setIsReady] = useState(false);
 
 	const countryOptions = useCountryOptions(isReady);
@@ -111,6 +113,8 @@ export const useProfileForm = () => {
 	const onSubmit: SubmitHandler<ProfileFormValues> = async (values) => {
 		try {
 			await saveProfile(values);
+
+			await checkAuthStatus();
 
 			clearRecommendationCache();
 			navigate("/");
