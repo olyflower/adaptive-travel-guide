@@ -12,7 +12,7 @@ const Navbar = () => {
 	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
-	const { isAuthenticated, logout } = useAuth();
+	const { user, isAuthenticated, logout } = useAuth();
 
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);
@@ -83,6 +83,17 @@ const Navbar = () => {
 					<div className="mt-6 flex flex-col items-center md:hidden">
 						<div className="w-full h-px bg-(--color-primary)/10 mb-6"></div>
 						<div className="relative w-full flex flex-col items-center">
+							{isAuthenticated && user && (
+								<div className="text-center mb-4">
+									<p className="text-sm text-(--color-text) opacity-70">
+										{t("nav.hello")}
+									</p>
+									<p className="font-medium text-(--color-text)">
+										{user.profile?.nickname}
+									</p>
+								</div>
+							)}
+
 							<button
 								onClick={() => setMenuOpen(!menuOpen)}
 								className="text-(--color-primary) hover:text-(--color-primary-hover) 
@@ -161,8 +172,18 @@ const Navbar = () => {
 				</div>
 
 				{/* Desktop Dropdown */}
-				<div className="hidden md:flex items-center relative gap-6">
+				<div className="hidden md:flex items-center relative gap-4">
 					<ThemeToggle />
+					{isAuthenticated && user && (
+						<div className="text-right">
+							<p className="text-sm text-(--color-text) opacity-70">
+								{t("nav.hello")}
+							</p>
+							<p className="font-medium text-(--color-text)">
+								{user.profile?.nickname}
+							</p>
+						</div>
+					)}
 					<div className="relative">
 						<button
 							onClick={() => setMenuOpen(!menuOpen)}

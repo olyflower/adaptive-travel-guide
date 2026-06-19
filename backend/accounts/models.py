@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from pgvector.django import VectorField
-
+# from ai.services import generate_embedding
 
 class CustomUser(AbstractUser):
     """

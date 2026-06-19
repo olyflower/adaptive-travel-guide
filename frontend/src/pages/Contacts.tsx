@@ -33,15 +33,14 @@ const Contacts = () => {
 				{t("contacts.title")}
 			</h1>
 
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+			<div className="max-w-3xl mx-auto text-center">
 				<div className="space-y-6 text-lg leading-relaxed">
-					<p>{t("contacts.p1")}</p>
-					<p>{t("contacts.title")}:</p>
+					<p>{t("contacts.text")}</p>
 
-					<div className="space-y-4">
+					<div className="max-w-xl mx-auto mt-10 p-8 space-y-5 rounded-3xl bg-(--color-bg-nav-footer) border border-(--color-primary)/10">
 						{contactLinks.map(
 							({ id, href, icon: Icon, label, external }) => (
-								<div key={id} className="flex items-center">
+								<div key={id} className="flex items-center ">
 									<a
 										href={href}
 										target={external ? "_blank" : undefined}
@@ -64,14 +63,6 @@ const Contacts = () => {
 							),
 						)}
 					</div>
-				</div>
-
-				<div className="hidden md:block">
-					<img
-						src={contactImage}
-						alt="Contact illustration"
-						className="w-full h-auto rounded-xl shadow-lg object-cover"
-					/>
 				</div>
 			</div>
 		</section>

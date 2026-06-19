@@ -45,6 +45,32 @@ export interface TravelInfo {
 	} | null;
 }
 
+export interface GeneratedRoute {
+	trip_plan_id: number;
+	city: string;
+
+	start_point: {
+		name: string;
+		lat: number;
+		lon: number;
+	};
+
+	locations: {
+		id: number;
+		name: string;
+		lat: number;
+		lon: number;
+	}[];
+
+	distance_km: number;
+	duration_min: number;
+
+	route_geometry: {
+		type: string;
+		coordinates: [number, number][];
+	};
+}
+
 /**
  * Fetch all trip plans created by the current user
  */
@@ -122,5 +148,21 @@ export const updateTripDates = async (
 			withCredentials: true,
 		},
 	);
+	return response.data;
+};
+
+/**
+ * Generate optimized route for trip plan
+ */
+export const generateRoute = async (
+	planId: string,
+): Promise<GeneratedRoute> => {
+	const response = await axios.get<GeneratedRoute>(
+		`${API_URL}/api/trips/plans/${planId}/generate_route/`,
+		{
+			withCredentials: true,
+		},
+	);
+
 	return response.data;
 };

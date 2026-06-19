@@ -23,6 +23,8 @@ const PlanDetails = () => {
 	const {
 		plan,
 		travelInfo,
+		route,
+		isGeneratingRoute,
 		loading,
 		isDeleting,
 		isUpdatingDates,
@@ -31,6 +33,7 @@ const PlanDetails = () => {
 		handleDeletePlan,
 		handleRemoveLocation,
 		handleUpdateDates,
+		handleGenerateRoute,
 	} = usePlanDetails(id);
 
 	if (loading) {
@@ -235,8 +238,21 @@ const PlanDetails = () => {
 							<h2 className="text-2xl font-bold text-(--color-text) mb-6 border-l-4 border-(--color-primary) pl-4">
 								{t("plans.map")}
 							</h2>
+							<div className="mb-4">
+								<button
+									type="button"
+									onClick={handleGenerateRoute}
+									disabled={isGeneratingRoute}
+									className="px-4 py-2 rounded-xl bg-(--color-primary) text-white"
+								>
+									{isGeneratingRoute
+										? t("plans.building_route")
+										: t("plans.build_route")}
+								</button>
+							</div>
 							<PlanLocationsMap
 								recommendations={plan.recommendations}
+								route={route}
 							/>
 						</section>
 					</section>

@@ -5,7 +5,8 @@
 		"contacts": "Contacts",
 		"profile": "Profile",
 		"edit_profile": "Edit Profile",
-		"menu": "Menu"
+		"menu": "Menu",
+		"hello": "Hello,"
 	},
 	"hero": {
 		"title": "Feel the atmosphere of travel",
@@ -27,10 +28,10 @@
 		"img_alt": "Beginning of the journey"
 	},
 	"footer": {
-		"text": "Adaptive travel guide - find new places, plan trips, get recommendations based on your preferences.",
+		"text": "Discover new places, get personalized recommendations, save locations, and plan routes for your travels.",
 		"navigation": "Navigation",
-		"follow": "Follow us",
-		"rights": "All rights reserved.",
+		"lang": "Languages",
+		"rights": " All rights reserved.",
 		"eng": "EN",
 		"ukr": "UA"
 	},
@@ -149,15 +150,17 @@
 		"return_home": "Return to home page"
 	},
 	"about": {
-		"title": "About the project Adaptive Travel Guide",
-		"img_alt": "Nature",
-		"p1": "This project is a web application that functions as an adaptive travel guide, focused on personalizing some aspects of the trip, including the choice of locations, activities, gastronomy, cultural events, and other elements that form a complete travel experience.",
-		"p2": "The web application is distinguished by a comprehensive approach, providing a personalized travel experience in a convenient, unified interface - taking into account the purpose of the trip, the user's interests, and external conditions.",
-		"p3": "Technologies used: React, TypeScript, TailwindCSS, Python, Django Rest Framework (DRF), PostgreSQL, SimpleJWT (Auth), Sentence-Transformers (AI), Docker & Docker Compose, OpenWeatherMap API and ExchangeRate API."
+		"title": "About Adaptive Travel Guide",
+		"tech_title": "Technologies & Services",
+		"recommendations_title": "Personalized Recommendations",
+		"intro": "Adaptive Travel Guide is a web application for trip planning and personalized travel recommendations.",
+		"recommendations_text": "The application helps users discover interesting places based on their interests. Personalized recommendations are powered by the Sentence-Transformers model and semantic vector representations (embeddings), allowing the system to identify the most relevant locations based on content rather than only categories or keywords.",
+		"routes_title": "Trip Planning & Navigation",
+		"routes_text": "Save recommended places to your travel plan, explore them on an interactive map, and generate optimized routes between selected locations. To help you prepare for your trip, the application also provides up-to-date weather information, currency exchange rates, and useful local phrases."
 	},
 	"contacts": {
 		"title": "Contacts",
-		"p1": "Hello! My name is Olga. I am the author and developer of the Adaptive Travel Guide project, created as part of my diploma work."
+		"text": "Hello! My name is Olga. I am the developer of the Adaptive Travel Guide project, created as part of my bachelor's degree thesis. If you have any questions, suggestions, or feedback about the project, feel free to contact me via GitHub or LinkedIn."
 	},
 	"meta": {
 		"about_title": "About the project | Adaptive Travel Guide",
@@ -190,7 +193,7 @@
 		"adding": "Adding...",
 		"added": "Added",
 		"plan": "To my plans",
-		"empty": "No recommendations found for this city yet.",
+		"empty": "Recommendations for this city are not available yet. Currently available cities: Odesa and Paris.",
 		"error_general": "Error loading recommendations. Please try again later.",
 		"profile_incomplete": "Please fill in your profile preferences to get AI recommendations.",
 		"city_not_specified": "City not specified.",
@@ -238,6 +241,8 @@
 		"map_not_available": "Map not available",
 		"same_currency": "You already use the local currency",
 		"deleted": "Trip plan deleted",
-    "location_removed": "Location removed"
+		"location_removed": "Location removed",
+		"build_route": "Build route",
+		"building_route": "Building route..."
 	}
 }

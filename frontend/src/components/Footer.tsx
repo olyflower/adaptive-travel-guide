@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
-import { FaFacebook, FaInstagram, FaTelegram } from "react-icons/fa";
 
 const Footer = () => {
 	const { t } = useTranslation();
@@ -49,40 +48,8 @@ const Footer = () => {
 
 				<div className="md:col-span-1 col-span-1">
 					<h3 className="text-sm md:text-lg font-semibold mb-6 text-center">
-						{t("footer.follow")}
+						{t("footer.lang")}
 					</h3>
-					<div className="flex space-x-4 items-center justify-center mb-6">
-						<a
-							href="https://facebook.com"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<FaFacebook
-								size={24}
-								className="text-(--color-primary) hover:text-(--color-primary-hover)"
-							/>
-						</a>
-						<a
-							href="https://instagram.com"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<FaInstagram
-								size={24}
-								className="text-(--color-primary) hover:text-(--color-primary-hover)"
-							/>
-						</a>
-						<a
-							href="https://t.me"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<FaTelegram
-								size={24}
-								className="text-(--color-primary) hover:text-(--color-primary-hover)"
-							/>
-						</a>
-					</div>
 
 					<LanguageSwitcher />
 				</div>

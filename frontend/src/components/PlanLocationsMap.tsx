@@ -1,13 +1,23 @@
 import { useMemo } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+	MapContainer,
+	TileLayer,
+	Marker,
+	Popup,
+	Polyline,
+} from "react-leaflet";
 import L from "leaflet";
-import { TripPlanRecommendation } from "../services/TripPlanService";
+import {
+	TripPlanRecommendation,
+	GeneratedRoute,
+} from "../services/TripPlanService";
 import { useTranslation } from "react-i18next";
 import { getTranslatedName } from "../utils/translate";
 import "leaflet/dist/leaflet.css";
 
 type PlanLocationsMapProps = {
 	recommendations: TripPlanRecommendation[];
+	route: GeneratedRoute | null;
 };
 
 const markerIcon = new L.Icon({
@@ -19,7 +29,10 @@ const markerIcon = new L.Icon({
 	shadowSize: [41, 41],
 });
 
-const PlanLocationsMap = ({ recommendations }: PlanLocationsMapProps) => {
+const PlanLocationsMap = ({
+	recommendations,
+	route,
+}: PlanLocationsMapProps) => {
 	const { t, i18n } = useTranslation();
 
 	const locationsWithCoords = useMemo(
@@ -56,6 +69,11 @@ const PlanLocationsMap = ({ recommendations }: PlanLocationsMapProps) => {
 					) / locationsWithCoords.length,
 				];
 
+	const routePositions =
+		route?.route_geometry.coordinates.map(
+			(coord: number[]) => [coord[1], coord[0]] as [number, number],
+		) ?? [];
+
 	return (
 		<div className="rounded-3xl overflow-hidden border border-(--color-primary)/10 shadow-sm">
 			<MapContainer
@@ -89,6 +107,9 @@ const PlanLocationsMap = ({ recommendations }: PlanLocationsMapProps) => {
 						</Popup>
 					</Marker>
 				))}
+				{routePositions.length > 0 && (
+					<Polyline positions={routePositions} />
+				)}
 			</MapContainer>
 		</div>
 	);

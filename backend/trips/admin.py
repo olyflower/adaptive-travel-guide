@@ -19,7 +19,7 @@ class LanguagePhraseInline(admin.TabularInline):
 
 @admin.register(TripPlan)
 class TripPlanAdmin(admin.ModelAdmin):
-    list_display = ("city", "user", "start_date", "end_date", "created_at")
+    list_display = ("id", "city", "user", "start_date", "end_date", "created_at")
     list_filter = ("city", "user", "start_date")
     search_fields = (
         "city__name_en",

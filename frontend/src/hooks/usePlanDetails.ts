@@ -8,8 +8,10 @@ import {
 	getPlanDetails,
 	removeRecommendationFromPlan,
 	updateTripDates,
+	generateRoute,
 	TravelInfo,
 	TripPlan,
+	GeneratedRoute,
 } from "../services/TripPlanService";
 import { clearRecommendationCache } from "../services/RecommendationService";
 
@@ -27,6 +29,9 @@ type UsePlanDetailsReturn = {
 		startDate: string | null,
 		endDate: string | null,
 	) => Promise<boolean>;
+	route: GeneratedRoute | null;
+	isGeneratingRoute: boolean;
+	handleGenerateRoute: () => Promise<void>;
 };
 
 /**
@@ -53,6 +58,8 @@ export const usePlanDetails = (
 	const [isUpdatingDates, setIsUpdatingDates] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [actionError, setActionError] = useState<string | null>(null);
+	const [route, setRoute] = useState<GeneratedRoute | null>(null);
+	const [isGeneratingRoute, setIsGeneratingRoute] = useState(false);
 
 	useEffect(() => {
 		let isActive = true;
@@ -195,17 +202,40 @@ export const usePlanDetails = (
 		},
 		[id],
 	);
+	const handleGenerateRoute = useCallback(async () => {
+		if (!id) return;
+
+		try {
+			setIsGeneratingRoute(true);
+			setActionError(null);
+
+			const routeData = await generateRoute(id);
+
+			setRoute(routeData);
+		} catch (err) {
+			console.error(err);
+			setActionError("Failed to generate route");
+		} finally {
+			setIsGeneratingRoute(false);
+		}
+	}, [id]);
 
 	return {
 		plan,
 		travelInfo,
+		route,
+
 		loading,
 		isDeleting,
 		isUpdatingDates,
+		isGeneratingRoute,
+
 		error,
 		actionError,
+		
 		handleDeletePlan,
 		handleRemoveLocation,
 		handleUpdateDates,
+		handleGenerateRoute,
 	};
 };
