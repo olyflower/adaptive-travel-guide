@@ -82,3 +82,4 @@ typer==0.24.1
 typing_extensions==4.13.2
 uritemplate==4.1.1
 urllib3==2.7.0
+whitenoise==6.12.0
