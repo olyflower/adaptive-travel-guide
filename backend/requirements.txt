@@ -8,7 +8,7 @@ certifi==2025.4.26
 cffi==2.0.0
 charset-normalizer==3.4.2
 click==8.2.1
-cryptography==46.0.7
+cryptography==48.0.1
 defusedxml==0.7.1
 Django==6.0.5
 django-admin-interface==0.30.1
