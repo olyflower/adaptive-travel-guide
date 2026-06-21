@@ -3,7 +3,11 @@ import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { useAuth } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
 
-const GoogleLoginButton = () => {
+interface GoogleLoginButtonProps {
+	onSuccess?: () => void;
+}
+
+const GoogleLoginButton = ({ onSuccess }: GoogleLoginButtonProps) => {
 	const { t, i18n } = useTranslation();
 	const { login } = useAuth();
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -17,6 +21,7 @@ const GoogleLoginButton = () => {
 			}
 			await login(idToken);
 			setErrorMessage(null);
+			onSuccess?.();
 		} catch (error) {
 			setErrorMessage("errors.google_error_general");
 		}

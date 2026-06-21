@@ -257,7 +257,11 @@ const Navbar = () => {
 												{t("auth.login")}
 											</Link>
 
-											<GoogleLoginButton />
+											<GoogleLoginButton
+												onSuccess={() =>
+													setMenuOpen(false)
+												}
+											/>
 										</div>
 									)}
 								</div>
