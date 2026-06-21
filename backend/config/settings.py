@@ -217,14 +217,14 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "standard",
         },
-        "file": {
-            "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/app.log"),
-            "formatter": "standard",
-        },
+        # "file": {
+        #     "class": "logging.FileHandler",
+        #     "filename": os.path.join(BASE_DIR, "logs/app.log"),
+        #     "formatter": "standard",
+        # },
     },
     "root": {
-        "handlers": ["console", "file"],
+        "handlers": ["console"],
         "level": "INFO",
     },
 }
