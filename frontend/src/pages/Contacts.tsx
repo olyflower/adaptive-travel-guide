@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import contactImage from "../assets/code.jpg";
 
 const Contacts = () => {
 	const { t } = useTranslation();
