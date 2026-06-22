@@ -1,0 +1,8 @@
+{
+	"rewrites": [
+		{
+			"source": "/backend/(.*)",
+			"destination": "https://adaptive-travel-guide.onrender.com/$1"
+		}
+	]
+}
