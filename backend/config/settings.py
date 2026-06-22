@@ -95,8 +95,16 @@ SIMPLE_JWT = {
 }
 
 # CORS configuration to allow secure requests from the React frontend
+CORS_ALLOWED_ORIGINS = [
+    "https://adaptive-travel-guide-9uvw.vercel.app",
+]
+
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^http://localhost:\d+$",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://adaptive-travel-guide-9uvw.vercel.app",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
