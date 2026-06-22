@@ -5,7 +5,8 @@ from sentence_transformers import SentenceTransformer
 logger = logging.getLogger(__name__)
 
 # Load a pre-trained multilingual model for generating semantic vector representations
-model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+# model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+model = SentenceTransformer("paraphrase-multilingual-MiniLM-L3-v2")
 
 
 def generate_embedding(text: str):
